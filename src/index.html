@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<body >
+
+
+<div class="main-container" data-ng-cloak data-ng-app="MainApp">
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <pr-menu-main></pr-menu-main>
+    <pr-page-header></pr-page-header>
+    <section class="main-section">
+
+        <div data-ng-view
+             class="main-view"></div>
+
+    </section>
+    <pr-page-footer></pr-page-footer>
+</div>
+
+<!-- Modal -->
+<div id="newFormDialog" style="display:none">
+	<select class="form-control" id="newFormSelection">
+		<option value="1">Form 520</option>
+		<option value="2">Form 521</option>
+		<option value="3">Form 389</option>
+		<option value="4">Wide Attended Event Application Form</option>			
+	</select>
+</div>
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js'></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="js/lib/angular<%= config.minSuffix %>.js<%= config.cacheBuster %>"></script>
+<script src="js/lib/angular-animate<%= config.minSuffix %>.js<%= config.cacheBuster %>"></script>
+<script src="js/lib/angular-resource<%= config.minSuffix %>.js<%= config.cacheBuster %>"></script>
+<script src="js/lib/angular-route<%= config.minSuffix %>.js<%= config.cacheBuster %>"></script>
+<script src="js/lib/angular-sanitize<%= config.minSuffix %>.js<%= config.cacheBuster %>"></script>
+<script src="js/lib/ui-bootstrap-tpls<%= config.minSuffix %>.js<%= config.cacheBuster %>"></script>
+<script src="<%= config.mainjs %><%= config.cacheBuster %>"></script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+  - '0.10'
+
+install:
+  # Disable the spinner, it looks bad on Travis
+  - npm config set spin false
+  # Log HTTP requests
+  - npm config set loglevel http
+  - npm install -g bower grunt-cli
+  # the travis-install.bash script needs a Firefox browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - time ./build/scripts/travis-install.bash
+
+script:
+  - time grunt prod
