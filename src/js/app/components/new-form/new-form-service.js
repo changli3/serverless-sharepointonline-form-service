@@ -9,11 +9,11 @@ angular.module(
     'NewFormService',
     function ($resource) {
         return $resource(
-            'https://jsonplaceholder.typicode.com/posts',
-            {},
+            'https://jsonplaceholder.typicode.com/posts/:id',
+            {id: '@id'},
             {
-                update: {
-                    method: 'POST'
+                send: {
+                    method: 'PUT'
                 }
             }
         );

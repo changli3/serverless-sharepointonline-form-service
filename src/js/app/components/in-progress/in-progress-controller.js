@@ -19,7 +19,7 @@ angular.module(
                 InProgressService.query(function (data) {
 					
                     PageHeaderModel.setTitle("My In-progress Forms");
-                    PageHeaderModel.setParagraphs(["Welcome - jason.cai@hhs.gov"]);
+                    PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);	
 					
 					$.each(data, function(i, item) {
 						var ele = [item.id, item.name, item.username, item.email,

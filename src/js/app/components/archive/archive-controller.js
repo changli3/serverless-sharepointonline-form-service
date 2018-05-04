@@ -16,10 +16,10 @@ angular.module(
 
                 ArchiveService.query(function (data) {
                     PageHeaderModel.setTitle("My Archived Forms");
-                    PageHeaderModel.setParagraphs(["Welcome - jason.cai@hhs.gov"]);
+                    PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);
 					
 					$.each(data, function(i, item) {
-						var ele = [item.id, item.postId, item.name, item.email, cutText(item.body, 80),
+						var ele = [item.id, item.postId, item.name, item.email, gCutText(item.body, 80),
 							'<a href="javascript:void(0)" onclick="gMyArchiveTableAction(this)"  data-func="detail" data-table="myArchiveTable" data-id="' + item.id  + '">DETAIL</a> | ' +
 							'<a href="javascript:void(0)" onclick="gMyArchiveTableAction(this)"  data-func="pdf" data-table="myArchiveTable" data-id="' + item.id  + '">PDF</a>'
 						];

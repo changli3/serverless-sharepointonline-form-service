@@ -17,7 +17,7 @@ angular.module(
                 MyActionService.query(
                     function (data) {
 						PageHeaderModel.setTitle("Forms Require My Action");
-						PageHeaderModel.setParagraphs(["Welcome - jason.cai@hhs.gov"]);
+						PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);	
 						$.each(data, function(i, item) {
 							var ele = [item.id, item.userId, item.title, item.body,
 								'<a href="javascript:void(0)" onclick="gMyActionTableAction(this)"  data-func="approval" data-table="myActionTable" data-id="' + item.id  + '">APPROVE</a> | ' +

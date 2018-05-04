@@ -17,7 +17,7 @@ angular.module(
 
                 SubmittedService.query(function (data) {
                     PageHeaderModel.setTitle("My Submitted Forms");
-                    PageHeaderModel.setParagraphs(["Welcome - jason.cai@hhs.gov"]);
+                    PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);	
 					
 					$.each(data, function(i, item) {
 						var ele = [item.id, item.name, item.username, item.email,
