@@ -1,0 +1,23 @@
+<!-- main-menu-view -->
+
+<nav class="navbar navbar-default"  data-ng-controller="MenuMainController">
+
+    <div class="navbar-header" >
+        <a id="menu-link-logo"
+           class="navbar-brand" href="javascript:void(0)">ONC Online Form Serivce</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li id="menu-item-{{item.id}}" ng-show="item.id !== 4"
+                data-ng-class="{active: menuMainModel.getCurrentMenuItemId()==item.id}"
+                data-ng-repeat="item in menuMainModel.getMenuItems()">
+				<a id="menu-link-{{item.id}}"
+				data-ng-href="{{item.url}}">{{item.text}}</a>
+            </li>
+        </ul>
+         <button class="btn btn-success create-btn pull-right" onclick="gShowCreateNewFormDialog($(this).text())">Create New Form »</button>	
+    </div>
+
+</nav>
+
+<!-- / main-menu-view -->

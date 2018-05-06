@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+	<!-- application start -->
+	<div class="main-container" data-ng-cloak data-ng-app="MainApp">
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<pr-menu-main></pr-menu-main>
+		<pr-page-header></pr-page-header>
+		<section class="main-section">
+			<div data-ng-view class="main-view"></div>
+		</section>
+		<pr-page-footer></pr-page-footer>
+	</div>
+
+	<!-- Modal -->
+	<div id="newFormDialog" style="display:none; ">
+		<select class="form-control" id="newFormSelection" style= "width:400px" >
+			<option value="1">Request for Outside Activities (Form HHS-520)</option>
+			<option value="2">Annual Report of Outside Activity (Form HHS-521)</option>
+			<option value="3">Rquest to Accept Non Federal Payment for Travel (Form HHS-348)</option>
+			<option value="4">Widely Attended Gathering Form (WAG Form)</option>			
+		</select>
+	</div>
+
+	<script src='//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+	<script src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.js'></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<script src="js/lib/pdf.worker.min.js"></script>
+	<script src="js/lib/pako.min.js"></script>
+	<script src="js/lib/FileSaver.min.js"></script>
+	<script src="js/lib/minipdf_js.js"></script>
+	<script src="js/lib/pdfform.js"></script>
+    <script src="js/lib/sjcl.js"></script>
+	
+	<script src="js/lib/angular.min.js?1525490578879"></script>
+	<script src="js/lib/angular.min.js?1525490578879"></script>
+	<script src="js/lib/angular-animate.min.js?1525490578879"></script>
+	<script src="js/lib/angular-resource.min.js?1525490578879"></script>
+	<script src="js/lib/angular-route.min.js?1525490578879"></script>
+	<script src="js/lib/angular-sanitize.min.js?1525490578879"></script>
+	<script src="js/lib/ui-bootstrap-tpls.min.js?1525490578879"></script>
+	<script src="js/app/hhs-online-form.min.js?1525490578879"></script>
+	<!-- application end -->
+	
+</body>
+</html>

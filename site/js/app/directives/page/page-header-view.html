@@ -1,0 +1,13 @@
+<!-- page-header-view -->
+
+<header data-ng-controller="PageHeaderController">
+    <div class="page-header">
+        <h1>{{pageHeaderModel.getTitle()}}</h1>
+
+        <p class="text-muted"
+           data-ng-repeat="para in pageHeaderModel.getParagraphs()"
+           data-ng-bind-html="para"></p>
+    </div>
+</header>
+
+<!-- / page-header-view -->
