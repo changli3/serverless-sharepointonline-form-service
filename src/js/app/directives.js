@@ -4,6 +4,7 @@ angular.module(
     'AppDirectivesModule',
     [
         'PageDirectivesModule',
-        'MenuDirectivesModule'
+        'MenuDirectivesModule',
+		'FormDirectivesModule'
     ]
 );

@@ -1,417 +1,898 @@
 <!-- home-main-view -->
 
-<div class="container" ng-show="new_form == 'Form HHS-520'">
-    <div class="col-md-12">
-		<form id="form520" class="form-horizontal">
-		    <div class="controls form-inline">
-			  <div class="row">
-				<div class="col-md-6">
-					<label class="control-label" for="initialreq">Initial Request</label>
-					<input id="initialreq" class="form-control" ng-model="form520._initialreq" type="checkbox">
-					<label class="control-label" for="revreq">Revised Request</label>
-					<input id="revreq" class="form-control" ng-model="form520._revreq" type="checkbox">
-					<label class="control-label" for="renewal">Renewal</label>
-					<input id="renewal" class="form-control" ng-model="form520._renewal" type="checkbox">
-				</div>
-				<div class="col-md-4">
-					<label class="control-label" for="Datefiled">DATE FILED:</label>
-					<input id="Datefiled" class="form-control" ng-model="form520._Datefiled" required>
-				</div>
-			</div>
-		   </div>
-		<hr/>
-		<section>
-			<h3> I. EMPLOYEE INFORMATION</h3>
-		   <div class="controls col-md-10">
-				<label class="control-label" for="empname">1. EMPLOYEE'S NAME (Last, First, MI)</label>
-				<input id="empname" class="form-control long-name" ng-model="form520._empname">
-		   </div>
-		   <div class="controls col-md-10">
-				<label class="control-label" for="agency">2. AGENCY (Operating/Staff Divison)</label>
-				<input id="agency" class="form-control" ng-model="form520._agency">
-		   </div>
-			<div class="controls col-md-10">
-				<label class="control-label" for="subcomp">(Subcomponent)</label>
-				<input id="subcomp" class="form-control" ng-model="form520._subcomp">
-			</div>
+<div class="container" ng-show="showForm('Form HHS-520', 0)">
+    <form id="myForm520" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 0">
+            <div class="col-md-12">
+                <div class="controls form-inline">
+                    <div class="col-md-8">
+                        <label class="control-label" for="initialreq">Initial Request</label>
+                        <input id="initialreq" class="form-control" ng-model="form520._initialreq" type="checkbox">
+                        <label class="control-label" for="revreq">Revised Request</label>
+                        <input id="revreq" class="form-control" ng-model="form520._revreq" type="checkbox">
+                        <label class="control-label" for="renewal">Renewal</label>
+                        <input id="renewal" class="form-control" ng-model="form520._renewal" type="checkbox">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label" for="Datefiled">DATE FILED</label>
+                    <input id="Datefiled" class="form-control" ng-model="form520._Datefiled" ng-required="true" placeholder="mm/dd/yyyy">
+                </div>
+            </div>
 
-		    <div class="controls col-md-10">
-				<label class="control-label" for="titleofpos">3. TITLE OF POSITION</label>
-				<input id="titleofpos" class="form-control" ng-model="form520._titleofpos">
-			</div>
-			
-			<div class="controls col-md-10">
-				<label class="control-label" for="grade">4. GRADE/STEP</label>
-				<input id="grade" class="form-control" ng-model="form520._grade">
-			</div>
-			
-			<div class="controls col-md-10">
-				<label class="control-label" for="federal">5. FEDERAL SALARY</label>
-				<input id="federal" class="form-control" ng-model="form520._federal">
-		    </div>
-			
-		   <div class="col-md-12">
-				<label class="control-label">6. APPOINTMENT TYPE</label>
-				<div class="controls form-inline col-md-12">
-				<label class="control-label" for="pas">PAS/PA</label>
-				<input id="pas" class="form-control" ng-model="form520._pas" type="checkbox">
-				<label class="control-label" for="noncar">Non-Career SES</label>
-				<input id="noncar" class="form-control" ng-model="form520._noncar" type="checkbox">
-				<label class="control-label" for="car">Career SES</label>
-				<input id="car" class="form-control" ng-model="form520._car" type="checkbox">
-				<label class="control-label" for="schc">Schedule C</label>
-				<input id="schc" class="form-control" ng-model="form520._schc" type="checkbox">
-				<label class="control-label" for="comm">Commissioned Corps</label>
-				<input id="comm" class="form-control" ng-model="form520._comm" type="checkbox">
-				<label class="control-label" for="gs">GS</label>
-				<input id="gs" class="form-control" ng-model="form520._gs" type="checkbox">
-				<label class="control-label" for="title">Title 42</label>
-				<input id="title" class="form-control" ng-model="form520._title" type="checkbox">
-				<label class="control-label" for="other">Other</label>
-				<input id="other" class="form-control" ng-model="form520._other" type="checkbox">
-				</div>
-				<div class="controls col-md-10">
-				<label class="control-label" for="titleofpos">(Other Text)</label>
-				<input id="othertext" class="form-control" ng-model="form520._othertext" ng-required="form520._other === true">
-				</div>
-		   </div>
-		   
-		   <div class="col-md-12">
-				<label class="control-label">7. FINANCIAL DISCLOSURE FILING STATUS</label>
-				<div class="controls form-inline col-md-12">
-					<label class="control-label" for="public">Public (OGE 278)</label>
-					<input id="public" class="form-control" ng-model="form520._public" type="checkbox">
-					<label class="control-label" for="confid">Confidential (OGE 450)</label>
-					<input id="confid" class="form-control" ng-model="form520._confid" type="checkbox">
-					<label class="control-label" for="none">None</label>
-					<input id="none" class="form-control" ng-model="form520._none" type="checkbox">
-				</div>
-			</div>
-			<div class="col-md-12">
-				<label class="control-label">8. OFFICE ADDRESS</label>
-				<div class="controls col-md-12">
-					<label class="control-label" for="street">STREET</label>
-					<input id="street" class="form-control" ng-model="form520._street">
-				</div>
-				<div class="controls col-md-7">
-					<label class="control-label" for="city">CITY</label>
-					<input id="city" class="form-control" ng-model="form520._city">
-				</div>
-				<div class="controls col-md-7">
-				<label class="control-label" for="offstate">STATE</label>
-			  <select id="offstate" class="form-control" ng-model="form520._offstate">
-				 <option>  </option>
-				 <option>AL</option>
-				 <option>AK</option>
-				 <option>AZ</option>
-				 <option>AR</option>
-				 <option>CA</option>
-				 <option>CO</option>
-				 <option>CT</option>
-				 <option>DE</option>
-				 <option>DC</option>
-				 <option>FL</option>
-				 <option>GA</option>
-				 <option>HI</option>
-				 <option>ID</option>
-				 <option>IL</option>
-				 <option>IN</option>
-				 <option>IA</option>
-				 <option>KS</option>
-				 <option>KY</option>
-				 <option>LA</option>
-				 <option>ME</option>
-				 <option>MD</option>
-				 <option>MA</option>
-				 <option>MI</option>
-				 <option>MN</option>
-				 <option>MS</option>
-				 <option>MO</option>
-				 <option>MT</option>
-				 <option>NE</option>
-				 <option>NV</option>
-				 <option>NH</option>
-				 <option>NJ</option>
-				 <option>NM</option>
-				 <option>NY</option>
-				 <option>NC</option>
-				 <option>ND</option>
-				 <option>OH</option>
-				 <option>OK</option>
-				 <option>OR</option>
-				 <option>PA</option>
-				 <option>RI</option>
-				 <option>SC</option>
-				 <option>SD</option>
-				 <option>TN</option>
-				 <option>TX</option>
-				 <option>UT</option>
-				 <option>VT</option>
-				 <option>VA</option>
-				 <option>WA</option>
-				 <option>WV</option>
-				 <option>WI</option>
-				 <option>WY</option>
-			  </select>
-		   </div>
-				<div class="controls col-md-4">
-				<label class="control-label" for="ZipCode">ZipCode</label>
-				<input id="ZipCode" class="form-control" ng-model="form520._ZipCode">
-				</div>
-			</div>
-		   	<div class="col-md-12">
-			   <div class="row" style="margin-left:0px">
-			   <label class="control-label">9. OFFICE CONTACT INFORMATION</label>
-			 </div>
-			   <div class="controls col-md-6">
-				<label class="control-label" for="OfficeTelephoneNumber">TELEPHONE</label>
-				<input id="OfficeTelephoneNumber" class="form-control" ng-model="form520._OfficeTelephoneNumber">
-			   </div>
-			   
-			   <div class="controls col-md-6">
-			   <label class="control-label" for="OfficeFaxNumber">FAX</label>
-			   <input id="OfficeFaxNumber" class="form-control" ng-model="form520._OfficeFaxNumber">
-			   </div>
-			   
-			   
-			   <div class="controls col-md-6">
-			   <label class="control-label" for="OfficeCellNumber">CELL</label>
-			   <input id="OfficeCellNumber" class="form-control" ng-model="form520._OfficeCellNumber">
-			   </div>
-			   <div class="controls col-md-6">
-			   <label class="control-label" for="email">EMAIL</label>
-			   <input id="email" class="form-control" ng-model="form520._email" required>
-			   </div>
-		   </div>
-		   
-		   <div class="controls col-md-6">
-		   <label class="control-label" for="namesuper">10. NAME OF IMMEDIATE SUPERVISOR</label>
-		   <input id="namesuper" class="form-control" ng-model="form520._namesuper" required>
-		   </div>
-		   <div class="controls col-md-6">
-		   <label class="control-label" for="titleofsuper">11. TITLE OF SUPERVISOR</label>
-		   <input id="titleofsuper" class="form-control" ng-model="form520._titleofsuper">
-		   </div>
+            <hr/>
 
-		   <div class="col-md-12">
-			   <div class="row" style="margin-left:0px">
-			   <label class="control-label">12. SUPERVISOR CONTACT INFORMATION</label>
-			 </div>
-		   <div class="controls col-md-6">
-		   <label class="control-label" for="superTelephoneNumber">TELEPHONE</label>
-		   <input id="superTelephoneNumber" class="form-control" ng-model="form520._superTelephoneNumber">
-		   </div>			 
-		   <div class="controls col-md-6">
-		   <label class="control-label" for="SuperFaxNumber">FAX</label>
-		   <input id="SuperFaxNumber" class="form-control" ng-model="form520._SuperFaxNumber">
-		   </div>
-		   <div class="controls col-md-6"><label class="control-label" for="SuperCellNumber">CELL</label>
-		   <input id="SuperCellNumber" class="form-control" ng-model="form520._SuperCellNumber">
-		   </div>
-		   <div class="controls col-md-6"><label class="control-label" for="superemail">EMAIL</label>
-		   <input id="superemail" class="form-control" ng-model="form520._superemail" required>
-		   </div>
-		   <!--div class="controls"><label class="control-label" for="Agencyuse">Agencyuse</label><input id="Agencyuse" class="form-control" ng-model="form520._Agencyuse"></div-->
-		   </section>
-		   
-		   <div class="controls"><label class="control-label" for="professional">professional</label><input id="professional" class="form-control" ng-model="form520._professional" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="teaching">teaching</label><input id="teaching" class="form-control" ng-model="form520._teaching" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="board">board</label><input id="board" class="form-control" ng-model="form520._board" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="expert">expert</label><input id="expert" class="form-control" ng-model="form520._expert" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="describe">describe</label><input id="describe" class="form-control" ng-model="form520._describe"></div>
-		   <div class="controls"><label class="control-label" for="selfemployed">selfemployed</label><input id="selfemployed" class="form-control" ng-model="form520._selfemployed" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="self-employed">self-employed</label><input id="self-employed" class="form-control" ng-model="form520._self__employed"></div>
-		   <div class="controls"><label class="control-label" for="subjectmatter">subjectmatter</label><input id="subjectmatter" class="form-control" ng-model="form520._subjectmatter" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="text">text</label><input id="text" class="form-control" ng-model="form520._text" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="explain">explain</label><input id="explain" class="form-control" ng-model="form520._explain"></div>
-		   <div class="controls"><label class="control-label" for="outsideentity">outsideentity</label><input id="outsideentity" class="form-control" ng-model="form520._outsideentity"></div>
-		   <div class="controls"><label class="control-label" for="contactperson">contactperson</label><input id="contactperson" class="form-control" ng-model="form520._contactperson"></div>
-		   <div class="controls"><label class="control-label" for="outsidestreet">outsidestreet</label><input id="outsidestreet" class="form-control" ng-model="form520._outsidestreet"></div>
-		   <div class="controls"><label class="control-label" for="state">state</label><input id="state" class="form-control" ng-model="form520._state"></div>
-		   <div class="controls"><label class="control-label" for="ContactTelephoneNumber">ContactTelephoneNumber</label><input id="ContactTelephoneNumber" class="form-control" ng-model="form520._ContactTelephoneNumber"></div>
-		   <div class="controls"><label class="control-label" for="contacFaxNumber">contacFaxNumber</label><input id="contacFaxNumber" class="form-control" ng-model="form520._contacFaxNumber"></div>
-		   <div class="controls"><label class="control-label" for="ContactCellNumber">ContactCellNumber</label><input id="ContactCellNumber" class="form-control" ng-model="form520._ContactCellNumber"></div>
-		   <div class="controls"><label class="control-label" for="Email">Email</label><input id="Email" class="form-control" ng-model="form520._Email"></div>
-		   <div class="controls"><label class="control-label" for="location">location</label><input id="location" class="form-control" ng-model="form520._location"></div>
-		   <div class="controls"><label class="control-label" for="travelyes">travelyes</label><input id="travelyes" class="form-control" ng-model="form520._travelyes" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="atownexp">atownexp</label><input id="atownexp" class="form-control" ng-model="form520._atownexp" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="inkind">inkind</label><input id="inkind" class="form-control" ng-model="form520._inkind" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="estamt">estamt</label><input id="estamt" class="form-control" ng-model="form520._estamt"></div>
-		   <div class="controls"><label class="control-label" for="travelno">travelno</label><input id="travelno" class="form-control" ng-model="form520._travelno" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="periodcoveredfrom">periodcoveredfrom</label><input id="periodcoveredfrom" class="form-control" ng-model="form520._periodcoveredfrom"></div>
-		   <div class="controls"><label class="control-label" for="periodcoveredto">periodcoveredto</label><input id="periodcoveredto" class="form-control" ng-model="form520._periodcoveredto"></div>
-		   <div class="controls"><label class="control-label" for="hours">hours</label><input id="hours" class="form-control" ng-model="form520._hours"></div>
-		   <div class="controls"><label class="control-label" for="days">days</label><input id="days" class="form-control" ng-model="form520._days"></div>
-		   <div class="controls"><label class="control-label" for="weeks">weeks</label><input id="weeks" class="form-control" ng-model="form520._weeks"></div>
-		   <div class="controls"><label class="control-label" for="yesoutside">yesoutside</label><input id="yesoutside" class="form-control" ng-model="form520._yesoutside" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="nooutside">nooutside</label><input id="nooutside" class="form-control" ng-model="form520._nooutside" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="estimatenumber">estimatenumber</label><input id="estimatenumber" class="form-control" ng-model="form520._estimatenumber"></div>
-		   <div class="controls"><label class="control-label" for="yescomp">yescomp</label><input id="yescomp" class="form-control" ng-model="form520._yescomp" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="nocomp">nocomp</label><input id="nocomp" class="form-control" ng-model="form520._nocomp" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="fee">fee</label><input id="fee" class="form-control" ng-model="form520._fee" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="honor">honor</label><input id="honor" class="form-control" ng-model="form520._honor" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="retainer">retainer</label><input id="retainer" class="form-control" ng-model="form520._retainer" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="salary">salary</label><input id="salary" class="form-control" ng-model="form520._salary" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="advance">advance</label><input id="advance" class="form-control" ng-model="form520._advance" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="royalty">royalty</label><input id="royalty" class="form-control" ng-model="form520._royalty" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="stock">stock</label><input id="stock" class="form-control" ng-model="form520._stock" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="stockopt">stockopt</label><input id="stockopt" class="form-control" ng-model="form520._stockopt" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="nontravel">nontravel</label><input id="nontravel" class="form-control" ng-model="form520._nontravel" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="otherspecify">otherspecify</label><input id="otherspecify" class="form-control" ng-model="form520._otherspecify"></div>
-		   <div class="controls"><label class="control-label" for="nontravelspec">nontravelspec</label><input id="nontravelspec" class="form-control" ng-model="form520._nontravelspec"></div>
-		   <div class="controls"><label class="control-label" for="compamt">compamt</label><input id="compamt" class="form-control" ng-model="form520._compamt"></div>
-		   <div class="controls"><label class="control-label" for="Payor">Payor</label><input id="Payor" class="form-control" ng-model="form520._Payor"></div>
-		   <div class="controls"><label class="control-label" for="fundyes">fundyes</label><input id="fundyes" class="form-control" ng-model="form520._fundyes" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="fundno">fundno</label><input id="fundno" class="form-control" ng-model="form520._fundno" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="fundsource">fundsource</label><input id="fundsource" class="form-control" ng-model="form520._fundsource"></div>
-		   <div class="controls"><label class="control-label" for="grantyes">grantyes</label><input id="grantyes" class="form-control" ng-model="form520._grantyes" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="grantno">grantno</label><input id="grantno" class="form-control" ng-model="form520._grantno" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="granteecontractyes">granteecontractyes</label><input id="granteecontractyes" class="form-control" ng-model="form520._granteecontractyes"></div>
-		   <div class="controls"><label class="control-label" for="additionalspace">additionalspace</label><input id="additionalspace" class="form-control" ng-model="form520._additionalspace"></div>
-		   <div class="controls"><label class="control-label" for="position">position</label><input id="position" class="form-control" ng-model="form520._position" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="nature">nature</label><input id="nature" class="form-control" ng-model="form520._nature"></div>
-		   <div class="controls"><label class="control-label" for="relation">relation</label><input id="relation" class="form-control" ng-model="form520._relation"></div>
-		   <div class="controls"><label class="control-label" for="effect">effect</label><input id="effect" class="form-control" ng-model="form520._effect"></div>
-		   <div class="controls"><label class="control-label" for="assignments">assignments</label><input id="assignments" class="form-control" ng-model="form520._assignments"></div>
-		   <div class="controls"><label class="control-label" for="Date">Date</label><input id="Date" class="form-control" ng-model="form520._Date"></div>
-		   <div class="controls"><label class="control-label" for="superstatement">superstatement</label><input id="superstatement" class="form-control" ng-model="form520._superstatement"></div>
-		   <div class="controls"><label class="control-label" for="approve">approve</label><input id="approve" class="form-control" ng-model="form520._approve" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="disapprove">disapprove</label><input id="disapprove" class="form-control" ng-model="form520._disapprove" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="namereviewer">namereviewer</label><input id="namereviewer" class="form-control" ng-model="form520._namereviewer"></div>
-		   <div class="controls"><label class="control-label" for="titlereviewer">titlereviewer</label><input id="titlereviewer" class="form-control" ng-model="form520._titlereviewer"></div>
-		   <div class="controls"><label class="control-label" for="ReviewerTelephoneNumber">ReviewerTelephoneNumber</label><input id="ReviewerTelephoneNumber" class="form-control" ng-model="form520._ReviewerTelephoneNumber"></div>
-		   <div class="controls"><label class="control-label" for="ReviewerFaxNumber">ReviewerFaxNumber</label><input id="ReviewerFaxNumber" class="form-control" ng-model="form520._ReviewerFaxNumber"></div>
-		   <div class="controls"><label class="control-label" for="ReviewerCellNumber">ReviewerCellNumber</label><input id="ReviewerCellNumber" class="form-control" ng-model="form520._ReviewerCellNumber"></div>
-		   <div class="controls"><label class="control-label" for="revieweremail">revieweremail</label><input id="revieweremail" class="form-control" ng-model="form520._revieweremail"></div>
-		   <div class="controls"><label class="control-label" for="organization">organization</label><input id="organization" class="form-control" ng-model="form520._organization"></div>
-		   <div class="controls"><label class="control-label" for="committee">committee</label><input id="committee" class="form-control" ng-model="form520._committee"></div>
-		   <div class="controls"><label class="control-label" for="concur">concur</label><input id="concur" class="form-control" ng-model="form520._concur" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="nonconcur">nonconcur</label><input id="nonconcur" class="form-control" ng-model="form520._nonconcur" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="comments">comments</label><input id="comments" class="form-control" ng-model="form520._comments"></div>
-		   <div class="controls"><label class="control-label" for="nameagencyethics">nameagencyethics</label><input id="nameagencyethics" class="form-control" ng-model="form520._nameagencyethics"></div>
-		   <div class="controls"><label class="control-label" for="titleagencyethics">titleagencyethics</label><input id="titleagencyethics" class="form-control" ng-model="form520._titleagencyethics"></div>
-		   <div class="controls"><label class="control-label" for="AgencyEthicsTelephoneNumber">AgencyEthicsTelephoneNumber</label><input id="AgencyEthicsTelephoneNumber" class="form-control" ng-model="form520._AgencyEthicsTelephoneNumber"></div>
-		   <div class="controls"><label class="control-label" for="AgencyEthicsFaxNumber">AgencyEthicsFaxNumber</label><input id="AgencyEthicsFaxNumber" class="form-control" ng-model="form520._AgencyEthicsFaxNumber"></div>
-		   <div class="controls"><label class="control-label" for="AgencyEthicsCellNumber">AgencyEthicsCellNumber</label><input id="AgencyEthicsCellNumber" class="form-control" ng-model="form520._AgencyEthicsCellNumber"></div>
-		   <div class="controls"><label class="control-label" for="AgencyEthicsemail">AgencyEthicsemail</label><input id="AgencyEthicsemail" class="form-control" ng-model="form520._AgencyEthicsemail"></div>
-		   <div class="controls"><label class="control-label" for="requestapproved">requestapproved</label><input id="requestapproved" class="form-control" ng-model="form520._requestapproved" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="conditions">conditions</label><input id="conditions" class="form-control" ng-model="form520._conditions" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="requestdenied">requestdenied</label><input id="requestdenied" class="form-control" ng-model="form520._requestdenied" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="nameagencydesignee">nameagencydesignee</label><input id="nameagencydesignee" class="form-control" ng-model="form520._nameagencydesignee"></div>
-		   <div class="controls"><label class="control-label" for="titleagencydesignee">titleagencydesignee</label><input id="titleagencydesignee" class="form-control" ng-model="form520._titleagencydesignee"></div>
-		   <div class="controls"><label class="control-label" for="DesigneeTelephone">DesigneeTelephone</label><input id="DesigneeTelephone" class="form-control" ng-model="form520._DesigneeTelephone"></div>
-		   <div class="controls"><label class="control-label" for="DesigneeFax">DesigneeFax</label><input id="DesigneeFax" class="form-control" ng-model="form520._DesigneeFax"></div>
-		   <div class="controls"><label class="control-label" for="DesigneeCell">DesigneeCell</label><input id="DesigneeCell" class="form-control" ng-model="form520._DesigneeCell"></div>
-		   <div class="controls"><label class="control-label" for="DesigneeEmail">DesigneeEmail</label><input id="DesigneeEmail" class="form-control" ng-model="form520._DesigneeEmail"></div>
-		   <div class="controls"><label class="control-label" for="approved">approved</label><input id="approved" class="form-control" ng-model="form520._approved" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="denied">denied</label><input id="denied" class="form-control" ng-model="form520._denied" type="checkbox"></div>
-		   <div class="controls"><label class="control-label" for="specialconditions">specialconditions</label><input id="specialconditions" class="form-control" ng-model="form520._specialconditions"></div>
-		   <div class="controls"><label class="control-label" for="addspace">addspace</label><input id="addspace" class="form-control" ng-model="form520._addspace"></div>
-		   <div class="controls"><label class="control-label" for="addspacecont">addspacecont</label><input id="addspacecont" class="form-control" ng-model="form520._addspacecont"></div>
-		   <div class="controls"><label class="control-label" for="sourcecurrenta">sourcecurrenta</label><input id="sourcecurrenta" class="form-control" ng-model="form520._sourcecurrenta"></div>
-		   <div class="controls"><label class="control-label" for="activitycurrent">activitycurrent</label><input id="activitycurrent" class="form-control" ng-model="form520._activitycurrent"></div>
-		   <div class="controls"><label class="control-label" for="currentamt">currentamt</label><input id="currentamt" class="form-control" ng-model="form520._currentamt"></div>
-		   <div class="controls"><label class="control-label" for="currentdate">currentdate</label><input id="currentdate" class="form-control" ng-model="form520._currentdate"></div>
-		   <div class="controls"><label class="control-label" for="sourcecurrentb">sourcecurrentb</label><input id="sourcecurrentb" class="form-control" ng-model="form520._sourcecurrentb"></div>
-		   <div class="controls"><label class="control-label" for="activitycurrentb">activitycurrentb</label><input id="activitycurrentb" class="form-control" ng-model="form520._activitycurrentb"></div>
-		   <div class="controls"><label class="control-label" for="currentamtb">currentamtb</label><input id="currentamtb" class="form-control" ng-model="form520._currentamtb"></div>
-		   <div class="controls"><label class="control-label" for="currentdateb">currentdateb</label><input id="currentdateb" class="form-control" ng-model="form520._currentdateb"></div>
-		   <div class="controls"><label class="control-label" for="sourceonea">sourceonea</label><input id="sourceonea" class="form-control" ng-model="form520._sourceonea"></div>
-		   <div class="controls"><label class="control-label" for="activitytwoa">activitytwoa</label><input id="activitytwoa" class="form-control" ng-model="form520._activitytwoa"></div>
-		   <div class="controls"><label class="control-label" for="amtonea">amtonea</label><input id="amtonea" class="form-control" ng-model="form520._amtonea"></div>
-		   <div class="controls"><label class="control-label" for="Dateonea">Dateonea</label><input id="Dateonea" class="form-control" ng-model="form520._Dateonea"></div>
-		   <div class="controls"><label class="control-label" for="sourceoneb">sourceoneb</label><input id="sourceoneb" class="form-control" ng-model="form520._sourceoneb"></div>
-		   <div class="controls"><label class="control-label" for="activityoneb">activityoneb</label><input id="activityoneb" class="form-control" ng-model="form520._activityoneb"></div>
-		   <div class="controls"><label class="control-label" for="amtoneb">amtoneb</label><input id="amtoneb" class="form-control" ng-model="form520._amtoneb"></div>
-		   <div class="controls"><label class="control-label" for="Dateoneb">Dateoneb</label><input id="Dateoneb" class="form-control" ng-model="form520._Dateoneb"></div>
-		   <div class="controls"><label class="control-label" for="sourcetwoa">sourcetwoa</label><input id="sourcetwoa" class="form-control" ng-model="form520._sourcetwoa"></div>
-		   <div class="controls"><label class="control-label" for="amttwoa">amttwoa</label><input id="amttwoa" class="form-control" ng-model="form520._amttwoa"></div>
-		   <div class="controls"><label class="control-label" for="Datetwoa">Datetwoa</label><input id="Datetwoa" class="form-control" ng-model="form520._Datetwoa"></div>
-		   <div class="controls"><label class="control-label" for="sourcetwob">sourcetwob</label><input id="sourcetwob" class="form-control" ng-model="form520._sourcetwob"></div>
-		   <div class="controls"><label class="control-label" for="activitytwob">activitytwob</label><input id="activitytwob" class="form-control" ng-model="form520._activitytwob"></div>
-		   <div class="controls"><label class="control-label" for="amttwob">amttwob</label><input id="amttwob" class="form-control" ng-model="form520._amttwob"></div>
-		   <div class="controls"><label class="control-label" for="Datetwob">Datetwob</label><input id="Datetwob" class="form-control" ng-model="form520._Datetwob"></div>
-		   <div class="controls"><label class="control-label" for="sourcethreea">sourcethreea</label><input id="sourcethreea" class="form-control" ng-model="form520._sourcethreea"></div>
-		   <div class="controls"><label class="control-label" for="activitythreea">activitythreea</label><input id="activitythreea" class="form-control" ng-model="form520._activitythreea"></div>
-		   <div class="controls"><label class="control-label" for="amtthreea">amtthreea</label><input id="amtthreea" class="form-control" ng-model="form520._amtthreea"></div>
-		   <div class="controls"><label class="control-label" for="Datethreea">Datethreea</label><input id="Datethreea" class="form-control" ng-model="form520._Datethreea"></div>
-		   <div class="controls"><label class="control-label" for="sourcethreeb">sourcethreeb</label><input id="sourcethreeb" class="form-control" ng-model="form520._sourcethreeb"></div>
-		   <div class="controls"><label class="control-label" for="activitythreeb">activitythreeb</label><input id="activitythreeb" class="form-control" ng-model="form520._activitythreeb"></div>
-		   <div class="controls"><label class="control-label" for="amtthreeb">amtthreeb</label><input id="amtthreeb" class="form-control" ng-model="form520._amtthreeb"></div>
-		   <div class="controls"><label class="control-label" for="Datethreeb">Datethreeb</label><input id="Datethreeb" class="form-control" ng-model="form520._Datethreeb"></div>
-		   <div class="controls"><label class="control-label" for="sourcefoura">sourcefoura</label><input id="sourcefoura" class="form-control" ng-model="form520._sourcefoura"></div>
-		   <div class="controls"><label class="control-label" for="activityfoua">activityfoua</label><input id="activityfoua" class="form-control" ng-model="form520._activityfoua"></div>
-		   <div class="controls"><label class="control-label" for="amtfoura">amtfoura</label><input id="amtfoura" class="form-control" ng-model="form520._amtfoura"></div>
-		   <div class="controls"><label class="control-label" for="Datefoura">Datefoura</label><input id="Datefoura" class="form-control" ng-model="form520._Datefoura"></div>
-		   <div class="controls"><label class="control-label" for="sourcefourb">sourcefourb</label><input id="sourcefourb" class="form-control" ng-model="form520._sourcefourb"></div>
-		   <div class="controls"><label class="control-label" for="activityfourb">activityfourb</label><input id="activityfourb" class="form-control" ng-model="form520._activityfourb"></div>
-		   <div class="controls"><label class="control-label" for="amtfourb">amtfourb</label><input id="amtfourb" class="form-control" ng-model="form520._amtfourb"></div>
-		   <div class="controls"><label class="control-label" for="Datefourb">Datefourb</label><input id="Datefourb" class="form-control" ng-model="form520._Datefourb"></div>
-		   <div class="controls"><label class="control-label" for="sourcefivea">sourcefivea</label><input id="sourcefivea" class="form-control" ng-model="form520._sourcefivea"></div>
-		   <div class="controls"><label class="control-label" for="activityfivea">activityfivea</label><input id="activityfivea" class="form-control" ng-model="form520._activityfivea"></div>
-		   <div class="controls"><label class="control-label" for="amtfivea">amtfivea</label><input id="amtfivea" class="form-control" ng-model="form520._amtfivea"></div>
-		   <div class="controls"><label class="control-label" for="Datefivea">Datefivea</label><input id="Datefivea" class="form-control" ng-model="form520._Datefivea"></div>
-		   <div class="controls"><label class="control-label" for="sourcefiveb">sourcefiveb</label><input id="sourcefiveb" class="form-control" ng-model="form520._sourcefiveb"></div>
-		   <div class="controls"><label class="control-label" for="activityfiveb">activityfiveb</label><input id="activityfiveb" class="form-control" ng-model="form520._activityfiveb"></div>
-		   <div class="controls"><label class="control-label" for="amtfiveb">amtfiveb</label><input id="amtfiveb" class="form-control" ng-model="form520._amtfiveb"></div>
-		   <div class="controls"><label class="control-label" for="Datefiveb">Datefiveb</label><input id="Datefiveb" class="form-control" ng-model="form520._Datefiveb"></div>
-		   <div class="controls"><label class="control-label" for="sourcesixa">sourcesixa</label><input id="sourcesixa" class="form-control" ng-model="form520._sourcesixa"></div>
-		   <div class="controls"><label class="control-label" for="activitysixa">activitysixa</label><input id="activitysixa" class="form-control" ng-model="form520._activitysixa"></div>
-		   <div class="controls"><label class="control-label" for="amtsixa">amtsixa</label><input id="amtsixa" class="form-control" ng-model="form520._amtsixa"></div>
-		   <div class="controls"><label class="control-label" for="Datesixa">Datesixa</label><input id="Datesixa" class="form-control" ng-model="form520._Datesixa"></div>
-		   <div class="controls"><label class="control-label" for="sourcesixb">sourcesixb</label><input id="sourcesixb" class="form-control" ng-model="form520._sourcesixb"></div>
-		   <div class="controls"><label class="control-label" for="activitysixb">activitysixb</label><input id="activitysixb" class="form-control" ng-model="form520._activitysixb"></div>
-		   <div class="controls"><label class="control-label" for="amtsixb">amtsixb</label><input id="amtsixb" class="form-control" ng-model="form520._amtsixb"></div>
-		   <div class="controls"><label class="control-label" for="Datesixb">Datesixb</label><input id="Datesixb" class="form-control" ng-model="form520._Datesixb"></div>
-		   <div class="controls"><label class="control-label" for="attachone">attachone</label><input id="attachone" class="form-control" ng-model="form520._attachone"></div>
-		   <div class="controls"><label class="control-label" for="attachtwo">attachtwo</label><input id="attachtwo" class="form-control" ng-model="form520._attachtwo"></div>
-		   <div class="controls"><label class="control-label" for="attachfour">attachfour</label><input id="attachfour" class="form-control" ng-model="form520._attachfour"></div>
-		   <div class="controls"><label class="control-label" for="attachthree">attachthree</label><input id="attachthree" class="form-control" ng-model="form520._attachthree"></div>
-		   <div class="controls"><label class="control-label" for="attachfive">attachfive</label><input id="attachfive" class="form-control" ng-model="form520._attachfive"></div>
-		   <div class="controls"><label class="control-label" for="attachsix">attachsix</label><input id="attachsix" class="form-control" ng-model="form520._attachsix"></div>
-		   <div class="controls"><label class="control-label" for="attachseven">attachseven</label><input id="attachseven" class="form-control" ng-model="form520._attachseven"></div>
-		   <div class="controls"><label class="control-label" for="attacheight">attacheight</label><input id="attacheight" class="form-control" ng-model="form520._attacheight"></div>
-		   <div class="controls"><label class="control-label" for="attachnine">attachnine</label><input id="attachnine" class="form-control" ng-model="form520._attachnine"></div>
-		   <div class="controls"><label class="control-label" for="attachten">attachten</label><input id="attachten" class="form-control" ng-model="form520._attachten"></div>
+            <h3> I. EMPLOYEE INFORMATION</h3>
 
+            <div class="controls col-md-12">
+                <my-form-label title="1. EMPLOYEE'S NAME (Last, First, MI)" />
+                <div class="col-md-10">
+                    <input id="empname" class="form-control long-name" ng-model="form520._empname">
+                </div>
+            </div>
 
+            <div class="controls col-md-12">
+                <my-form-label title="2. AGENCY (Operating/Staff Divison)" />
+                <div class="col-md-10">
+                    <input id="agency" class="form-control" ng-model="form520._agency">
+                    <div class="row">
+                        <label class="control-label" for="subcomp">(Subcomponent)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input id="subcomp" class="form-control pull-right" ng-model="form520._subcomp">
+                    </div>
+                </div>
 
-		   <button class="btn btn-success" ng-click="doSubmit520($event)">Save Form</button>		   
-		   <button class="btn btn-success" ng-click="doPDF520($event)">Preview PDF</button>
-		</form>	
-  </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="3. TITLE OF POSITION" />
+                <div class="col-md-10">
+                    <input id="titleofpos" class="form-control" ng-model="form520._titleofpos">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="4. GRADE/STEP" />
+                <div class="controls col-md-10">
+                    <input id="grade" class="form-control" ng-model="form520._grade">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="5. FEDERAL SALARY" />
+                <div class="controls col-md-10">
+                    <input id="federal" class="form-control" ng-model="form520._federal">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="6. APPOINTMENT TYPE" />
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="pas">PAS/PA</label>
+                    <input id="pas" class="form-control" ng-model="form520._pas" type="checkbox">
+                    <label class="control-label" for="noncar">Non-Career SES</label>
+                    <input id="noncar" class="form-control" ng-model="form520._noncar" type="checkbox">
+                    <label class="control-label" for="car">Career SES</label>
+                    <input id="car" class="form-control" ng-model="form520._car" type="checkbox">
+                    <label class="control-label" for="schc">Schedule C</label>
+                    <input id="schc" class="form-control" ng-model="form520._schc" type="checkbox">
+                    <label class="control-label" for="comm">Commissioned Corps</label>
+                    <input id="comm" class="form-control" ng-model="form520._comm" type="checkbox">
+                    <label class="control-label" for="gs">GS</label>
+                    <input id="gs" class="form-control" ng-model="form520._gs" type="checkbox">
+                    <label class="control-label" for="title">Title 42</label>
+                    <input id="title" class="form-control" ng-model="form520._title" type="checkbox">
+                    <label class="control-label" for="other">Other</label>
+                    <input id="other" class="form-control" ng-model="form520._other" type="checkbox">
+                </div>
+                <div class="controls col-md-10">
+                    <label class="control-label" for="titleofpos">(Other Text)</label>
+                    <input id="othertext" class="form-control" ng-model="form520._othertext" ng-required="form520._other === true">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="7. FINANCIAL DISCLOSURE FILING STATUS" />
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="public">Public (OGE 278)</label>
+                    <input id="public" class="form-control" ng-model="form520._public" type="checkbox">
+                    <label class="control-label" for="confid">Confidential (OGE 450)</label>
+                    <input id="confid" class="form-control" ng-model="form520._confid" type="checkbox">
+                    <label class="control-label" for="none">None</label>
+                    <input id="none" class="form-control" ng-model="form520._none" type="checkbox">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="8. OFFICE ADDRESS" />
+
+                <div class="controls col-md-10">
+                    <label class="control-label" for="street">STREET</label>
+                    <input id="street" class="form-control" ng-model="form520._street">
+                </div>
+                <div class="row" />
+                <div class="controls col-md-6">
+                    <label class="control-label" for="city">CITY</label>
+                    <input id="city" class="form-control" ng-model="form520._city">
+                </div>
+                <div class="controls col-md-1">
+                    <label class="control-label" for="offstate">STATE</label>
+                    <select id="offstate" class="form-control" ng-model="form520._offstate">
+                        <option> </option>
+                        <option>AL</option>
+                        <option>AK</option>
+                        <option>AZ</option>
+                        <option>AR</option>
+                        <option>CA</option>
+                        <option>CO</option>
+                        <option>CT</option>
+                        <option>DE</option>
+                        <option>DC</option>
+                        <option>FL</option>
+                        <option>GA</option>
+                        <option>HI</option>
+                        <option>ID</option>
+                        <option>IL</option>
+                        <option>IN</option>
+                        <option>IA</option>
+                        <option>KS</option>
+                        <option>KY</option>
+                        <option>LA</option>
+                        <option>ME</option>
+                        <option>MD</option>
+                        <option>MA</option>
+                        <option>MI</option>
+                        <option>MN</option>
+                        <option>MS</option>
+                        <option>MO</option>
+                        <option>MT</option>
+                        <option>NE</option>
+                        <option>NV</option>
+                        <option>NH</option>
+                        <option>NJ</option>
+                        <option>NM</option>
+                        <option>NY</option>
+                        <option>NC</option>
+                        <option>ND</option>
+                        <option>OH</option>
+                        <option>OK</option>
+                        <option>OR</option>
+                        <option>PA</option>
+                        <option>RI</option>
+                        <option>SC</option>
+                        <option>SD</option>
+                        <option>TN</option>
+                        <option>TX</option>
+                        <option>UT</option>
+                        <option>VT</option>
+                        <option>VA</option>
+                        <option>WA</option>
+                        <option>WV</option>
+                        <option>WI</option>
+                        <option>WY</option>
+                    </select>
+                </div>
+                <div class="controls col-md-3">
+                    <label class="control-label" for="ZipCode">ZipCode</label>
+                    <input id="ZipCode" class="form-control" ng-model="form520._ZipCode">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="9. OFFICE CONTACT INFORMATION" />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="OfficeTelephoneNumber">TELEPHONE</label>
+                    <input id="OfficeTelephoneNumber" class="form-control" ng-model="form520._OfficeTelephoneNumber">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="OfficeFaxNumber">FAX</label>
+                    <input id="OfficeFaxNumber" class="form-control" ng-model="form520._OfficeFaxNumber">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="OfficeCellNumber">CELL</label>
+                    <input id="OfficeCellNumber" class="form-control" ng-model="form520._OfficeCellNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="email">EMAIL</label>
+                    <input id="email" class="form-control" ng-model="form520._email" required>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="10. NAME OF IMMEDIATE SUPERVISOR" />
+                <div class="controls col-md-10">
+                    <input id="namesuper" class="form-control" ng-model="form520._namesuper" ng-required="true">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="11. TITLE OF SUPERVISOR" />
+                <div class="controls col-md-10">
+                    <input id="titleofsuper" class="form-control" ng-model="form520._titleofsuper">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="12. SUPERVISOR CONTACT INFORMATION" />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="superTelephoneNumber">TELEPHONE</label>
+                    <input id="superTelephoneNumber" class="form-control" ng-model="form520._superTelephoneNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="SuperFaxNumber">FAX</label>
+                    <input id="SuperFaxNumber" class="form-control" ng-model="form520._SuperFaxNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="SuperCellNumber">CELL</label>
+                    <input id="SuperCellNumber" class="form-control" ng-model="form520._SuperCellNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="superemail">EMAIL</label>
+                    <input id="superemail" class="form-control" ng-model="form520._superemail" ng-required="true">
+                </div>
+                <!--div class="controls"><label class="control-label" for="Agencyuse">Agencyuse</label><input id="Agencyuse" class="form-control" ng-model="form520._Agencyuse"></div-->
+            </div>
+
+            <div class="row" />
+
+            <h3> II. OUTSIDE ACTIVITY INFORMATION</h3>
+            <div class="col-md-12">
+                <my-form-label title="1. Nature of Outside Activity" />
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="professional">Professional or Consultative Activities</label>
+                    <input id="professional" class="form-control" ng-model="form520._professional" type="checkbox">
+                    <label class="control-label" for="teaching">Teaching, Speaking, Writing or Editing</label>
+                    <input id="teaching" class="form-control" ng-model="form520._teaching" type="checkbox">
+                    <label class="control-label" for="board">Board Service</label>
+                    <input id="board" class="form-control" ng-model="form520._board" type="checkbox">
+                    <label class="control-label" for="expert">Expert Witness</label>
+                    <input id="expert" class="form-control" ng-model="form520._expert" type="checkbox">
+                    <label class="control-label" for="expert">Other</label>
+                    <input id="expert" class="form-control" ng-model="form520._othervvvvv1" type="checkbox">
+                </div>
+                <div class="controls col-md-10">
+                    <label class="control-label" for="describe">(Other Describe)</label>
+                    <textarea id="describe" class="form-control" ng-model="form520._describe">
+                    </textarea>
+                </div>
+
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="selfemployed">Self-Employed Activity</label>
+                    <input id="selfemployed" class="form-control" ng-model="form520._selfemployed" type="checkbox">
+                </div>
+                <div class="controls col-md-10">
+                    <label class="control-label" for="self-employed">(Self-Employed Activity Text)</label>
+                    <textarea id="self-employed" class="form-control" ng-model="form520._self__employed"></textarea>
+                </div>
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="subjectmatter">Subject Matter of Activity</label>
+                    <input id="subjectmatter" class="form-control" ng-model="form520._subjectmatter" type="checkbox">
+                    <label class="control-label" for="text">Text of Disclaimer</label>
+                    <input id="text" class="form-control" ng-model="form520._text" type="checkbox">
+                </div>
+                <div class="controls col-md-10">
+                    <label class="control-label" for="explain">(Explain)</label>
+                    <textarea id="explain" class="form-control" ng-model="form520._explain"></textarea>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row">
+                    <label class="control-label">2. Outside Employer or Other Entity</label>
+                </div>
+                <div class="controls col-md-10">
+                    <label class="control-label" for="outsideentity">OUTSIDE ENTITY NAME</label>
+                    <input id="outsideentity" class="form-control" ng-model="form520._outsideentity">
+                </div>
+                <div class="controls  col-md-5">
+                    <label class="control-label" for="contactperson">CONTACT PERSON</label>
+                    <input id="contactperson" class="form-control" ng-model="form520._contactperson">
+                </div>
+                <div class="controls  col-md-5">
+                    <label class="control-label" for="titlevvvvv1">TITLE</label>
+                    <input id="titlevvvvv1" class="form-control" ng-model="form520._titlevvvvv1">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="3. Outside Entity Address" />
+                <div class="controls col-md-10">
+                    <label class="control-label" for="outsidestreet">STREET</label>
+                    <input id="outsidestreet" class="form-control" ng-model="form520._outsidestreet">
+                </div>
+                <div class="controls col-md-6">
+                    <label class="control-label" for="_cityvvvvv1">CITY</label>
+                    <input id="_cityvvvvv1" class="form-control" ng-model="form520._cityvvvvv1">
+                </div>
+                <div class="controls col-md-2">
+                    <label class="control-label" for="state">STATE</label>
+                    <input id="state" class="form-control" ng-model="form520._state">
+                </div>
+                <div class="controls col-md-2">
+                    <label class="control-label" for="_ZipCodevvvvv1">ZIP</label>
+                    <input id="_ZipCodevvvvv1" class="form-control" ng-model="form520._ZipCodevvvvv1">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="4. Contact information" />
+                <div class="row" />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="ContactTelephoneNumber">TELEPHONE</label>
+                    <input id="ContactTelephoneNumber" class="form-control" ng-model="form520._ContactTelephoneNumber">
+
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="contacFaxNumber">FAX</label>
+                    <input id="contacFaxNumber" class="form-control" ng-model="form520._contacFaxNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="ContactCellNumber">CELL</label>
+                    <input id="ContactCellNumber" class="form-control" ng-model="form520._ContactCellNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="Email">EMAIL</label>
+                    <input id="Email" class="form-control" ng-model="form520._Email">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="5. Location" />
+                <div class="col-md-10">
+                    <input id="location" class="form-control" ng-model="form520._location">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="6. Travel" />
+
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="travelyes">Yes</label>
+                    <input id="travelyes" class="form-control" ng-model="form520._travelyes" type="checkbox">
+                </div>
+
+                <div class="controls form-inline col-md-12">
+                    <div class="col-md-10">
+                        <label class="control-label" for="atownexp">At own Expense</label>
+                        <input id="atownexp" class="form-control" ng-model="form520._atownexp" type="checkbox">
+                        <label class="control-label" for="inkind">In-Kind or Reimbursed</label>
+                        <input id="inkind" class="form-control" ng-model="form520._inkind" type="checkbox">
+                        <label class="control-label" for="estamt">Estimated Amount ($)</label>
+                        <input id="estamt" class="form-control" ng-model="form520._estamt">
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="controls form-inline">
+                        <label class="control-label" for="travelno">No</label>
+                        <input id="travelno" class="form-control" ng-model="form520._travelno" type="checkbox">
+                    </div>
+                    <div class="col-md-10">
+                        <textarea id="_describevvvvv1" class="form-control" ng-model="form520._describevvvvv1"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="7. Time" />
+                <div class="col-md-12">
+                    <my-form-label title="a. Period Covered" />
+                    <div class="col-md-12">
+                        <div class="controls col-md-3">
+                            <label class="control-label" for="periodcoveredfrom">FROM</label>
+                            <input id="periodcoveredfrom" class="form-control" ng-model="form520._periodcoveredfrom" placeholder="mm/dd/yyyy">
+                        </div>
+                        <div class="ontrols col-md-3">
+                            <label class="control-label" for="periodcoveredto">TO</label>
+                            <input id="periodcoveredto" class="form-control" ng-model="form520._periodcoveredto" placeholder="mm/dd/yyyy">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="b. Estimated Total Time Devoted to the Proposed Activity" />
+                    <div class="col-md-12">
+                        <div class="controls col-md-3">
+                            <label class="control-label" for="hours">Hours per Day</label>
+                            <input id="hours" class="form-control" ng-model="form520._hours">
+                        </div>
+                        <div class="controls col-md-3">
+                            <label class="control-label" for="days">Days per Week</label>
+                            <input id="days" class="form-control" ng-model="form520._days">
+                        </div>
+                        <div class="controls col-md-3">
+                            <label class="control-label" for="weeks">Weeks</label>
+                            <input id="weeks" class="form-control" ng-model="form520._weeks">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="c. Will work be performed entirely outside of usual working hours?" />
+                    <div class="col-md-12">
+
+                        <div class="controls form-inline">
+                            <label class="control-label" for="yesoutside">Yes</label>
+                            <input id="yesoutside" class="form-control" ng-model="form520._yesoutside" type="checkbox">
+                            <label class="control-label" for="nooutside">No</label>
+                            <input id="nooutside" class="form-control" ng-model="form520._nooutside" type="checkbox">
+                        </div>
+                        <div class="controls col-md-10">
+                            <label class="control-label" for="estimatenumber">(If "no," estimate the number of hours or days that you will be absent from work and indicate the type of leave to be requested.)</label>
+                            <textarea id="estimatenumber" class="form-control" ng-model="form520._estimatenumber"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="8. Compensation" />
+                <div class="col-md-12">
+                    <my-form-label title="Indicate whether the activity is compensated, and if so, answer the questions below." />
+                    <div class="col-md-12">
+                        <div class="controls form-inline">
+                            <label class="control-label" for="yescomp">Yes</label>
+                            <input id="yescomp" class="form-control" ng-model="form520._yescomp" type="checkbox">
+                            <label class="control-label" for="nocomp">No</label>
+                            <input id="nocomp" class="form-control" ng-model="form520._nocomp" type="checkbox">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="a. Method or Basis of Compensation (Check all boxes that apply)" />
+                    <div class="col-md-12">
+                        <div class="controls form-inline">
+                            <label class="control-label" for="fee">Fee</label>
+                            <input id="fee" class="form-control" ng-model="form520._fee" type="checkbox">
+                            <label class="control-label" for="honor">Honorarium</label>
+                            <input id="honor" class="form-control" ng-model="form520._honor" type="checkbox">
+                            <label class="control-label" for="retainer">Retainer</label>
+                            <input id="retainer" class="form-control" ng-model="form520._retainer" type="checkbox">
+                            <label class="control-label" for="salary">Salary</label>
+                            <input id="salary" class="form-control" ng-model="form520._salary" type="checkbox">
+                            <label class="control-label" for="advance">Advance</label>
+                            <input id="advance" class="form-control" ng-model="form520._advance" type="checkbox">
+                            <label class="control-label" for="royalty">Royalty</label>
+                            <input id="royalty" class="form-control" ng-model="form520._royalty" type="checkbox">
+                            <label class="control-label" for="stock">Stock</label>
+                            <input id="stock" class="form-control" ng-model="form520._stock" type="checkbox">
+                            <label class="control-label" for="stockopt">Stock Options</label>
+                            <input id="stockopt" class="form-control" ng-model="form520._stockopt" type="checkbox">
+                        </div>
+                        <div class="controls form-inline">
+                            <label class="control-label" for="nontravel">Non-Travel Related Expenses (describe)</label>
+                            <input id="nontravel" class="form-control" ng-model="form520._nontravel" type="checkbox">
+                            <label class="control-label" for="_othervvvvv2">Other</label>
+                            <input id="_othervvvvv2" class="form-control" ng-model="form520._othervvvvv2" type="checkbox">
+                            <label class="control-label" for="otherspecify">(specify)</label>
+                            <input id="otherspecify" class="form-control" ng-model="form520._otherspecify" style="width:200px">
+                        </div>
+                        <div class="col-md-10">
+                            <label class="control-label" for="nontravelspec">(non travel spec)</label>
+                            <input id="nontravelspec" class="form-control" ng-model="form520._nontravelspec">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="b. Compensation Amount" />
+                    <div class="controls col-md-5">
+                        <input id="compamt" class="form-control" ng-model="form520._compamt">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="c. Payor" />
+                    <div class="controls col-md-10">
+                        <div class="controls">
+                            <label for="Payor">If any compensation will be received from a payor other than the entity to which personal services will be provided, identify the payor and explain.</label>
+                            <textarea id="Payor" class="form-control" ng-model="form520._Payor"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="d. Funding Source" />
+                    <div class="col-md-12">
+                        <div class="controls form-inline">
+                            <p>Indicate whether any compensation is derived from an HHS grant, contract, cooperative agreement, or other source of HHS funding or if the services to be performed are related to an activity funded by HHS, regardless of the specific source of the compensation.</p>
+                            <label class="control-label" for="fundyes">Yes (If "yes," describe)</label>
+                            <input id="fundyes" class="form-control" ng-model="form520._fundyes" type="checkbox">
+                            <label class="control-label" for="fundno">No</label>
+                            <input id="fundno" class="form-control" ng-model="form520._fundno" type="checkbox">
+                        </div>
+
+                        <div class="controls col-md-10">
+                            <label class="control-label" for="fundsource">(describe fund source)</label>
+                            <textarea id="fundsource" class="form-control" ng-model="form520._fundsource"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <my-form-label title="d. Grantee, Contractor, or Other Status" />
+                    <div class="col-md-12">
+                        <div class="controls form-inline">
+                            <p>For activities involving the provision of consultative or professional services, indicate whether the client, employer, or other person on whose behalf the services are performed is receiving, or intends to seek, an HHS grant, contract, cooperative agreement, or other funding relationship.</p>
+                            <label class="control-label" for="grantyes">Yes (If "yes," describe)</label>
+                            <input id="grantyes" class="form-control" ng-model="form520._grantyes" type="checkbox">
+                            <label class="control-label" for="grantno">No</label>
+                            <input id="grantno" class="form-control" ng-model="form520._grantno" type="checkbox">
+                        </div>
+                        <div class="controls col-md-10">
+                            <label class="control-label" for="granteecontractyes">(describe grant)</label>
+                            <textarea id="granteecontractyes" class="form-control" ng-model="form520._granteecontractyes"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <my-form-label title="f. Record of Prior Compensation from Same Source" />
+                    <div class="col-md-12">
+                        <p>Identify the source, activity, amount and date of any compensation received, or due for services performed, within the last six calendar years and the current year through the date this request is submitted, from the person for whom or the organization with which the current work or activity will be done (including any amount received or due from an agent, affiliate, parent, subsidiary, or predecessor of the proposed payor). This information must be provided as to any outside activity performed for the person or organization that is the subject of this request for approval. Include any prior activity that is the same or similar to the present request, as well as any unrelated activity involving the same source.</p>
+
+                        <div class="controls">
+                            <table cellpadding="5" cellspacing="5">
+                                <tr>
+                                    <th> YEAR </th>
+                                    <th>SOURCE</th>
+                                    <th>ACTIVITY</th>
+                                    <th>AMOUNT $</th>
+                                    <th>DATE</th>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> CURRENT </th>
+                                    <td>
+                                        <input id="sourcecurrenta" class="form-control" ng-model="form520._sourcecurrenta">
+                                    </td>
+                                    <td>
+                                        <input id="activitycurrent" class="form-control" ng-model="form520._activitycurrent">
+                                    </td>
+                                    <td>
+                                        <input id="currentamt" class="form-control" ng-model="form520._currentamt">
+                                    </td>
+                                    <td>
+                                        <input id="currentdate" class="form-control" ng-model="form520._currentdate">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourcecurrentb" class="form-control" ng-model="form520._sourcecurrentb">
+                                    </td>
+                                    <td>
+                                        <input id="activitycurrentb" class="form-control" ng-model="form520._activitycurrentb">
+                                    </td>
+                                    <td>
+                                        <input id="currentamtb" class="form-control" ng-model="form520._currentamtb">
+                                    </td>
+                                    <td>
+                                        <input id="currentdateb" class="form-control" ng-model="form520._currentdateb">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> 1 </th>
+                                    <td>
+                                        <input id="sourceonea" class="form-control" ng-model="form520._sourceonea">
+                                    </td>
+                                    <td>
+                                        <input id="activitytwoa" class="form-control" ng-model="form520._activitytwoa">
+                                    </td>
+                                    <td>
+                                        <input id="amtonea" class="form-control" ng-model="form520._amtonea">
+                                    </td>
+                                    <td>
+                                        <input id="Dateonea" class="form-control" ng-model="form520._Dateonea">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourceoneb" class="form-control" ng-model="form520._sourceoneb">
+                                    </td>
+                                    <td>
+                                        <input id="activityoneb" class="form-control" ng-model="form520._activityoneb">
+                                    </td>
+                                    <td>
+                                        <input id="amtoneb" class="form-control" ng-model="form520._amtoneb">
+                                    </td>
+                                    <td>
+                                        <input id="Dateoneb" class="form-control" ng-model="form520._Dateoneb">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> 2 </th>
+                                    <td>
+                                        <input id="sourcetwoa" class="form-control" ng-model="form520._sourcetwoa">
+                                    </td>
+                                    <td>
+                                        <input id="activitytwoavvvvv1" class="form-control" ng-model="form520._activitytwoavvvvv1">
+                                    </td>
+                                    <td>
+                                        <input id="amttwoa" class="form-control" ng-model="form520._amttwoa">
+                                    </td>
+                                    <td>
+                                        <input id="Datetwoa" class="form-control" ng-model="form520._Datetwoa">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourcetwob" class="form-control" ng-model="form520._sourcetwob">
+                                    </td>
+                                    <td>
+                                        <input id="activitytwob" class="form-control" ng-model="form520._activitytwob">
+                                    </td>
+                                    <td>
+                                        <input id="amttwob" class="form-control" ng-model="form520._amttwob">
+                                    </td>
+                                    <td>
+                                        <input id="Datetwob" class="form-control" ng-model="form520._Datetwob">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> 3 </th>
+                                    <td>
+                                        <input id="sourcethreea" class="form-control" ng-model="form520._sourcethreea">
+                                    </td>
+                                    <td>
+                                        <input id="activitythreea" class="form-control" ng-model="form520._activitythreea">
+                                    </td>
+                                    <td>
+                                        <input id="amtthreea" class="form-control" ng-model="form520._amtthreea">
+                                    </td>
+                                    <td>
+                                        <input id="Datethreea" class="form-control" ng-model="form520._Datethreea">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourcethreeb" class="form-control" ng-model="form520._sourcethreeb">
+                                    </td>
+                                    <td>
+                                        <input id="activitythreeb" class="form-control" ng-model="form520._activitythreeb">
+                                    </td>
+                                    <td>
+                                        <input id="amtthreeb" class="form-control" ng-model="form520._amtthreeb">
+                                    </td>
+                                    <td>
+                                        <input id="Datethreeb" class="form-control" ng-model="form520._Datethreeb">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> 4 </th>
+                                    <td>
+                                        <input id="sourcefoura" class="form-control" ng-model="form520._sourcefoura">
+                                    </td>
+                                    <td>
+                                        <input id="activityfoua" class="form-control" ng-model="form520._activityfoua">
+                                    </td>
+                                    <td>
+                                        <input id="amtfoura" class="form-control" ng-model="form520._amtfoura">
+                                    </td>
+                                    <td>
+                                        <input id="Datefoura" class="form-control" ng-model="form520._Datefoura">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourcefourb" class="form-control" ng-model="form520._sourcefourb">
+                                    </td>
+                                    <td>
+                                        <input id="activityfourb" class="form-control" ng-model="form520._activityfourb">
+                                    </td>
+                                    <td>
+                                        <input id="amtfourb" class="form-control" ng-model="form520._amtfourb">
+                                    </td>
+                                    <td>
+                                        <input id="Datefourb" class="form-control" ng-model="form520._Datefourb">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> 5 </th>
+                                    <td>
+                                        <input id="sourcefivea" class="form-control" ng-model="form520._sourcefivea">
+                                    </td>
+                                    <td>
+                                        <input id="activityfivea" class="form-control" ng-model="form520._activityfivea">
+                                    </td>
+                                    <td>
+                                        <input id="amtfivea" class="form-control" ng-model="form520._amtfivea">
+                                    </td>
+                                    <td>
+                                        <input id="Datefivea" class="form-control" ng-model="form520._Datefivea">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourcefiveb" class="form-control" ng-model="form520._sourcefiveb">
+                                    </td>
+                                    <td>
+                                        <input id="activityfiveb" class="form-control" ng-model="form520._activityfiveb">
+                                    </td>
+                                    <td>
+                                        <input id="amtfiveb" class="form-control" ng-model="form520._amtfiveb">
+                                    </td>
+                                    <td>
+                                        <input id="Datefiveb" class="form-control" ng-model="form520._Datefiveb">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th rowspan="2" vertical-align="middle"> 6 </th>
+                                    <td>
+                                        <input id="sourcesixa" class="form-control" ng-model="form520._sourcesixa">
+                                    </td>
+                                    <td>
+                                        <input id="activitysixa" class="form-control" ng-model="form520._activitysixa">
+                                    </td>
+                                    <td>
+                                        <input id="amtsixa" class="form-control" ng-model="form520._amtsixa">
+                                    </td>
+                                    <td>
+                                        <input id="Datesixa" class="form-control" ng-model="form520._Datesixa">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="sourcesixb" class="form-control" ng-model="form520._sourcesixb">
+                                    </td>
+                                    <td>
+                                        <input id="activitysixb" class="form-control" ng-model="form520._activitysixb">
+                                    </td>
+                                    <td>
+                                        <input id="amtsixb" class="form-control" ng-model="form520._amtsixb">
+                                    </td>
+                                    <td>
+                                        <input id="Datesixb" class="form-control" ng-model="form520._Datesixb">
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="ADDITIONAL SPACE" />
+                <div class="col-md-12">
+                    <div class="controls col-md-10">
+                        <textarea id="additionalspace" class="form-control" ng-model="form520._additionalspace"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <my-line/>
+
+            <h3>  III. OFFICIAL DUTY INFORMATION</h3>
+            <div class="col-md-12">
+                <my-form-label title="1. Nature of Official Duties" />
+                <div class="col-md-12">
+                    <p>Describe the principal duties and responsibilities of your current position. You may attach a copy of your position description in lieu of providing the description unless you currently have significant duties or assignments that are not reflected in that document.</p>
+                    <div class="controls form-inline">
+                        <label class="control-label" for="position">Position Description Attached</label>
+                        <input id="position" class="form-control" ng-model="form520._position" type="checkbox">
+                    </div>
+                    <div class="controls col-md-10">
+                        <label class="control-label" for="nature">(nature duty)</label>
+                        <textarea id="nature" class="form-control" ng-model="form520._nature"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="2. Relationship of Official Duties to Outside Activity" />
+                <div class="col-md-12">
+                    <p>Describe any official duties that relate in any way to the proposed activity. If none, explain why.</p>
+                    <div class="controls col-md-10">
+                        <textarea id="relation" class="form-control" ng-model="form520._relation"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="3. Effect of Official Duties on Outside Employer" />
+                <div class="col-md-12">
+                    <p>In performing your official duties, explain how your actions or the matters upon which you may be called upon to work could affect the interests of the person for whom or the organization for which the proposed activity will be performed. If the exercise of your official duties would not have such an effect, explain why.</p>
+                    <div class="controls col-md-10">
+                        <textarea id="effect" class="form-control" ng-model="form520._effect"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="4. Assignments Involving Outside Employer" />
+                <div class="col-md-12">
+                    <p>Describe any official duty assignments or other interactions you have had that involve the person for whom or the organization for which the proposed activity will be performed and indicate when such assignments or interactions occurred. If none, explain.</p>
+                    <div class="controls col-md-10">
+                        <textarea id="assignments" class="form-control" ng-model="form520._assignments"></textarea>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <my-line/>
+        <div class="col-md-12" ng-show="formStatus == 0">
+            <div class="pull-right col-md-4">
+                <button class="btn btn-success" ng-click="doSubmit520($event, myForm520.$valid)">Save Form</button>
+                <button class="btn btn-success" ng-click="doPDF520($event)">Preview PDF</button>
+            </div>
+        </div>
+
+        <h3 style="margin-top:50px"> Certify</h3>
+        <div class="col-md-12">
+            <fieldset ng-disabled="formStatus > 0">
+                <p> Please type in your email address and date then click on the "Certify Document"</p>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="signature">Signature</label>
+                    <input id="signature" class="form-control" ng-model="form520.signature" placeholder="Email your email here..." type="email">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="Date">Signature Date</label>
+                    <input id="Date" class="form-control" ng-model="form520._Date">
+                </div>
+            </fieldset>
+        </div>
+
+        <my-line/>
+        <div class="col-md-12" ng-show="formStatus == 0">
+            <div class="pull-right col-md-3">
+                <button class="btn btn-success" ng-click="doCertify520($event)">Certify Document</button>
+            </div>
+        </div>
+
+        <my-line/>
+        <div ng-show="formStatus == 1">
+            <h3> Digital Sign</h3>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+                </div>
+            </div>
+
+            <my-line/>
+            <div class="col-md-12">
+                <div class="pull-right col-md-7">
+                    <button class="btn btn-success" ng-click="doRevoke520($event)">Revoke Certification</button>
+                    <button class="btn btn-success" ng-click="doPDF520($event)">Download PDF</button>
+                </div>
+                <div class="pull-right col-md-7" style="margin-top:30px">
+                    <input type="file" class="btn btn-success" name="file" ngModel (change)="doUpload520($event)">
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<div class="container" ng-show="showForm('Form HHS-520', 0)">
+    <form id="myForm520" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 0">
+
+        </fieldset>
+    </form>
 </div>
 
 <div class="container" ng-show="new_form == 'Form HHS-521'">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-	<h3>{{new_form}} is still under construction.</h3>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>{{new_form}} is still under construction.</h3>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container" ng-show="new_form == 'Form HHS-348'">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-	<h3>{{new_form}} is still under construction.</h3>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>{{new_form}} is still under construction.</h3>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container" ng-show="new_form == 'WAG Form'">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-	<h3>{{new_form}} is still under construction.</h3>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>{{new_form}} is still under construction.</h3>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container" ng-show="!new_form">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-	<h3>No form found matches the request.</h3>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>No form found matches the request.</h3>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- / home-main-view -->
