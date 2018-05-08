@@ -7,6 +7,9 @@ angular.module(
         'MyActionComponentsModule',
         'SubmittedComponentsModule',
         'ArchiveComponentsModule',
-		'NewFormComponentsModule'
+		'Form520ComponentsModule',
+		'Form521ComponentsModule',
+		'Form348ComponentsModule',
+		'FormWAGComponentsModule'
     ]
 );

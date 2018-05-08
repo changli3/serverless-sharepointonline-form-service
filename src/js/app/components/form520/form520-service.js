@@ -1,91 +1,50 @@
-var gForms = ['', 'Form HHS-520', 'Form HHS-521', 'Form HHS-348', 'WAG Form'];
-var gLibPath = 'js/lib/forms';
 
 angular.module(
-        'NewFormControllerModule',
-        [
-        ]
+        'Form520ServiceModule',
+        []
     )
-    .controller(
-        'NewFormController',
-        [
-            '$scope',
-			'$routeParams',
-			'$filter',
-            'MenuMainModel',
-            'NewFormService',
-            'PageHeaderModel',
-            function ($scope, $routeParams, $filter, MenuMainModel, NewFormService, PageHeaderModel) {		
-                
-                MenuMainModel.setCurrentMenuItemId(4);
-				var id = $routeParams.id;
-				$scope.new_form = gForms[id];				
-				if (id > 4 || id<0) return;
-				
-				$scope.showSuccess = false;
-				$scope.showError = false;
-				
-				
-				
-				PageHeaderModel.setTitle($scope.new_form);
-				PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);			
-				
-				$scope.form520 = angular.copy(gForm520);
-				
-				$scope.formStatus = 0;
-				$scope.form520._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");
-				$scope.form520.signature = "";
-				$scope.form520._Date = "";
+    .factory( 'Form520Service', function ($http, $q, $filter) {
+		return {
+			putData: function(id) {
+				var promise = null;
+				console.log("I'm here");
+				promise = $http({
+					method: 'PUT',
+					url: 'https://jsonplaceholder.typicode.com/posts/' + id
+				}).success(function(response) {
+					console.log(response);
+					return response;
+				}).error(function(data, status, headers, config) {
+					console.log("[Form520Service], putData() error, with status: " + status);
+				});	
+				return promise;
+			},
+			sampleSerice: function (id) {
+				var defered = $q.defer();
+				gSampleService(id, defered);
+				return defered.promise;
+			},
+			initForm: function($scope) {
+				$scope.filesAttached = [];
+				$scope.formVars = angular.copy(gForm520);
+				$scope.formVars._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");		
+			},
+			getForm4User: function ($scope, formId, formStatue) {
+				$scope.filesAttached = [];
+				$scope.formVars = angular.copy(gForm520);
+				$scope.formVars._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");		
+				$scope.formVars.signature = "";
+				$scope.formVars._Date = "";				
+			}
+		}
+    });
 
-				$scope.doSubmit520 = function($event, formV) {
-					
-					console.log(formV);
-					return;
-					$event.stopPropagation();
-					NewFormService.send({id:1}, function(data){
-						console.log(JSON.stringify(data,null,"  "));
-					});
-
-					$scope.showSuccess = true;
-				}
-
-				$scope.doCertify520 = function($event) {
-					$event.stopPropagation();
-					NewFormService.send({id:1}, function(data){
-						console.log(JSON.stringify(data,null,"  "));
-						$scope.formStatus = 1;
-						//$scope.$apply();
-					});
-				}				
-
-				$scope.doRevoke520 = function($event) {
-					$event.stopPropagation();
-					NewFormService.send({id:1}, function(data){
-						console.log(JSON.stringify(data,null,"  "));
-						$scope.formStatus = 0;
-						//$scope.$apply();
-					});
-				}					
-				
-				$scope.doPDF520 = function($event) {
-					console.log("doPDF520");
-					$event.stopPropagation();
-					gFetchPDF(gLibPath + "/520.pdf", function(pdffile) {
-						gFillPDF($scope.form520, "myHHS520", pdffile);
-					});
-				}
-				
-				$scope.showForm = function (formName, fstatus) {
-					return $scope.new_form == formName && fstatus <=$scope.formStatus;
-				}
-				
-
-            }
-        ]
-    );
-	
 var gForm520 = {
 	signature: "",
+	supersadditionreason:"",
+	supervisorsignature:"",
+	reviewersignature:"",
+	designeesignature:"",	
 	_initialreq: "",
 	_revreq: "",
 	_renewal: "",

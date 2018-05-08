@@ -1,0 +1,446 @@
+<!-- home-main-view -->
+
+<div class="container" ng-show="formStatus >= 0">
+    <form id="myformVars0" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 0">
+            <div class="col-md-12">
+			Use this form to request, approve, and report acceptance of payments as provided in HHS Travel Manual Section 7. Submit request to recommending official
+as soon as possible, but not later than 15 days before scheduled departure. Requests submitted less than 15 days before schedule departure may not be
+approved. After the fact authorization is not allowed in accordance with HHS Travel Manual Section 7.4.1.11
+                <div class="col-md-12">
+				  <div class="col-md-2">
+                    <label class="control-label" for="_reqdate">DATE FILED</label>
+                    <input id="_reqdate" class="form-control" ng-model="formVars._reqdate" placeholder="mm/dd/yyyy">
+				  </div>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="controls col-md-12">
+                <my-form-label title="1. NAME AND TITLE OF TRAVELER" />
+                <div class="col-md-10">
+                    <input id="payscale" class="form-control long-name" ng-model="formVars._payscale">
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="2. NAME AND ADDRESS OF SPONSORING ORGANIZATION" />
+                <div class="col-md-10">
+                    <input id="nameadd" class="form-control long-name" ng-model="formVars._nameadd">
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="3. TRAVELER'S OPDIV/STAFFDIV" />
+                <div class="col-md-10">
+                    <input id="OPDIV" class="form-control long-name" ng-model="formVars._OPDIV">
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="4. PURPOSE OF TRIP" />
+                <div class="col-md-10">
+                    <input id="purpose" class="form-control long-name" ng-model="formVars._purpose">
+                </div>
+            </div>			
+
+								
+            <div class="controls col-md-12">
+                <my-form-label title="5. PAYMENT TO BE MADE FOR" />
+
+                <div class="col-md-12">
+                     <div class="col-md-10 form-inline"> 
+                       TRAVEL <input class="" ng-model="formVars._travel" type="checkbox"> 
+                       SUBSISTENCE <input class="" ng-model="formVars._travel" type="checkbox">
+										<hr>
+					</div>
+                </div>
+
+                <div class="col-md-8">
+                     <div class="col-md-12"> 
+                        <my-form-label title="AUTHORITY FOR TRAVEL (See HHS Travel Manual Section 7)" />
+						<div class="col-md-12">
+							 <div class="col-md-10 form-inline"> 
+							   31 USC 1353 <input class="" ng-model="formVars._USC31" type="checkbox"> 
+							   42 USC 3506 <input class="" ng-model="formVars._USC42" type="checkbox">
+							   5 USC 7342 <input class="" ng-model="formVars._USC5" type="checkbox">
+							</div>
+						</div>
+					</div>
+                     <div class="col-md-12"> 
+                        <my-form-label title="METHOD OF PAYMENT" />
+						<div class="col-md-12">
+							 A.
+							 <div class="col-md-12 form-inline"> 
+							 IN KIND <input class="" ng-model="formVars._InKind" type="checkbox"> <br/>
+							 $ <input class="form-control" ng-model="formVars._inkindA">
+							</div>
+						</div>
+						<div class="col-md-12">
+							 B<sup>**</sup>.
+							 <div class="col-md-12 form-inline"> 
+							 CASH <input class="" ng-model="formVars._Cash" type="checkbox"><br/>
+							 $ <input class="form-control" ng-model="formVars._cashamount">
+							 							<p><i>**NOTE: Direct cash reimbursement for travel expenses may only be accepted under 42 U.S.C. 3506 authority
+(provided the amount does not exceed authorized expenses for lodging and M&IE actually incurred) and
+under 5 U.S.C. 7342 authority (provided the travel takes place entirely outside the United States).
+Reimbursable sponsored travel may only be allowed under exceptional circumstances with the approval
+of the traveler's Senior Travel Official or Deputy Senior Travel Official.</i></p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							 C.
+							 <div class="col-md-12 form-inline"> 
+							 DIRECT REIMBURSEMENT TO APPROPRIATION <input class="" ng-model="formVars._DirReimb" type="checkbox"> <br/>
+							 $ <input class="form-control" ng-model="formVars._reimburse">
+									APPROPRIATION No.
+									<input id="appno" class="form-control long-name" ng-model="formVars._appno">
+							</div>
+						</div>						
+					</div>					
+                </div>
+				<div class="col-md-4">
+                     <div class="col-md-12"> 
+                        <my-form-label title="INDICATE VALUE OF PAYMENT" />
+						<div class="col-md-12">
+							<div class="col-md-12 form-inline"> 
+							 TRANSPORTATION <br/>$ <input class="form-control long-name" ng-model="formVars._travelvalue">
+							</div>
+							<div class="col-md-12 form-inline"> 
+							 LODGING<br/>$ <input class="form-control long-name" ng-model="formVars._lodgingvalue">
+							</div>
+							<div class="col-md-12 form-inline"> 
+							 MEALS<br/>$ <input class="form-control long-name" ng-model="formVars._mealsvalue">
+							</div>
+							<div class="col-md-12 form-inline"> 
+							 OTHER<br/>$ <input class="form-control long-name" ng-model="formVars._othervalue">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="controls col-md-12">
+					<hr>
+				</div>
+            </div>
+
+
+
+            <div class="controls col-md-12">
+                <my-form-label title="6. PAYMENT TO BE USED FOR TRAVEL" />
+                <div class="controls col-md-12">
+                    <div class="form-inline col-md-10">
+						ROUND TRIP <input ng-model="formVars._roundtrip" type="checkbox"> ONE WAY <input ng-model="formVars._oneway" type="checkbox">
+						<table class="table">
+							<tr>
+								<th style="width:10%">STARTING DATE</th>
+								<th style="width:10%">ENDING DATE</th>
+								<th style="width:40%">FROM</th>
+								<th style="width:40%">TO</th>
+							</tr>
+							<tr>
+								<td><input ng-model="formVars._startdate1" style="width:80px" placeholder="mm/dd/yyyy"></td>
+								<td><input ng-model="formVars._enddate1" style="width:80px" placeholder="mm/dd/yyyy"></td>
+								<td><input ng-model="formVars._from1" style="width:100%"></td>
+								<td><input ng-model="formVars._desto1" style="width:100%"></td>
+							</tr>
+							<tr>
+								<td><input ng-model="formVars._startdate2" style="width:80px" placeholder="mm/dd/yyyy"></td>
+								<td><input ng-model="formVars._enddate2" style="width:80px" placeholder="mm/dd/yyyy"></td>
+								<td><input ng-model="formVars._from2" style="width:100%"></td>
+								<td><input ng-model="formVars._desto2" style="width:100%"></td>
+							</tr>		
+							<tr>
+								<td><input ng-model="formVars._startdate3" style="width:80px" placeholder="mm/dd/yyyy"></td>
+								<td><input ng-model="formVars._enddate3" style="width:80px" placeholder="mm/dd/yyyy"></td>
+								<td><input ng-model="formVars._from3" style="width:100%"></td>
+								<td><input ng-model="formVars._desto3" style="width:100%"></td>
+							</tr>							
+						</table>
+					</div>
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="7. IS THE DEPARTMENT PAYING PART OF THE COST? (If any, specify which part and amount)" />
+                <div class="col-md-10">
+                    <input class="form-control long-name" ng-model="formVars._partamount">
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="8. RECOMMENDATION from Deputy Ethics Counselor (DEC) or Ethics Office, or Recommending Official - See reverse side of form." />
+                <div class="col-md-10">
+                    <input class="form-control long-name" ng-model="formVars._recommendation">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="9. AUTHORIZATION" />
+                <div class="col-md-12">
+					<div class="col-md-4">
+						Authorizing Official
+						<input class="form-control" ng-model="formVars._authname">
+					</div>
+					<div class="col-md-4">
+						Title
+						<input class="form-control" ng-model="formVars._authtitle">
+					</div>
+					<div class="col-md-4">
+						Date
+						<input class="form-control" ng-model="formVars._authorizationdate">
+					</div>					
+				</div>
+            </div>
+						
+            <div class="controls col-md-12">
+                <my-form-label title="10. QUALIFICATIONS ON ACCEPTANCE OF PAYMENTS, IF ANY (for example, authorization of attendance at only a portion of the event or limitation on the type or character of benefits that may be accepted)." />
+                <div class="col-md-10">
+                    <input class="form-control long-name" ng-model="formVars._qualification">
+                </div>
+            </div>		
+			
+
+			<my-line/>
+			<h4 style="margin-top:50px">Traveler Certify</h4>
+			<div class="col-md-12">
+				I certify that the above amounts are correct and I did not receive (1) any cash for my retention from the sponsoring organization (unless
+	permitted by 42 U.S.C. 3506 or 5 U.S.C. 7342); or (2) any honoraria.
+				<p> <br/> Please type in your email address and date then click on the "Certify Document"</p>
+
+					<div class="controls col-md-5">
+						<label class="control-label" for="signature">Signature</label>
+						<input id="signature" class="form-control" ng-model="formVars.signature" placeholder="Enter your email here..." type="email">
+					</div>
+					<div class="controls col-md-5">
+						<label class="control-label">Signature Date</label>
+						<input  class="form-control" ng-model="formVars._travesigdate">
+					</div>
+
+			</div>
+		
+         </fieldset> 
+		 
+        <div class="col-md-12" ng-show="formStatus == 0">
+		    <my-line/>
+            <div class="pull-right col-md-3">
+                <button class="btn btn-success" ng-click="doCertify($event)">Certify Document</button>
+            </div>
+        </div>
+
+        
+        <div ng-show="formStatus == 1">
+		    <my-line/>
+            <h4> Digital Sign</h4>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+                </div>
+            </div>
+
+            <my-line/>
+            <div class="col-md-12">
+                <div class="pull-right col-md-7">
+                    <button class="btn btn-success" ng-click="doRevoke($event)">Revoke Certification</button>
+                    <button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
+                </div>
+                <div class="pull-right col-md-7" style="margin-top:30px">
+                    <input type="file" class="btn btn-success" name="file" ngModel (change)="doUpload($event)">
+                </div>
+            </div>
+        </div>
+        <div ng-show="formStatus >= 1">
+		    <my-line/>
+            <h4> Digital Signed Document</h4>
+			 <div class="col-md-12">
+                <div class="pull-right col-md-7">
+					<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
+				</div>
+			</div>
+		</div>
+    </form>
+</div>
+
+<!-- supervisor form 520 -->
+<div class="container" ng-show="formStatus >= 2">
+    <form id="myformVars2" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 2">
+            <my-line/>
+            <h3>BACKGROUND INFORMATION (Ethics Checklist) ON REQUEST FOR APPROVAL TO ACCEPT PAYMENT OF TRAVEL EXPENSES FROM A NON FEDERAL SOURCE </h3>
+
+            <div class="controls col-md-12">
+                <my-form-label title="TRAVELER" />
+                <div class="col-md-10">
+					<input class="form-control" ng-model="formVars._traveler"></input>
+				</div>
+			</div>
+            <div class="controls col-md-12">
+                <my-form-label title="1. Would acceptance of the payment under the circumstances cause a reasonable person with knowledge of all the facts to question the integrity of agency programs or operations? (See Travel Manual Section 7.4.1.4, Conflict of Interest Analysis.)" />
+                <div class="col-md-10">
+				   <div class="controls form-inline  col-md-12">
+						<label class="control-label">YES</label>
+						<input ng-model="formVars._yescheck1" type="checkbox">
+						<label class="control-label">NO</label>
+						<input ng-model="formVars._nocheck1" type="checkbox"></br>
+						(If yes, reimbursement may NOT be accepted.)</br>
+					</div>			
+				
+				</div>
+			</div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="2. Is letter of invitation attached?" />
+                <div class="col-md-12">
+				   <div class="controls form-inline col-md-12">
+						<label class="control-label">YES</label>
+						<input ng-model="formVars._yescheck2" type="checkbox">
+						<label class="control-label">NO</label>
+						<input ng-model="formVars._nocheck2" type="checkbox"></br></br>
+						Letter of invitation must outline in detail the types of expenses offered and the amount of the expenses and whether they are in-kind or reimbursable to the appropriation.
+Requests without a letter of invitation will not be considered for approval.
+					</div>			
+					
+
+				</div>
+			</div>			
+			
+
+            <div class="controls col-md-12">
+                <my-form-label title="3. Is the sponsoring organization using Federal Funds to defray the costs of this trip? (If yes, explain the source of the Federal grant or contract.) HHS Travelers may not travel if the funds that will be used for travel are from HHS (See Section 7.4.1.9))." />
+                <div class="col-md-12">
+				   <div class="controls form-inline col-md-12">
+						<label class="control-label">YES</label>
+						<input ng-model="formVars._yescheck3" type="checkbox">
+						<label class="control-label">NO</label>
+						<input ng-model="formVars._nocheck3" type="checkbox"></br>
+					</div>			
+				</div>
+			</div>				
+			
+            <div class="controls col-md-12">
+                <my-form-label title="4. Is the traveler an officer, director, trustee, partner, or an employee of the sponsoring organization?" />
+                <div class="col-md-12">
+				   <div class="controls form-inline col-md-12">
+						<label class="control-label">YES</label>
+						<input ng-model="formVars._yescheck4" type="checkbox">
+						<label class="control-label">NO</label>
+						<input ng-model="formVars._nocheck4" type="checkbox"></br>
+					</div>			
+				</div>
+			</div>				
+
+            <div class="controls col-md-12">
+                <my-form-label title="5. Is the sponsor offering to pay amounts which are in excess of those ordinarily allowed by applicable Federal Travel Regulations? For example, are amounts in excess of the maximum Per Diem rates and/or is the mode of transportation above coach?" />
+                <div class="col-md-12">
+				   <div class="controls form-inline col-md-12">
+						<label class="control-label">YES</label>
+						<input ng-model="formVars._yescheck5" type="checkbox">
+						<label class="control-label">NO</label>
+						<input ng-model="formVars._nocheck5" type="checkbox"></br>
+					</div>			
+				</div>
+			</div>	
+
+            <div class="controls col-md-12">
+                <my-form-label title="6. Is this request for acceptance of payment for an accompanying spouse of a HHS employee?" />
+                <div class="col-md-12">
+				   <div class="controls form-inline col-md-12">
+						<label class="control-label">YES</label>
+						<input ng-model="formVars._yescheck4" type="checkbox">
+						<label class="control-label">NO</label>
+						<input ng-model="formVars._nocheck4" type="checkbox"></br>
+						If yes, employee's travel authorization/order # <input ng-model="formVars._ordernumb"></br>
+					</div>			
+				</div>
+			</div>				
+			
+			<my-line/>
+			<b>NOTE: IF THE ANSWER TO QUESTION 3, 4, 5, OR 6 ABOVE IS YES, A SEPARATE LETTER MUST BE ATTACHED TO THIS REQUEST
+PROVIDING JUSTIFICATION AND REASONS WHY THIS TRIP SHOULD BE AUTHORIZED.</b>
+
+            <div class="controls col-md-12">
+                <my-form-label title="7. How does this trip meet the Department's priorities and goals?" />
+                <div class="col-md-10">
+					<textarea class="form-control" ng-model="formVars._meetgoals"></textarea>
+				</div>
+			</div>				
+
+            <div class="controls col-md-12">
+                <my-form-label title="8. Why can't this trip be paid for with HHS funds?" />
+                <div class="col-md-10">
+					<textarea class="form-control" ng-model="formVars._HHSfunds"></textarea>
+				</div>
+			</div>	
+			
+			 <div class="controls col-md-12">
+                <my-form-label title="QUALIFICATIONS ON ACCEPTANCE OF PAYMENTS" />
+                <div class="col-md-10">
+					IF ANY (for example, authorization of attendance at only a portion of the event or limitation on the type or character of benefits that may be accepted).
+					<textarea class="form-control" ng-model="formVars._qualaccept"></textarea>
+				</div>
+			</div>	
+			
+			<my-line/>
+			<h4 style="margin-top:50px">Ethics Official Certify</h4>
+			<div class="col-md-12">
+				I HEREBY CERTIFY THAT THE ACCEPTANCE OF THIS REQUEST, SUBJECT TO ANY LIMITATIONS STATED BELOW, IS IN ACCORDANCE WITH THE
+				POLICIES CONTAINED IN SECTION 7 OF THE HHS TRAVEL MANUAL. THEREFORE, I RECOMMEND APPROVAL OF THIS REQUEST AS BEING IN
+				THE BEST INTEREST OF THE GOVERNMENT.
+				<p> Please type in your email address and date then click on the "Certify Document"</p>
+
+				<fieldset ng-disabled="formStatus > 2">
+					
+					<div class="controls col-md-4">
+						<label class="control-label" for="designeesignature">Supervisor Signature</label>
+						<input id="designeesignature" class="form-control" ng-model="formVars.designeesignature" placeholder="Enter your email here..." type="email">
+					</div>
+					<div class="controls col-md-4">
+						<label class="control-label" for="_recofftitle">Title</label>
+						<input id="_recofftitle" class="form-control" ng-model="formVars._recofftitle">
+					</div>
+					<div class="controls col-md-4">
+						<label class="control-label" for="_daterecommend">Signature Date</label>
+						<input id="_daterecommend" class="form-control" ng-model="formVars._daterecommend">
+					</div>					
+				</fieldset>
+			</div>
+	  </fieldset>
+			<my-line/>
+			<div class="col-md-12" ng-show="formStatus == 2">
+				<div class="pull-right col-md-3">
+					<button class="btn btn-success" ng-click="doSupervisorCertify($event)">Certify Document</button>
+				</div>
+			</div>
+
+			<my-line/>
+			<div ng-show="formStatus == 3">
+				<h4> Digital Sign</h4>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+					</div>
+				</div>
+
+				<my-line/>
+				<div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn btn-success" ng-click="doSupervisorRevoke($event)">Revoke Certification</button>
+						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
+					</div>
+					<div class="pull-right col-md-7" style="margin-top:30px">
+						<input type="file" class="btn btn-success" name="file" ngModel (change)="doSupervisorUpload($event)">
+					</div>
+				</div>
+			</div>
+			
+			<div ng-show="formStatus >= 3">
+				<my-line/>
+				<h4> Ethics Official Digital Signed Document</h4>
+				 <div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
+					</div>
+				</div>
+			</div>			
+
+	    
+    </form>
+</div>
+
+
+
+<!-- / home-main-view -->

@@ -1,3 +1,5 @@
+var gLibPath = 'js/lib/forms';
+
 var gFormTableOption = {
 	"paging":   false,
 	"ordering": false,
@@ -11,57 +13,75 @@ var gFormTableOption = {
 	}
 };
 
+
 angular.module(
-        'MainApp',
-        [
-            'AppComponentsModule',
-            'AppDirectivesModule',
-            // 'AppFiltersModule',
-            'AppLibrariesModule'
-        ]
-    ).config(
-        [
-            '$routeProvider',
-            function ($routeProvider) {
-                $routeProvider.when(
-                    '/in-progress',
-                    {
-                        templateUrl: 'js/app/components/in-progress/main-view.html',
-                        controller: 'HomeController'
-                    }
-                ).when(
-                    '/my-action',
-                    {
-                        templateUrl: 'js/app/components/my-action/main-view.html',
-                        controller: 'MyActionController'
-                    }
-                ).when(
-                    '/submitted',
-                    {
-                        templateUrl: 'js/app/components/submitted/main-view.html',
-                        controller: 'SubmittedController'
-                    }
-                ).when(
-                    '/archive',
-                    {
-                        templateUrl: 'js/app/components/archive/main-view.html',
-                        controller: 'ArchiveController'
-                    }
-                ).when(
-                    '/new-form/:id',
-                    {
-                        templateUrl: 'js/app/components/new-form/main-view.html',
-                        controller: 'NewFormController'
-                    }
-                )
+		'MainApp',
+		[
+			'AppComponentsModule',
+			'AppDirectivesModule',
+			'AppLibrariesModule'
+		]
+	).config(
+		[
+			'$routeProvider',
+			function ($routeProvider) {
+				$routeProvider.when(
+					'/in-progress',
+					{
+						templateUrl: 'js/app/components/in-progress/main-view.html?',
+						controller: 'HomeController'
+					}
+				).when(
+					'/my-action',
+					{
+						templateUrl: 'js/app/components/my-action/main-view.html',
+						controller: 'MyActionController'
+					}
+				).when(
+					'/submitted',
+					{
+						templateUrl: 'js/app/components/submitted/main-view.html',
+						controller: 'SubmittedController'
+					}
+				).when(
+					'/archive',
+					{
+						templateUrl: 'js/app/components/archive/main-view.html',
+						controller: 'ArchiveController'
+					}
+				).when(
+					'/form520/:id/:status',
+					{
+						templateUrl: 'js/app/components/form520/form520-view.html',
+						controller: 'Form520Controller'
+					}
+				).when(
+					'/form521/:id/:status',
+					{
+						templateUrl: 'js/app/components/form521/form521-view.html',
+						controller: 'Form521Controller'
+					}
+				).when(
+					'/form348/:id/:status',
+					{
+						templateUrl: 'js/app/components/form348/form348-view.html',
+						controller: 'Form348Controller'
+					}
+				).when(
+					'/formwag/:id/:status',
+					{
+						templateUrl: 'js/app/components/formwag/formwag-view.html',
+						controller: 'FormWAGController'
+					}
+				)
 				.otherwise(
-                    {
-                        redirectTo: '/in-progress'
-                    }
-                );
-            }
-        ]
-);
+					{
+						redirectTo: '/in-progress'
+					}
+				);
+			}
+		]
+);	
 
 function gCutText(oText, toLen) {
 	if (oText.length > toLen && toLen > 4) {
@@ -94,7 +114,7 @@ function gShowCreateNewFormDialog(btx) {
 			{
 				text : 	btx,
 				click : function() {
-							gRoute2("/new-form/" + $("#newFormSelection").val());
+							gRoute2($("#newFormSelection").val() + '/0/0');
 							$(this).dialog("close");
 						}
 			}
@@ -142,5 +162,37 @@ function gFillPDF(fmObj, pdfName, buf) {
 		console.log(e);
 	}
 
-
 }
+
+/** Sample service here **/
+
+gSampleService = function(id,defered) {
+	$.get('https://jsonplaceholder.typicode.com/comments',
+		function(data) {
+			console.log (id + ' here');
+			defered.resolve(data);
+		}
+	);
+}
+
+/** Talking points to communicator **/
+
+function waitForMe() {
+	return _communicatorFlag;
+}
+
+function waitFor(condition, callback) {
+    if(!condition()) {
+        setTimeout(waitFor.bind(null, condition, callback), 500); 
+    } else {
+        callback();
+    }
+}
+
+function showApplication (){
+   $("#AngularApp").show();
+}
+
+$(document).ready(function() {
+	waitFor(waitForMe, showApplication);
+});

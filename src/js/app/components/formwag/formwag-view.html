@@ -1,0 +1,468 @@
+<!-- home-main-view -->
+
+<!-- main form 520 -->
+<div class="container" ng-show="formStatus >= 0">
+    <form id="myformVars0" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 0">
+
+            <h3> I. WAG INFORMATION</h3>
+
+            <div class="controls col-md-12">
+                <my-form-label title="1. Point of Contact" />
+                <div class="col-md-10">
+                    <input id="_PointContact" class="form-control" ng-model="formVars._PointContact">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="2. Request Date" />
+                <div class="controls col-md-3">
+                    <input id="_RequestDate" class="form-control" ng-model="formVars._RequestDate">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="3. Office Telephone Number" />
+                <div class="controls col-md-10">
+                    <input id="_TelephoneNumber" class="form-control" ng-model="formVars._TelephoneNumber">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="4. Outside Organization Sponsoring the Event (full name and City, State or Country)" />
+                <div class="controls col-md-10">
+                    <input id="_CSCountry" class="form-control" ng-model="formVars._CSCountry">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="5. Full Name of the Event" />
+                <div class="controls col-md-10">
+                    <input id="_Fullname" class="form-control" ng-model="formVars._Fullname">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="6. Location of Event (City, State or Country)" />
+                <div class="controls col-md-10">
+                    <input id="_LocationEvent" class="form-control" ng-model="formVars._LocationEvent">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+					<my-form-label title="7. Date of Event" />
+					<div class="controls col-md-5">
+
+                    <input id="_DateEvent" class="form-control" ng-model="formVars._DateEvent">
+                </div>
+			</div>
+			<div class="col-md-12">
+					<my-form-label title="8. Time of Event (include a.m. or p.m.)" />			
+                <div class="controls col-md-5">
+
+                    <input id="_TimeEvent" class="form-control" ng-model="formVars._TimeEvent">
+                </div>				
+            </div>			
+			
+			
+            <div class="col-md-12">
+                <my-form-label title="9. Is the employee assigned on official duty to participate as a speaker, panel member or otherwise to present information on behalf of ONC at a conference or similar engagement?" />
+                <div class="controls col-md-10 form-inline">
+                    <label class="control-label" for="_CheckBox1" >Yes</label>
+                    <input id="_CheckBox1" class="" ng-model="formVars._CheckBox1" type="checkbox">
+                    <label class="control-label" for="_CheckBox1">No</label>
+                    <input id="_CheckBox2" class="" ng-model="formVars._CheckBox2" type="checkbox">
+					<my-line/>
+									<p>If yes, attendance on the day(s) of the employee’s actual presentation is a customary and necessary part
+of his/her performance of the assignment and does not involve a gift to the individual or ONC. No further
+action is necessary. If no, then proceed to question #10.</p>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="10. Who invited you to attend, the event sponsor or someone else?" />
+                <div class="controls col-md-10 form-inline">
+                    <label class="control-label" for="_CheckBox3" >The event sponsor</label>
+                    <input id="_CheckBox3" class="" ng-model="formVars._CheckBox3" type="checkbox">
+                    <br/><label class="control-label" for="_CheckBox4">Someone other than the event sponsor</label>
+                    <input id="_CheckBox4" class="" ng-model="formVars._CheckBox4" type="checkbox">
+					<my-line/>
+					                <p>If invited by a non-sponsor at least 100 persons must attend and the gift of free attendance must have a
+market value of $350 (total self and guest) or less to meet the definition of a widely attended gathering
+(WAG). (See the Financial Disclosure note regarding changes to the reporting threshold.)</p>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="11. Did you solicit the invitation?" />
+                <div class="controls col-md-10 form-inline">
+                    <label class="control-label" for="_CheckBox5">Yes</label>
+                    <input id="_CheckBox5" class="" ng-model="formVars._CheckBox5" type="checkbox">
+                    <label class="control-label" for="_CheckBox6">No</label>
+                    <input id="_CheckBox6" class="" ng-model="formVars._CheckBox6" type="checkbox">
+					<my-line/>
+					<ul>
+					<li>If Yes, the invitation may not be accepted.
+					<li>If No, proceed to Question 12.
+					</ul>
+                </div>
+				
+            </div>
+
+
+            <div class="col-md-12">
+                <my-form-label title="12. What is the purpose of the event (e.g., reception honoring someone, event not directly related to a conference you are attending)?" />
+                <div class="controls col-md-10">
+                    <textarea id="_NameConf" class="form-control" ng-model="formVars._NameConf"></textarea>
+                </div>
+            </div>
+			
+            <div class="col-md-12">
+                <my-form-label title="13. Who else will attend (e.g., other Government employees, industry, public, scientists, etc.)?" />
+                <div class="controls col-md-10">
+                    <textarea id="_WhoElse" class="form-control" ng-model="formVars._WhoElse"></textarea>
+                </div>
+            </div>			
+			
+			
+            <div class="col-md-12">
+                <my-form-label title="14. Is the event open to individuals from throughout a given industry (e.g., the healthcare industry)?" />
+                <div class="controls col-md-10 form-inline">
+                    <label class="control-label" for="_CheckBox7">Yes</label>
+                    <input id="_CheckBox7" class="" ng-model="formVars._CheckBox7" type="checkbox">
+                    <label class="control-label" for="_CheckBox8">No</label>
+                    <input id="_CheckBox8" class="" ng-model="formVars._CheckBox8" type="checkbox">
+					
+                </div>
+				<my-line/>
+                <div class="controls col-md-10">
+				<p>If Yes, please provide a brief description including the different interests and points of view they may represent.
+				</p>
+                    <textarea id="_represent" class="form-control" ng-model="formVars._represent"></textarea>
+                </div>				
+            </div>
+
+			
+            <div class="col-md-12">
+                <my-form-label title="15. Will individuals in attendance represent a range of persons interested in a given matter (e.g., federal, state, or local officials; health care practitioners; pharmaceutical industry representatives)?" />
+                <div class="controls col-md-10 form-inline">
+                    <label class="control-label" for="_CheckBox9">Yes</label>
+                    <input id="_CheckBox9" class="" ng-model="formVars._CheckBox9" type="checkbox">
+                    <label class="control-label" for="_CheckBox10">No</label>
+                    <input id="_CheckBox10" class="" ng-model="formVars._CheckBox10" type="checkbox">
+                </div>
+				<my-line/>
+				<div class="controls col-md-10">
+				<p>If Yes, please provide a brief description of likely attendees.</p>
+                    <textarea id="_IfYes" class="form-control" ng-model="formVars._IfYes"></textarea>
+                </div>
+            </div>
+
+			
+            <div class="col-md-12">
+                <my-form-label title="16. How many people are expected to attend? " />
+                <div class="controls col-md-2">
+                    <input id="_HowMany" class="form-control" ng-model="formVars._HowMany">
+                </div>
+            </div>						
+			
+
+            <div class="col-md-12">
+                <my-form-label title="17. Accompanying spouse or other guest." />
+                <div class="controls col-md-12">                     
+					<div class="controls col-md-12 form-inline">
+						a. Does the invitation include attendance by your spouse or other guest?
+						<label class="control-label" for="_CheckBox11">Yes</label>
+						<input id="_CheckBox11" class="" ng-model="formVars._CheckBox11" type="checkbox">
+						<label class="control-label" for="_CheckBox12">No</label>
+						<input id="_CheckBox12" class="" ng-model="formVars._CheckBox12" type="checkbox">
+					</div>
+                </div>
+                <div class="controls col-md-12">
+					<div class="controls col-md-12 form-inline">
+						b. Will other attendees generally be accompanied by their spouse or other guest?
+						<label class="control-label" for="_CheckBox13">Yes</label>
+						<input id="_CheckBox13" class="" ng-model="formVars._CheckBox13" type="checkbox">
+						<label class="control-label" for="_CheckBox14">No</label>
+						<input id="_CheckBox14" class="" ng-model="formVars._CheckBox14" type="checkbox">
+					</div>
+                </div>
+				<div class="controls col-md-12">
+					<div class="controls col-md-12 form-inline">
+						c. Will a guest accompany you?
+						<label class="control-label" for="_CheckBox15">Yes</label>
+						<input id="_CheckBox15" class="" ng-model="formVars._CheckBox15" type="checkbox">
+						<label class="control-label" for="_CheckBox16">No</label>
+						<input id="_CheckBox16" class="" ng-model="formVars._CheckBox16" type="checkbox">
+					</div>
+                </div>
+                <div class="controls col-md-12">
+					<div class="controls col-md-12 form-inline">
+						d. Does your guest work for DHHS?
+						<label class="control-label" for="_CheckBox17">Yes</label>
+						<input id="_CheckBox17" class="" ng-model="formVars._CheckBox17" type="checkbox">
+						<label class="control-label" for="_CheckBox18">No</label>
+						<input id="_CheckBox18" class="" ng-model="formVars._CheckBox18" type="checkbox">
+						<label class="control-label" for="_CheckBox30">Not Applicable</label>
+						<input id="_CheckBox30" class="" ng-model="formVars._CheckBox30" type="checkbox">
+						<label class="control-label" for="_Ifyes2">If Yes, which component?</label>
+						<input id="_Ifyes2" class="form-control" ng-model="formVars._Ifyes2">
+					</div>
+                </div>
+				
+            </div>		
+
+            <div class="col-md-12">
+                <my-form-label title="18. What is the value of the gift of free attendance (value of dinner or reception, face value of a ticket, etc.)? (Include value of guest’s gift if a guest is invited and will attend.)" />
+                <div class="controls col-md-2">
+                    <input id="_WhatValue" class="form-control" ng-model="formVars._WhatValue">
+                </div>
+            </div>						
+						
+            <div class="col-md-12">
+                <my-form-label title="19. Who provided the information about the event with regard to the value of the gift of free attendance (e.g., information on the invitation; someone from the sponsoring organization)?" />
+				<div class="controls col-md-10">
+                    <textarea id="_organizationinfo" class="form-control" ng-model="formVars._organizationinfo"></textarea>
+                </div>
+            </div>			
+            <div class="col-md-12">
+                <my-form-label title="20. Explain how your attendance will further agency programs (e.g., networking, information sharing, etc.)." />
+				<div class="controls col-md-10">
+                    <textarea id="_etc" class="form-control" ng-model="formVars._etc"></textarea>
+                </div>
+            </div>	
+            <div class="col-md-12">
+				<my-form-label title="21." />
+                <div class="col-md-12">
+						<div class="controls col-md-10 form-inline">
+						a. Can your performance or non-performance of your official responsibilities have any effect on the sponsor? 
+							<label class="control-label" for="_CheckBox26">Yes</label>
+							<input id="_CheckBox26" class="" ng-model="formVars._CheckBox26" type="checkbox">
+							<label class="control-label" for="_CheckBox27">No</label>
+							<input id="_CheckBox27" class="" ng-model="formVars._CheckBox27" type="checkbox">							
+						</div>
+						<div class="controls col-md-10 form-inline">
+						b. If the sponsor is an organization, does the majority of its members have such interests that
+could be affected by the performance or non-performance of your official duties? 
+							<label class="control-label" for="_CheckBox28">Yes</label>
+							<input id="_CheckBox28" class="" ng-model="formVars._CheckBox28" type="checkbox">
+							<label class="control-label" for="_CheckBox29">No</label>
+							<input id="_CheckBox29" class="" ng-model="formVars._CheckBox29" type="checkbox">							
+						</div>		
+						<div class="controls col-md-10 form-inline">
+						c. Yes to either a or b: If YES to either question, answer the next 2 questions. 
+							<input id="_CheckBox24" class="" ng-model="formVars._CheckBox24" type="checkbox">						
+						</div>	
+						<div class="controls col-md-10 form-inline">
+						d. No to both a and b: If NO to both questions, attach the invitation, and continue at #24. 
+							<input id="_CheckBox25" class="" ng-model="formVars._CheckBox25" type="checkbox">						
+						</div>							
+				</div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="22. If the answer to #21a or #21b is YES, explain the nature and sensitivity of any pending official matter(s) affecting the interests of the event sponsor or the majority of its members. How would the inviting entity be affected by something you do in your official capacity?" />
+				<div class="controls col-md-10">
+                    <textarea id="_Youroficial" class="form-control" ng-model="formVars._Youroficial"></textarea>
+                </div>
+            </div>				
+            <div class="col-md-12">
+                <my-form-label title="23. If #21a or #21b is YES, describe your role, if any, in the matter described above" />
+				<div class="controls col-md-10">
+                    <textarea id="_ifyesthen" class="form-control" ng-model="formVars._ifyesthen"></textarea>
+                </div>
+            </div>				
+		<my-line/>
+		<h4 style="margin-top:50px"> Upload Attachments (Up to 10 Files, 2G Mazimum Each)</h4>
+        <div class="col-md-12">	
+			
+			<table class="table" ng-show="filesAttached.length >0">
+			   <tr ng-repeat="item in filesAttached">
+				  <td>{{ item.name }} </td>
+				<td><button type="button" class="btn btn-danger btn-xs" ng-click="removeFile($index)">
+                                         Remove
+                                    </button>
+				</td>
+			   </tr>
+			 </table>  
+			<hr/>
+			 <div class="col-md-10" style="margin-bottom: 40px" ng-show="formStatus == 0">
+                    <input type="file" nv-file-select="" class="btn-success" uploader="uploader" multiple  /><br/>
+
+                    <table class="table" ng-show="uploader.queue.length >0">
+                        <thead>
+                            <tr>
+                                <th width="50%">Name</th>
+                                <th>Size</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in uploader.queue">
+                                <td><strong>{{ item.file.name }}</strong></td>
+                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024|number:2 }} KB</td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                         Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+			<div class="col-md-12" ng-show="formStatus == 0 && uploader.queue.length>0">
+            <div class="pull-right col-md-3">
+                <button class="btn btn-success" ng-click="doUploadAttaches($event)">Upload Documents</button>
+            </div>
+			</div>
+		</div>
+		<my-line/>
+		<h3> II. PEOPLE COVERED by this REQUEST (please include yourself here if you are planning to attend.)</h3>
+		<div class="col-md-10" style="margin-bottom: 40px" ng-show="formStatus == 0">
+			 <table class="table" >
+				<tr ng-show="eployeeToInvite.length >0">
+				<th>Name</th>
+				<th>
+				Email
+				</th>
+				<th>
+				Office
+				</th>
+				<th>
+				Manager's Email
+				</th>
+				<th />
+				</tr>
+			   <tr ng-repeat="item in eployeeToInvite">
+				  <td>{{ item.name }} </td>
+				  <td>{{ item.email }} </td>
+				  <td>{{ item.office }} </td>
+				  <td>{{ item.managerEmail }} </td>
+				<td><button type="button" class="btn btn-danger btn-xs" ng-click="removeFile($index)">
+                                         Remove
+                                    </button>
+				</td>
+			   </tr>
+			   <tr><td colspan="4">
+
+					<div class="col-md-10">
+						<label class="control-label" for="inpEmail">Email</label>
+						<input id="inpEmail" class="form-control" ng-model="formVars.inpEmail">		
+						<label class="control-label" for="inpOffice">Office</label>
+						<input id="inpOffice" class="form-control" ng-model="formVars.inpOffice">		
+						<label class="control-label" for="inpMgtEmail">Manager's Email</label>
+						<input id="inpMgtEmail" class="form-control" ng-model="formVars.inpMgtEmail">	
+						<my-line/>
+						<div class="pull-right col-md-3">
+							<button class="btn btn-success" ng-click="doAddPerson($event)">Add Person</button>
+						</div>
+					</div>
+			   
+			   </td>
+			   </tr>
+			 </table>  
+		</div>
+        <my-line/>
+        <div class="col-md-12" ng-show="formStatus == 0">
+            <div class="pull-right col-md-4">
+                <button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+                <button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
+				<button class="btn btn-success" ng-click="doSubmit($event)">Submit Form</button>
+            </div>
+        </div>		
+		</fieldset>
+    </form>
+</div>
+
+
+<div class="container" ng-show="formStatus >= 1">
+    <form id="myformVars1" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 1">
+
+            <h3> III. ETHICS COORDINATOR REVIEW</h3>
+
+            <div class="controls col-md-12">
+                <my-form-label title="24. ETHICS COORDINATOR RECOMMENDATION AND SIGNATURE " />
+                <div class="col-md-10">
+					Based on my review of the foregoing statements and supporting documentation in light of the
+requirements of 5 C.F.R. § 2635.204(g), I:
+						<div class="controls col-md-12 form-inline">
+							<label class="control-label" for="_CheckBox31">Recommend Approval</label>
+							<input id="_CheckBox31" class="" ng-model="formVars._CheckBox31" type="checkbox">
+							<br/><label class="control-label" for="_CheckBox32">Recommend Approval with the Following Conditions(s):</label>
+							<input id="_CheckBox32" class="" ng-model="formVars._CheckBox32" type="checkbox">							
+							<br/><label class="control-label" for="_CheckBox33">Do Not Recommend Approval</label>
+							<input id="_CheckBox33" class="" ng-model="formVars._CheckBox33" type="checkbox">	
+						</div>	
+                </div>
+				
+				<div class="controls col-md-5">
+					<label class="control-label" for="_EthicsSig">ETHICS COORDINATOR SIGNATURE</label>
+                    <input id="_EthicsSig" class="form-control" ng-model="formVars._EthicsSig" placeholder="Please enter your email address here"/>
+                </div>
+				<div class="controls col-md-5">
+					<label class="control-label" for="_EthicsDate">SIGNATURE DATE</label>
+                    <input id="_EthicsDate" class="form-control" ng-model="formVars._EthicsDate" placeholder="MM/dd/yyyy"/>
+                </div>
+			</div>
+			
+			
+			<my-line/>
+			<div class="col-md-12" ng-show="formStatus == 1">
+				<div class="pull-right col-md-4">
+					<button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
+					<button class="btn btn-success" ng-click="doETHICSSubmit($event)">Submit Recommendation</button>
+				</div>
+			</div>	
+		</fieldset>
+	</form>
+</div>
+
+<div class="container" ng-show="formStatus >= 2">
+    <form id="myformVars1" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 2">
+
+            <h3> IV. DESIGNEE REVIEW</h3>
+
+            <div class="controls col-md-12">
+                <my-form-label title="25. DEPUTY ETHIC COUNSELOR (OR DESIGNEE) DECISION AND SIGNATURE" />
+                <div class="col-md-10">
+					Based on my review of the foregoing statements and supporting documentation supplied by the applicant,
+this constitutes my determination, as required by 5 C.F.R. § 2635.204(g), that the employee’s request is:
+						<div class="controls col-md-12 form-inline">
+							<label class="control-label" for="_CheckBox34">Approved as Requested</label>
+							<input id="_CheckBox34" class="" ng-model="formVars._CheckBox34" type="checkbox">
+							<br/><label class="control-label" for="_CheckBox35">Approved with the Following Conditions(s):</label>
+							<input id="_CheckBox35" class="" ng-model="formVars._CheckBox35" type="checkbox">							
+							<br/><label class="control-label" for="_CheckBox36">Disapproved</label>
+							<input id="_CheckBox36" class="" ng-model="formVars._CheckBox36" type="checkbox">	
+							<br/>
+						</div>	
+						<div class="controls col-md-10>
+						<label class="control-label" for="_Condition">Condition(s)</label>
+						<textarea id="_Condition" class="form-control" ng-model="formVars._Condition"></textarea>	
+						</div>
+                </div>
+				
+				<div class="controls col-md-5">
+					<label class="control-label" for="_DeputySig">ETHICS COORDINATOR SIGNATURE</label>
+                    <input id="_DeputySig" class="form-control" ng-model="formVars._DeputySig" placeholder="Please enter your email address here"/>
+                </div>
+				<div class="controls col-md-5">
+					<label class="control-label" for="_DeputyDate">SIGNATURE DATE</label>
+                    <input id="_DeputyDate" class="form-control" ng-model="formVars._DeputyDate" placeholder="MM/dd/yyyy"/>
+                </div>
+			</div>
+			
+			
+			<my-line/>
+			<div class="col-md-12" ng-show="formStatus == 2">
+				<div class="pull-right col-md-4">
+					<button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
+					<button class="btn btn-success" ng-click="doDEPUTYSubmit($event)">Submit Decision</button>
+				</div>
+			</div>	
+		</fieldset>
+	</form>
+</div>
