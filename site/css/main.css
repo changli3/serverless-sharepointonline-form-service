@@ -6369,8 +6369,9 @@ label {
   margin-top: 10px;
 }
 input[type="checkbox"] {
-  height: 14px;
+  height: 16px;
   margin: 14px 0 0;
+  vertical-align: bottom;
 }
 .row {
   margin-left: 0px;

@@ -1,0 +1,958 @@
+<!-- home-main-view -->
+
+<!-- main form 520 -->
+<div class="container" ng-show="formStatus >= 0">
+    <form id="myformVars0" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 0">
+            <div class="col-md-12">
+			    <div class="col-md-10">
+                <div class="col-md-4">
+                    <label class="control-label" for="calendarYear">CALENDAR YEAR REPORTING PERIOD </label>
+                    <input id="calendarYear" class="form-control" ng-model="formVars.calendarYear" placeholder="yyyy">
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label" for="_Dateextension">EXTENSION DATE</label>
+                    <input id="_Dateextension" class="form-control" ng-model="formVars._Dateextension" placeholder="mm/dd/yyyy">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="control-label" for="_Datereportfiled">DATE FILED</label>
+                    <input id="_Datereportfiled" class="form-control" ng-model="formVars._Datereportfiled" placeholder="mm/dd/yyyy">
+                </div>
+				</div>
+            </div>
+			<my-line/>
+            <hr/>
+
+            <h3> I. EMPLOYEE INFORMATION</h3>
+
+            <div class="controls col-md-12">
+                <my-form-label title="1. EMPLOYEE'S NAME (Last, First, MI)" />
+                <div class="col-md-10">
+                    <input id="_employeesname" class="form-control long-name" ng-model="formVars._employeesname">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="2. AGENCY (Operating/Staff Divison)" />
+                <div class="col-md-10">
+                    <input id="agency" class="form-control" ng-model="formVars._agency">
+                    <div class="row">
+                        <label class="control-label" for="_Subcomponent">(Subcomponent)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input id="_Subcomponent" class="form-control pull-right" ng-model="formVars._Subcomponent">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="3. TITLE OF POSITION" />
+                <div class="col-md-10">
+                    <input id="_titleofposition" class="form-control" ng-model="formVars._titleofposition">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="4. GRADE/STEP" />
+                <div class="controls col-md-10">
+                    <input id="_gradestep" class="form-control" ng-model="formVars._gradestep">
+                </div>
+            </div>
+
+            <div class="controls col-md-12">
+                <my-form-label title="5. FEDERAL SALARY" />
+                <div class="controls col-md-10">
+                    <input id="_fedsalary" class="form-control" ng-model="formVars._fedsalary">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="6. APPOINTMENT TYPE" />
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="pas">PAS/PA</label>
+                    <input id="pas" class="" ng-model="formVars._pas" type="checkbox">
+                    <label class="control-label" for="noncar">Non-Career SES</label>
+                    <input id="noncar" class="" ng-model="formVars._non" type="checkbox">
+                    <label class="control-label" for="car">Career SES</label>
+                    <input id="car" class="" ng-model="formVars._career" type="checkbox">
+                    <label class="control-label" for="schc">Schedule C</label>
+                    <input id="schc" class="" ng-model="formVars._schedule" type="checkbox">
+                    <label class="control-label" for="comm">Commissioned Corps</label>
+                    <input id="comm" class="" ng-model="formVars._commissioned" type="checkbox">
+                    <label class="control-label" for="gs">GS</label>
+                    <input id="gs" class="" ng-model="formVars._gs" type="checkbox">
+                    <label class="control-label" for="title">Title 42</label>
+                    <input id="title" class="" ng-model="formVars._title" type="checkbox">
+                    <label class="control-label" for="other">Other</label>
+                    <input id="other" class="" ng-model="formVars._other" type="checkbox">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="7. FINANCIAL DISCLOSURE FILING STATUS" />
+                <div class="controls form-inline col-md-12">
+                    <label class="control-label" for="public">Public (OGE 278)</label>
+                    <input id="public" class="" ng-model="formVars._public" type="checkbox">
+                    <label class="control-label" for="confid">Confidential (OGE 450)</label>
+                    <input id="confid" class="" ng-model="formVars._confidential" type="checkbox">
+                    <label class="control-label" for="none">None</label>
+                    <input id="none" class="" ng-model="formVars._none" type="checkbox">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="8. OFFICE ADDRESS" />
+
+                <div class="controls col-md-10">
+                    <label class="control-label" for="street">STREET</label>
+                    <input id="street" class="form-control" ng-model="formVars._street">
+                </div>
+                <div class="row" />
+                <div class="controls col-md-6">
+                    <label class="control-label" for="city">CITY</label>
+                    <input id="city" class="form-control" ng-model="formVars._city">
+                </div>
+                <div class="controls col-md-1">
+                    <label class="control-label" for="_state">STATE</label>
+                    <select id="_state" class="form-control" ng-model="formVars._state">
+                        <option> </option>
+                        <option>AL</option>
+                        <option>AK</option>
+                        <option>AZ</option>
+                        <option>AR</option>
+                        <option>CA</option>
+                        <option>CO</option>
+                        <option>CT</option>
+                        <option>DE</option>
+                        <option>DC</option>
+                        <option>FL</option>
+                        <option>GA</option>
+                        <option>HI</option>
+                        <option>ID</option>
+                        <option>IL</option>
+                        <option>IN</option>
+                        <option>IA</option>
+                        <option>KS</option>
+                        <option>KY</option>
+                        <option>LA</option>
+                        <option>ME</option>
+                        <option>MD</option>
+                        <option>MA</option>
+                        <option>MI</option>
+                        <option>MN</option>
+                        <option>MS</option>
+                        <option>MO</option>
+                        <option>MT</option>
+                        <option>NE</option>
+                        <option>NV</option>
+                        <option>NH</option>
+                        <option>NJ</option>
+                        <option>NM</option>
+                        <option>NY</option>
+                        <option>NC</option>
+                        <option>ND</option>
+                        <option>OH</option>
+                        <option>OK</option>
+                        <option>OR</option>
+                        <option>PA</option>
+                        <option>RI</option>
+                        <option>SC</option>
+                        <option>SD</option>
+                        <option>TN</option>
+                        <option>TX</option>
+                        <option>UT</option>
+                        <option>VT</option>
+                        <option>VA</option>
+                        <option>WA</option>
+                        <option>WV</option>
+                        <option>WI</option>
+                        <option>WY</option>
+                    </select>
+                </div>
+                <div class="controls col-md-3">
+                    <label class="control-label" for="ZipCode">ZipCode</label>
+                    <input id="ZipCode" class="form-control" ng-model="formVars._ZipCode">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="9. OFFICE CONTACT INFORMATION" />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="OfficeTelephoneNumber">TELEPHONE</label>
+                    <input id="OfficeTelephoneNumber" class="form-control" ng-model="formVars._TelephoneNumber">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="OfficeFaxNumber">FAX</label>
+                    <input id="OfficeFaxNumber" class="form-control" ng-model="formVars._FaxTelephoneNumber">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="OfficeCellNumber">CELL</label>
+                    <input id="OfficeCellNumber" class="form-control" ng-model="formVars._CellTelephoneNumber">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="email">EMAIL</label>
+                    <input id="email" class="form-control" ng-model="formVars._email">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="10. NAME OF IMMEDIATE SUPERVISOR" />
+                <div class="controls col-md-10">
+                    <input id="_immediatesuper" class="form-control" ng-model="formVars._immediatesuper">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="11. TITLE OF SUPERVISOR" />
+                <div class="controls col-md-10">
+                    <input id="_titlesupervisor" class="form-control" ng-model="formVars._titlesupervisor">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="12. SUPERVISOR CONTACT INFORMATION" />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="superTelephoneNumber">TELEPHONE</label>
+                    <input id="superTelephoneNumber" class="form-control" ng-model="formVars._TelephoneNumber2">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="SuperFaxNumber">FAX</label>
+                    <input id="SuperFaxNumber" class="form-control" ng-model="formVars._FaxTelephoneNumber2">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="SuperCellNumber">CELL</label>
+                    <input id="SuperCellNumber" class="form-control" ng-model="formVars._CellTelephoneNumber2">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="superemail">EMAIL</label>
+                    <input id="superemail" class="form-control" ng-model="formVars._email2">
+                </div>
+                <!--div class="controls"><label class="control-label" for="Agencyuse">Agencyuse</label><input id="Agencyuse" class="form-control" ng-model="formVars._Agencyuse"></div-->
+            </div>
+
+            <div class="row" />
+
+            <h3> II. OUTSIDE ACTIVITY INFORMATION</h3>
+            <div class="col-md-12">
+                <my-form-label title="1. Outside Activity List" />
+                <div class="controls col-md-10">
+					List below all outside activities for which prior approval is required that were approved or undertaken within the last calendar year. Provide the date of
+approval, identify the person for whom or the organization with which the activity was to be conducted, and check the box marked ( ) if the activity was
+actually performed. 
+                    <table class="table">
+					<tr>
+						<th>OUTSIDE ACTIVITY</th>
+						<th>PERSON OR ORGANIZATION</th>
+						<th>APPROVAL DATE</th>
+						<th>(X)</th>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._outsideactivity1"></td>
+						<td><input class="form-control" ng-model="formVars._personororg1"></td>
+						<td><input class="form-control" ng-model="formVars._DateApproval1"></td>
+						<td><input class="" ng-model="formVars._activityperformed1" type="checkbox"></td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._outsideactivity2"></td>
+						<td><input class="form-control" ng-model="formVars._personororg2"></td>
+						<td><input class="form-control" ng-model="formVars._DateApproval2"></td>
+						<td><input class="" ng-model="formVars._activityperformed2" type="checkbox"></td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._outsideactivity3"></td>
+						<td><input class="form-control" ng-model="formVars._personororg3"></td>
+						<td><input class="form-control" ng-model="formVars._DateApproval3"></td>
+						<td><input class="" ng-model="formVars._activityperformed3" type="checkbox"></td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._outsideactivity4"></td>
+						<td><input class="form-control" ng-model="formVars._personororg4"></td>
+						<td><input class="form-control" ng-model="formVars._DateApproval4"></td>
+						<td><input class="" ng-model="formVars._activityperformed4" type="checkbox"></td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._outsideactivity5"></td>
+						<td><input class="form-control" ng-model="formVars._personororg5"></td>
+						<td><input class="form-control" ng-model="formVars._DateApproval5"></td>
+						<td><input class="" ng-model="formVars._activityperformed5" type="checkbox"></td>
+					</tr>
+					</table>
+                </div>
+            </div>
+            <div class="col-md-12">
+				<my-form-label title="2. Duration" />
+                <div class="controls col-md-10">
+					In the line that corresponds to the same letter that identifies the activity above, provide, for each outside activity actually performed, the beginning date
+of the relationship with the outside entity, the date(s) personal services were provided, and the total number of hours spent and leave used on the
+activity in the last calendar year. Specify the ending date; or for an ongoing activity, indicate how long the activity may continue and the date prior
+approval expires. Check whether renewal is anticipated.
+                    <table class="table">
+					<tr>
+						<th>BEGINNING DATE</th>
+						<th>SERVICE DATE</th>
+						<th>HOURS SPENT</th>
+						<th>LEAVE USED</th>
+						<th>ENDING DATE </th>
+						<th>RENEWAL ANTICIPATED?</th>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._BeginningDate1" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._servicedates1" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._hoursspent1"></td>
+						<td><input class="form-control" ng-model="formVars._leaveused1"></td>
+						<td><input class="form-control" ng-model="formVars._EndingDate1" placeholder="mm/dd/yy"></td>
+						<td> Yes <input ng-model="formVars._yes1" type="checkbox">
+							 No <input ng-model="formVars._no1" type="checkbox">
+						</td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._BeginningDate2" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._servicedates2" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._hoursspent2"></td>
+						<td><input class="form-control" ng-model="formVars._leaveused2"></td>
+						<td><input class="form-control" ng-model="formVars._EndingDate2" placeholder="mm/dd/yy"></td>
+						<td> Yes <input ng-model="formVars._yes2" type="checkbox">
+							 No <input ng-model="formVars._no2" type="checkbox">
+						</td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._BeginningDate3" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._servicedates3" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._hoursspent3"></td>
+						<td><input class="form-control" ng-model="formVars._leaveused3"></td>
+						<td><input class="form-control" ng-model="formVars._EndingDate3" placeholder="mm/dd/yy"></td>
+						<td> Yes <input ng-model="formVars._yes3" type="checkbox">
+							 No <input ng-model="formVars._no3" type="checkbox">
+						</td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._BeginningDate4" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._servicedates4" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._hoursspent4"></td>
+						<td><input class="form-control" ng-model="formVars._leaveused4"></td>
+						<td><input class="form-control" ng-model="formVars._EndingDate4" placeholder="mm/dd/yy"></td>
+						<td> Yes <input ng-model="formVars._yes4" type="checkbox">
+							 No <input ng-model="formVars._no4" type="checkbox">
+						</td>
+					</tr>
+					<tr>
+						<td><input class="form-control" ng-model="formVars._BeginningDate5" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._servicedates5" placeholder="mm/dd/yy"></td>
+						<td><input class="form-control" ng-model="formVars._hoursspent5"></td>
+						<td><input class="form-control" ng-model="formVars._leaveused5"></td>
+						<td><input class="form-control" ng-model="formVars._EndingDate5" placeholder="mm/dd/yy"></td>
+						<td> Yes <input ng-model="formVars._yes5" type="checkbox">
+							 No <input ng-model="formVars._no5" type="checkbox">
+						</td>
+					</tr>
+
+					
+					</table>
+                </div>
+            </div>
+
+			
+            <div class="col-md-12">
+				<my-form-label title="3. Income and/or Reimbursements Paid" />
+                <div class="controls col-md-10">
+					In the line that corresponds to the same letter that identifies the activity above, provide, for each outside activity actually performed, the type and
+amount of any income and/or reimbursements actually received during the last calendar year and the date paid. If none, check the box.
+                    <table class="table">
+					<tr>
+						<th>PAYMENT RECEIVED</th>
+						<th>INCOME AND/OR REIMBURSEMENT TYPE</th>
+						<th>AMOUNT</th>
+						<th>DATE(S) PAID</th>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._payA" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement1"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid1"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid1" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._payB" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement2"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid2"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid2" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._payC" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement3"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid3"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid3" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._payD" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement4"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid4"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid4" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._payE" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement5"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid5"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid5" placeholder="mm/dd/yy"></td>
+					</tr>
+					</table>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+				<my-form-label title="4. Income and/or Reimbursements Due" />
+                <div class="controls col-md-10">
+					In the line that corresponds to the same letter that identifies the activity above, provide, for each outside activity actually performed, the type and
+amount of any income and/or reimbursements earned during or attributable to the last calendar year that were not in fact received during the reporting
+period and remain due, and indicate the expected date of payment. If none, check the box.
+                    <table class="table">
+					<tr>
+						<th>PAYMENT DUE</th>
+						<th>INCOME AND/OR REIMBURSEMENT TYPE</th>
+						<th>AMOUNT</th>
+						<th>DATE(S) PAYMENT DUE</th>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._nopayA" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement12"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid12"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid12" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._nopayB" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement22"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid22"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid22" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._nopayC" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement32"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid32"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid32" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._nopayD" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement42"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid42"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid42" placeholder="mm/dd/yy"></td>
+					</tr>
+					<tr>
+						<td> None <input ng-model="formVars._nopayE" type="checkbox"></td>						
+						<td><input class="form-control" ng-model="formVars._incomereimbursement52"></td>
+						<td><input class="form-control" ng-model="formVars._amountpaid52"></td>
+						<td><input class="form-control" ng-model="formVars._date__spaid52" placeholder="mm/dd/yy"></td>
+					</tr>
+					</table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <my-form-label title="5. Employee Questions" />
+				<div class="col-md-12">
+					<div class="controls col-md-10 form-inline">
+						a. Have you been appointed or reassigned to a different Federal position within the Department since any outside activity reported on this form was
+approved or undertaken? <br/>
+						<input class="" ng-model="formVars._yes5a"  type="checkbox"> Yes (If this box is checked, answer when and explain. Copies of the approved HHS Form 520 for each activity should be provided to any new
+supervisor.)
+						<br/><input class="" ng-model="formVars._no5a"  type="checkbox"> No						
+					</div>
+					<div class="controls col-md-10">
+						<textarea id="_explanation1" class="form-control" ng-model="formVars._explanation1"></textarea>
+					</div>
+                </div>
+				<div class="col-md-12">
+					<div class="controls col-md-10 form-inline">
+						b. Have the duties and responsibilities of your current Federal position changed since any outside activity reported on this form was approved or
+undertaken? <br/>
+						<input class="" ng-model="formVars._yes5ab"  type="checkbox"> Yes (If this box is checked, answer when and explain.)
+						<br/><input class="" ng-model="formVars._no5ab"  type="checkbox"> No						
+					</div>
+					<div class="controls col-md-10">
+						<textarea id="_explanation1" class="form-control" ng-model="formVars._explanation2"></textarea>
+					</div>
+                </div>
+				<div class="col-md-12">
+					<div class="controls col-md-10 form-inline">
+						c. For any outside activity reported on this form, has any change occurred or is any change anticipated with respect to the information previously
+furnished on the corresponding HHS Form 520? <br/>
+						<input class="" ng-model="formVars._yes5abc"  type="checkbox"> Yes (If this box is checked, explain.)
+						<br/><input class="" ng-model="formVars._no5abc"  type="checkbox"> No						
+					</div>
+					<div class="controls col-md-10">
+						<textarea id="_explanation1" class="form-control" ng-model="formVars._explanation3"></textarea>
+					</div>
+                </div>
+				<div class="col-md-12">
+					<div class="controls col-md-10 form-inline">
+						d. For any outside activity reported on this form, has the nature, scope, or subject matter changed? <br/>
+						<input  class="" ng-model="formVars._yes5abcd"  type="checkbox"> Yes (If this box is checked, explain.)
+						<br/><input  class="" ng-model="formVars._no5abcd"  type="checkbox"> No						
+					</div>
+					<div class="controls col-md-10">
+						<textarea id="_explanation1" class="form-control" ng-model="formVars._explanation4"></textarea>
+					</div>
+                </div>
+				<div class="col-md-12">
+					<div class="controls col-md-10 form-inline">
+						e. Did you answer “Yes” to one or more of the Questions 5. a., b., c., or d.? If so, a revised request for approval must be submitted on a new HHS
+ Form 520.<br/>
+						<input  class="" ng-model="formVars._yes5abcde"  type="checkbox"> Yes (If this box is checked, submit the form to your immediate supervisor.)
+						<br/><input class="" ng-model="formVars._no5abcde"  type="checkbox"> No						
+					</div>
+					<div class="controls col-md-10">
+						<textarea id="_explanation1" class="form-control" ng-model="formVars._explanation5"></textarea>
+					</div>
+                </div>
+				
+			</div>			
+			
+            <div class="col-md-12">
+                <my-form-label title="ADDITIONAL SPACE" />
+                <div class="col-md-12">
+                    <div class="controls col-md-10">
+                        <textarea id="addcomments" class="form-control" ng-model="formVars._addcomments"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+        </fieldset>
+        <my-line/>
+        <div class="col-md-12" ng-show="formStatus == 0">
+            <div class="pull-right col-md-4">
+                <button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+                <button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
+            </div>
+        </div>
+		<my-line/>
+        <h4 style="margin-top:50px"> Certify</h4>
+        <div class="col-md-12">
+            <fieldset ng-disabled="formStatus > 0">
+                <p> Please type in your email address and date then click on the "Certify Document"</p>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="signature">Signature</label>
+                    <input id="signature" class="form-control" ng-model="formVars.signature" placeholder="Enter your email here..." type="email">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="Datelast1">Signature Date</label>
+                    <input id="Datelast1" class="form-control" ng-model="formVars._Datelast1">
+                </div>
+            </fieldset>
+        </div>
+		
+       
+        <div class="col-md-12" ng-show="formStatus == 0">
+		    <my-line/>
+            <div class="pull-right col-md-3">
+                <button class="btn btn-success" ng-click="doCertify($event)">Certify Document</button>
+            </div>
+        </div>
+
+        
+        <div ng-show="formStatus == 1">
+		    <my-line/>
+            <h4> Digital Sign</h4>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+                </div>
+            </div>
+
+            <my-line/>
+            <div class="col-md-12">
+                <div class="pull-right col-md-7">
+                    <button class="btn btn-success" ng-click="doRevoke($event)">Revoke Certification</button>
+                    <button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
+                </div>
+                <div class="pull-right col-md-7" style="margin-top:30px">
+                    <input type="file" class="btn btn-success" name="file" ngModel (change)="doUpload($event)">
+                </div>
+            </div>
+        </div>
+        <div ng-show="formStatus >= 1">
+		    <my-line/>
+            <h4> Digital Signed Document</h4>
+			 <div class="col-md-12">
+                <div class="pull-right col-md-7">
+					<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
+				</div>
+			</div>
+		</div>
+    </form>
+</div>
+
+<!-- supervisor form 520 -->
+<div class="container" ng-show="formStatus >= 2">
+    <form id="myformVars2" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 2">
+            <my-line/>
+
+            <h3>   IV. SUPERVISOR REVIEW</h3>
+
+            <div class="controls col-md-12">
+                <my-form-label title="1. Summary of Applicable Law" />
+                <div class="col-md-12">
+                    <p>An employee cannot undertake an outside activity that conflicts with the employee's official duties. An activity conflicts with official duties: (a) if it is
+prohibited by statute or regulation; or (b) if, under the standards in 5 CFR 2635.402 and 2635.502, it would require the employee's recusal from matters so
+central or critical to the performance of his or her official duties that the employee's ability to perform the duties of his or her position would be materially
+impaired. Such a recusal would likely arise where the outside activity involves a person or entity that is regulated by, does business with, receives grants or
+other benefits from, or is otherwise substantially impacted by the programs, policies, and operations of the employee's agency, and the employee normally
+would be involved personally and substantially in such matters on a frequent basis or as a principal duty. In addition, an activity may be improper if the
+circumstances suggest that the employee received an outside business opportunity based on his or her official position or would create the appearance of
+using public office for the private gain of an outside entity. An employee also must endeavor to avoid any actions that create the appearance of a violation of
+law or the ethical standards. Special rules apply to activities involving fundraising, expert witness testimony, teaching, speaking, writing, or editing, and
+activities with foreign entities. Certain categories of employees, such as those in FDA, NIH, and OGC, are subject to component specific rules on outside
+activities. Refer to the Standards of Ethical Conduct, 5 CFR part 2635, subpart H, and the HHS Supplemental Ethics Regulation, 5 CFR part 5501.
+</p>
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="2. Review" />
+                <div class="col-md-10 form-inline">
+				    The undersigned supervisor, identified in Part I, Item 10, has evaluated the responses and any supporting documentation of the employee, reviewed
+the HHS Form 520s on file, and obtained additional information where appropriate. Based on this information, the supervisor makes the following
+determination:
+				<br/><input  class="" ng-model="formVars._noaction"  type="checkbox"> No Action Required
+(If this box is checked, the undersigned concludes that the employee is in compliance with applicable laws and regulations (subject to any
+comments in the box below) and that no legal or ethical impediment has been identified that would have precluded the approval of any listed
+outside activity or that would require the cancellation of any ongoing outside activity. Describe the basis for this conclusion in the "Comments"
+box below.)
+						<br/><input class="" ng-model="formVars._correctiveaction"  type="checkbox">
+						Corrective Action Required (If this box is checked, describe in the box below.)
+				
+			   </div>
+			</div>
+			<div class="controls col-md-12">
+                <my-form-label title="3. Comments" />
+			    <div class="controls col-md-10">
+					<textarea id="_comments3" class="form-control" ng-model="formVars._comments3"></textarea>
+				</div>
+			</div>
+
+			<my-line/>
+			<h4 style="margin-top:50px"> Supervisor Certify</h4>
+			<div class="col-md-12">
+				<fieldset ng-disabled="formStatus > 2">
+					<p> Please type in your email address and date then click on the "Certify Document"</p>
+					<div class="controls col-md-5">
+						<label class="control-label" for="supervisorsignature">Supervisor Signature</label>
+						<input id="supervisorsignature" class="form-control" ng-model="formVars.supervisorsignature" placeholder="Email your email here..." type="email">
+					</div>
+					<div class="controls col-md-5">
+						<label class="control-label" for="Datesiglast">Signature Date</label>
+						<input id="Datesiglast" class="form-control" ng-model="formVars._Datesiglast">
+					</div>
+				</fieldset>
+			</div>
+	  </fieldset>
+			<my-line/>
+			<div class="col-md-12" ng-show="formStatus == 2">
+				<div class="pull-right col-md-3">
+					<button class="btn btn-success" ng-click="doSupervisorCertify($event)">Certify Document</button>
+				</div>
+			</div>
+
+			<my-line/>
+			<div ng-show="formStatus == 3">
+				<h4> Digital Sign</h4>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+					</div>
+				</div>
+
+				<my-line/>
+				<div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn btn-success" ng-click="doSupervisorRevoke($event)">Revoke Certification</button>
+						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
+					</div>
+					<div class="pull-right col-md-7" style="margin-top:30px">
+						<input type="file" class="btn btn-success" name="file" ngModel (change)="doSupervisorUpload($event)">
+					</div>
+				</div>
+			</div>
+			
+			<div ng-show="formStatus >= 3">
+				<my-line/>
+				<h4> Supervisor Digital Signed Document</h4>
+				 <div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
+					</div>
+				</div>
+			</div>			
+
+	    
+    </form>
+</div>
+
+<!-- reviewer form 520 -->
+<div class="container" ng-show="formStatus >= 4">
+    <form id="myformVars4" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 4">
+            <my-line/>
+
+            <h3>IV. MANAGEMENT / COMMITTEE / OTHER INTERMEDIATE REVIEW</h3>		
+			
+            <div class="controls col-md-12">
+                <my-form-label title="1. Name of Reviewer" />
+                <div class="col-md-10">
+                    <input id="namereviewer" class="form-control long-name" ng-model="formVars._NameofReviewer">
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="2. Title of Reviewer" />
+                <div class="col-md-10">
+                    <input id="titlereviewer" class="form-control long-name" ng-model="formVars._TitleofReviewer">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="3. Reviewer Contact Information" />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="ReviewerTelephoneNumber">TELEPHONE</label>
+                    <input id="ReviewerTelephoneNumber" class="form-control" ng-model="formVars._TelephoneNumber3">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="ReviewerFaxNumber">FAX</label>
+                    <input id="ReviewerFaxNumber" class="form-control" ng-model="formVars._FaxTelephoneNumber2vvvvv1">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="ReviewerCellNumber">CELL</label>
+                    <input id="ReviewerCellNumber" class="form-control" ng-model="formVars._CellTelephoneNumber2vvvvv1">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="revieweremail">EMAIL</label>
+                    <input id="revieweremail" class="form-control" ng-model="formVars._email2vvvvv1">
+                </div>
+            </div>			
+
+            <div class="controls col-md-12">
+                <my-form-label title="4. Organization" />
+                <div class="col-md-10">
+                    <input id="organization" class="form-control long-name" ng-model="formVars._Organization">
+                </div>
+            </div>			
+            <div class="controls col-md-12">
+                <my-form-label title="5. Committee" />
+				
+                <div class="col-md-10">
+					<p>If the reviewer acts on behalf of a committee, identify the body and record any dissenting views in the "Comments" below.</p>
+                    <input id="committee" class="form-control long-name" ng-model="formVars._committee1">
+                </div>
+            </div>	
+
+            <div class="controls col-md-12">
+                <my-form-label title="6. Review" />
+                <div class="col-md-10 form-inline">
+				Review the employee's answers and indicate whether you concur in the supervisor's determination. Explain your reasons in the space below. Sign and
+date the form in the space provided.
+                    <br/><label class="control-label" for="concur">Concur</label>
+					<input id="concur" class="" ng-model="formVars._Concur" type="checkbox">
+					<br/><label class="control-label" for="nonconcur">Nonconcur</label>
+					<input id="nonconcur" class="" ng-model="formVars._Nonconcur" type="checkbox">
+					<br/>
+                </div>
+            </div>		
+            <div class="controls col-md-12">
+                <my-form-label title="7. Comments" />
+
+				<div class="controls col-md-10">
+					<textarea id="comments" class="form-control" ng-model="formVars._comments7"></textarea>			
+				</div>
+			</div>
+			<my-line/>
+			<h4 style="margin-top:50px"> Reviewer Certify</h4>
+			<div class="col-md-12">
+				<fieldset ng-disabled="formStatus > 4">
+					<p> Please type in your email address and date then click on the "Certify Document"</p>
+					<div class="controls col-md-5">
+						<label class="control-label" for="supervisorsignature">Reviewer Signature</label>
+						<input id="reviewersignature" class="form-control" ng-model="formVars.reviewersignature" placeholder="Enter your email here..." type="email">
+					</div>
+					<div class="controls col-md-5">
+						<label class="control-label" for="Dateofsig">Signature Date</label>
+						<input id="Dateofsig" class="form-control" ng-model="formVars._Dateofsig">
+					</div>
+				</fieldset>
+			</div>
+			
+		</fieldset>
+			<my-line/>
+			<div class="col-md-12" ng-show="formStatus == 4">
+				<div class="pull-right col-md-3">
+					<button class="btn btn-success" ng-click="doReviewerCertify($event)">Certify Document</button>
+				</div>
+			</div>
+			<my-line/>
+			
+			<div ng-show="formStatus == 5">
+				<h4> Digital Sign</h4>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+					</div>
+				</div>
+
+				<my-line/>
+				<div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn btn-success" ng-click="doReviewerRevoke($event)">Revoke Certification</button>
+						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
+					</div>
+					<div class="pull-right col-md-7" style="margin-top:30px">
+						<input type="file" class="btn btn-success" name="file" ngModel (change)="doReviewerUpload($event)">
+					</div>
+				</div>
+			</div>
+			
+			<div ng-show="formStatus >= 5">
+				<my-line/>
+				<h4> Reviewer Digital Signed Document</h4>
+				 <div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
+					</div>
+				</div>
+			</div>			
+
+
+    </form>
+</div>
+
+<!-- ethic form 520 -->
+<div class="container" ng-show="formStatus >= 6">
+    <form id="myformVars6" class="form-horizontal">
+        <fieldset ng-disabled="formStatus > 6">
+            <my-line/>
+
+            <h3> VI. AGENCY ETHICS OFFICIAL REVIEW</h3>		
+			
+            <div class="controls col-md-12">
+                <my-form-label title="1. Name of Agency Ethics Official" />
+                <div class="col-md-10">
+                    <input id="nameagencyethics" class="form-control long-name" ng-model="formVars._Nameofagencyethics">
+                </div>
+            </div>
+            <div class="controls col-md-12">
+                <my-form-label title="2. Title of Agency Ethics Official" />
+                <div class="col-md-10">
+                    <input id="titleagencyethics" class="form-control long-name" ng-model="formVars._Titleofagencyethics">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <my-form-label title="3. Agency Ethics Official Contact Information " />
+                <div class="controls col-md-5">
+                    <label class="control-label" for="_TelephoneNumber30">TELEPHONE</label>
+                    <input id="_TelephoneNumber30" class="form-control" ng-model="formVars._TelephoneNumber30">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="_FaxTelephoneNumber20">FAX</label>
+                    <input id="_FaxTelephoneNumber20" class="form-control" ng-model="formVars._FaxTelephoneNumber20">
+                </div>
+
+                <div class="controls col-md-5">
+                    <label class="control-label" for="_CellTelephoneNumber20">CELL</label>
+                    <input id="_CellTelephoneNumber20" class="form-control" ng-model="formVars._CellTelephoneNumber20">
+                </div>
+                <div class="controls col-md-5">
+                    <label class="control-label" for="email20">EMAIL</label>
+                    <input id="email20" class="form-control" ng-model="formVars._email20">
+                </div>
+            </div>			
+
+            <div class="controls col-md-12">
+                <my-form-label title="4. Organization" />
+                <div class="col-md-10">
+                    <input id="_Organization6" class="form-control long-name" ng-model="formVars._Organization6">
+                </div>
+            </div>			
+            <div class="controls col-md-12">
+                <my-form-label title="5. Ethics Review" />
+				
+                <div class="col-md-10 form-inline">
+					Review the employee's answers and the supervisor's determination. Consider the assessment of any management official, committee, or other intermediate
+reviewer. Indicate whether you concur in the supervisor's determination. Explain your reason(s) in the space below and describe any actions deemed
+necessary to ensure compliance with applicable ethics laws. Sign and date the form in the space provided.
+                   <br/><label class="control-label" for="concur">Concur</label>
+					<input id="concur2" class="" ng-model="formVars._Concur2" type="checkbox">
+					<br/><label class="control-label" for="nonconcur">Nonconcur</label>
+					<input id="nonconcur2" class="" ng-model="formVars._Nonconcur2" type="checkbox">
+					<br/>
+                </div>
+            </div>	
+	
+            <div class="controls col-md-12">
+                <my-form-label title="6. Comments" />
+
+				<div class="controls col-md-10">
+					<textarea id="_comments6page" class="form-control" ng-model="formVars._comments6page"></textarea>			
+				</div>
+			</div>
+			<my-line/>
+			<h4 style="margin-top:50px"> Ethics Official Certify</h4>
+			<div class="col-md-12">
+				<fieldset ng-disabled="formStatus > 6">
+					<p> Please type in your email address and date then click on the "Certify Document"</p>
+					<div class="controls col-md-5">
+						<label class="control-label" for="supervisorsignature">Ethics Official Signature</label>
+						<input id="reviewersignature" class="form-control" ng-model="formVars.reviewersignature" placeholder="Enter your email here..." type="email">
+					</div>
+					<div class="controls col-md-5">
+						<label class="control-label" for="_Dateethicssig">Signature Date</label>
+						<input id="_Dateethicssig" class="form-control" ng-model="formVars._Dateethicssig">
+					</div>
+				</fieldset>
+			</div>
+			
+		</fieldset>
+			<my-line/>
+			<div class="col-md-12" ng-show="formStatus == 6">
+				<div class="pull-right col-md-3">
+					<button class="btn btn-success" ng-click="doEthicsCertify($event)">Certify Document</button>
+				</div>
+			</div>
+			<my-line/>
+			
+			<div ng-show="formStatus == 7">
+				<h4> Digital Sign</h4>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
+					</div>
+				</div>
+
+				<my-line/>
+				<div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn btn-success" ng-click="doEthicsRevoke($event)">Revoke Certification</button>
+						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
+					</div>
+					<div class="pull-right col-md-7" style="margin-top:30px">
+						<input type="file" class="btn btn-success" name="file" ngModel (change)="doEthicsUpload($event)">
+					</div>
+				</div>
+			</div>
+			
+			<div ng-show="formStatus >= 7">
+				<my-line/>
+				<h4> Ethics Official Digital Signed Document</h4>
+				 <div class="col-md-12">
+					<div class="pull-right col-md-7">
+						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
+					</div>
+				</div>
+			</div>			
+
+
+    </form>
+</div>
+
+
+
+<!-- / home-main-view -->
