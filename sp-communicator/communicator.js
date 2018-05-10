@@ -1,3 +1,79 @@
+var context;
+var web;
+var user;
+
+function initCommunicator() {
+	//assume we have a client context called context.
+	context= new SP.ClientContext.get_current();
+	web = context.get_web();
+	user = web.get_currentUser(); //must load this to access info.
+	context.load(user);
+	context.executeQueryAsync(function(){
+	    console.log("User is: " + user.get_title()); //there is also id, email, so this is pretty useful.
+	}, function(err){
+		console.log(err);
+	});
+    parent.communicatorReady();
+}
+
+window.getCurrentUser = function() {
+	return user;
+}
+
+window.getCurrentUserId = function() {
+ return _spPageContextInfo.userId;
+}
+
+window.GetUserIdByName =function (userName) {
+    var prefix = "i:0#.w|";
+    var siteUrl = _spPageContextInfo.siteAbsoluteUrl;
+    var accountName = prefix + userName;
+
+    /// make an ajax call to get the site user
+    $.ajax({
+        url: siteUrl + "/_api/web/siteusers(@v)?@v='" + 
+            encodeURIComponent(accountName) + "'",
+        method: "GET",
+        headers: { "Accept": "application/json; odata=verbose" },
+        success: function (data) {
+            ///popup user id received from site users.
+            console.log("Received UserId" + data.d.Id);
+            console.log(JSON.stringify(data));
+        },
+        error: function (data) {
+            console.log(JSON.stringify(data));
+        }
+    });
+}
+
+window.getUserGroups= function (UserID, callback)   
+{  
+	$.ajax  
+	({  
+		url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/GetUserById(" + UserID + ")/Groups",  
+		method: "GET",  
+		headers: { "Accept": "application/json; odata=verbose" },  
+		success: function (data) {  
+			callback(data.d.results);  
+		}  
+	});  
+}  
+
+window.getUserIdByEmail=function(email, callback) {
+	$.ajax  
+	({  
+		url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/SiteUsers?$filter=Email eq '" + encodeURIComponent(email) + "'",  
+		method: "GET",  
+		headers: { "Accept": "application/json; odata=verbose" },  
+		success: function (data) {
+		    if (data.d.results.length > 0)
+				callback(data.d.results[0]);
+			else 
+			    callback(null);  
+		}  
+	});  
+}  
+
 
 window.ListManager = function(success, failed) {
 	
@@ -240,7 +316,9 @@ window.ListManager = function(success, failed) {
 				success(results);
 			},failed);
 	}
-
 	
 	return this;
 }
+
+
+_spBodyOnLoadFunctionNames.push("initCommunicator");

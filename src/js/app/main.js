@@ -156,8 +156,10 @@ function gFillPDF(fmObj, pdfName, buf) {
 	var filled_pdf;
 	try {
 		filled_pdf = pdfform(minipdf_js).transform(buf, fields);
-		var blob = new Blob([filled_pdf], {type: 'application/pdf'});
-		saveAs(blob, pdfName + '.pdf');
+		var blob = new Blob([filled_pdf], {type: 'application/pdf'});				     
+		 saveAs(blob, pdfName + '.pdf');
+	   // var fileURL = URL.createObjectURL(blob);
+	   // window.open(fileURL, pdfName);
 	} catch (e) {
 		console.log(e);
 	}
@@ -192,6 +194,7 @@ function waitFor(condition, callback) {
 function showApplication (){
    $("#AngularApp").show();
 }
+
 
 $(document).ready(function() {
 	waitFor(waitForMe, showApplication);
