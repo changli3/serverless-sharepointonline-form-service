@@ -1,126 +1,163 @@
 angular.module(
         'FormWAGControllerModule',
         [
-			'angularFileUpload'
         ]
     )
     .controller(
         'FormWAGController',
         [
             '$scope',
+			'$filter',
 			'$routeParams',
-			'FileUploader',
             'MenuMainModel',
             'FormWAGService',
             'PageHeaderModel',
-            function ($scope, $routeParams, FileUploader, MenuMainModel, FormWAGService, PageHeaderModel) {		
-                var uploader = $scope.uploader = new FileUploader({
-					url: 'upload.php'
-				});
-				
-
-				// FILTERS
-
-				uploader.filters.push({
-					name: 'customFilter',
-					fn: function(item /*{File|FileLikeObject}*/, options) {
-						return this.queue.length < 10;
-					}
-				});
-
-				
-                MenuMainModel.setCurrentMenuItemId(4);
+            function ($scope, $filter, $routeParams, MenuMainModel, FormWAGService, PageHeaderModel) {		
+				MenuMainModel.setCurrentMenuItemId(4);
 				PageHeaderModel.setTitle("Request to Accept the Widely Attended Gathering (WAG) Exception");
-				PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);			
-
 				$scope.formId = $routeParams.id;	
-				$scope.formStatus = $routeParams.status;	
-
-				if ($scope.formId == 0) {
-					FormWAGService.initForm($scope);
-				} else {
-					FormWAGService.getForm4User($scope, $scope.formId, $scope.formStatus);
+				$scope.action = $routeParams.code;
+				
+				$scope.showPermissionError = false;
+				$scope.showEditingForm = false;
+				$scope.enableEditingForm = false;				
+				$scope.showManagerForm = false;
+				$scope.enableManagerForm = false;
+				$scope.showEmploeeForm = false;
+				$scope.enableEmploeeForm = false;
+				$scope.showEthicsForm = false;
+				$scope.enableEthicsForm = false;				
+				$scope.showDesigneeForm = false;
+				$scope.enableDesigneeForm = false;
+				$scope.showSignatureForm = false;
+				
+				$scope.loadPage = function () {
+					PageHeaderModel.setParagraphs([gGetWelcomeMessage($scope.email)]);	
+					if ($scope.formId == '0') {
+						FormWAGService.initForm($scope);
+					} else {
+						FormWAGService.getForm4User($scope);
+					}
 				}
 
 				$scope.doSave = function($event) {					
 					$event.stopPropagation();
-					FormWAGService.putData(1)
-					.then(function (data) {
-							console.log(JSON.stringify(data,null,"  "));
-						});
-					FormWAGService.sampleSerice(1)
-					.then(function (data){
-							console.log(JSON.stringify(data,null,"  "));
-						});
+					FormWAGService.saveFormData($scope);
 				}
 
 				$scope.doCertify = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 1;
+					$event.stopPropagation();				
+					$scope.enableEditingForm = false;		
+					FormWAGService.signForm($scope, "Await Ethics");
+					
 				}				
-
-				$scope.doRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 0;
-				}					
-
-				$scope.doSupervisorCertify = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 3;
-				}				
-
-				$scope.doSupervisorRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 2;
-				}	
-				
-				$scope.doReviewerRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 4;
-				}	
-
-				$scope.doReviewerCertify = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 5;
-				}				
-				$scope.doEthicsRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 6;
-				}	
-
-				$scope.doDesigneeCertify = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 9;
-				}		
-
-				$scope.doDesigneeRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 8;
-				}	
 
 				$scope.doEthicsCertify = function($event) {
 					$event.stopPropagation();
-					$scope.formStatus = 7;
-				}								
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.ethicssignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._EthicsDate
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableEthicsForm = false;				
+					FormWAGService.signForm($scope,"Await Designee");
+				}					
+
+				$scope.doDesigneeCertify = function($event) {
+					$event.stopPropagation();
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.designeesignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._DeputyDate
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableDesigneeForm = false;	
+					//
+					//
+					// TODO
+					// add all employees and supervisors to WAGSignatureList
+					//
+					FormWAGService.signForm($scope,"Await Employee");
+				}		
+				
+				$scope.doEmployeeCertify = function($event) {
+					$event.stopPropagation();
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.employeesignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars.employeesignDate
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					
+					for (var i=1; i<16; i++) {
+						if (!$scope.formVars["email" + i]) continue;
+						if ($scope.formVars["email" + i].toLowerCase() != $scope.email.toLowerCase()) continue;
+						$scope.formVars["_EmployeesSignature" + i] = $scope.formVars.employeesignDate;
+						
+						$scope.enableEmployeeForm = false;				
+						//
+						//
+						// TODO
+						// save signature to WAGSignatureList
+						// check to see if all signed, if so update FormWAGService.signForm($scope,"Await Suppervisor");
+						return;
+					}
+					alert ("Please check your email spelling, we do not find you in the WAG form.");
+				}	
+				
+				$scope.doSupervisorCertify = function($event) {
+					$event.stopPropagation();
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.managersignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars.managersignDate
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableManagerForm = false;				
+					//
+					//
+					// TODO
+					// save signature to WAGSignatureList
+					// check to see if all supervisor signed, if so update FormWAGService.signForm($scope,"Completed");
+				}				
+
+				$scope.doReviewerCertify = function($event) {
+					$event.stopPropagation();
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.reviewersignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Datevvvvv2
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableCommitteeForm = false;				
+					FormWAGService.signForm($scope,"Await Ethics");
+				}				
+
+
+
+
+						
 				
 				$scope.doPDF = function($event) {
-					console.log("doPDF");
 					$event.stopPropagation();
-					gFetchPDF(gLibPath + "/wag.pdf", function(pdffile) {
-						gFillPDF($scope.formVars, "myHHSWAG", pdffile);
+					gShowBusy();
+					gFetchPDF(gLibPath + "/WAG.pdf", function(pdffile) {
+						gFillPDF($scope.formVars, $scope.spItem.get_item("Title"), pdffile);
 					});
 				}
 				
-				
-				$scope.doUploadAttaches = function ($event) {
-					$.each(uploader.queue, function(idx){
-						$scope.filesAttached.push(uploader.queue[idx].file);
-					});
-					uploader.clearQueue();
-					
-				}
+				gWaitReady($scope);
             }
         ]
     );
-	
-

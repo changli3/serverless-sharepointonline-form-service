@@ -1,21 +1,13 @@
-
 angular.module(
         'ArchiveServiceModule',
-        [
-            'ngResource'
-        ]
+        []
     )
-    .factory(
-    'ArchiveService',
-    function ($resource) {
-        return $resource(
-            'https://jsonplaceholder.typicode.com/comments',
-            {},
-            {
-                query: {
-                    method: 'GET', isArray: true
-                }
-            }
-        );
-    }
-);
+    .factory( 'ArchiveService', function ($http, $q, $filter) {
+		return {
+			getTableData: function($scope) {
+				document.getElementById("communicator").contentWindow.getListItemByMeStatus (
+				"FormServiceRecords", 'Completed', gTableFields, $scope.showTable);				
+			},
+		}
+    });
+

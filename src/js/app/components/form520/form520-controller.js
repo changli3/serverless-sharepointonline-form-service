@@ -1,124 +1,130 @@
 angular.module(
         'Form520ControllerModule',
         [
-			'angularFileUpload'
         ]
     )
     .controller(
         'Form520Controller',
         [
             '$scope',
+			'$filter',
 			'$routeParams',
-			'FileUploader',
             'MenuMainModel',
             'Form520Service',
             'PageHeaderModel',
-            function ($scope, $routeParams, FileUploader, MenuMainModel, Form520Service, PageHeaderModel) {		
-                var uploader = $scope.uploader = new FileUploader({
-					url: 'upload.php'
-				});
-				
-
-				// FILTERS
-
-				uploader.filters.push({
-					name: 'customFilter',
-					fn: function(item /*{File|FileLikeObject}*/, options) {
-						return this.queue.length < 10;
-					}
-				});
-
-				
-                MenuMainModel.setCurrentMenuItemId(4);
+            function ($scope, $filter, $routeParams, MenuMainModel, Form520Service, PageHeaderModel) {		
+				MenuMainModel.setCurrentMenuItemId(4);
 				PageHeaderModel.setTitle("REQUEST FOR APPROVAL OF OUTSIDE ACTIVITY");
-				PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);			
-
 				$scope.formId = $routeParams.id;	
-				$scope.formStatus = $routeParams.status;	
-
-				if ($scope.formId == 0) {
-					Form520Service.initForm($scope);
-				} else {
-					Form520Service.getForm4User($scope, $scope.formId, $scope.formStatus);
+				$scope.action = $routeParams.code;
+				
+				$scope.showPermissionError = false;
+				$scope.showEditingForm = false;
+				$scope.enableEditingForm = false;				
+				$scope.showManagerForm = false;
+				$scope.enableManagerForm = false;
+				$scope.showCommitteeForm = false;
+				$scope.enableCommitteeForm = false;
+				$scope.showEthicsForm = false;
+				$scope.enableEthicsForm = false;				
+				$scope.showDesigneeForm = false;
+				$scope.enableDesigneeForm = false;
+				
+				$scope.loadPage = function () {
+					PageHeaderModel.setParagraphs([gGetWelcomeMessage($scope.email)]);	
+					if ($scope.formId == '0') {
+						Form520Service.initForm($scope);
+					} else {
+						Form520Service.getForm4User($scope);
+					}
 				}
 
 				$scope.doSave = function($event) {					
 					$event.stopPropagation();
-					Form520Service.putData(1)
-					.then(function (data) {
-							console.log(JSON.stringify(data,null,"  "));
-						});
-					Form520Service.sampleSerice(1)
-					.then(function (data){
-							console.log(JSON.stringify(data,null,"  "));
-						});
+					Form520Service.saveFormData($scope);
 				}
 
 				$scope.doCertify = function($event) {
 					$event.stopPropagation();
-					$scope.formStatus = 1;
+					if (					
+						($scope.email.toLowerCase() != $scope.formVars.signature.toLowerCase()) ||
+						($filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Date)
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableEditingForm = false;		
+					Form520Service.signForm($scope, "Await Supervisor");
+					
 				}				
-
-				$scope.doRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 0;
-				}					
+			
 
 				$scope.doSupervisorCertify = function($event) {
 					$event.stopPropagation();
-					$scope.formStatus = 3;
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.supervisorsignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Datevvvvv1
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableManagerForm = false;				
+					Form520Service.signForm($scope,"Await Ethics");
 				}				
-
-				$scope.doSupervisorRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 2;
-				}	
-				
-				$scope.doReviewerRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 4;
-				}	
 
 				$scope.doReviewerCertify = function($event) {
 					$event.stopPropagation();
-					$scope.formStatus = 5;
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.reviewersignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Datevvvvv2
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableCommitteeForm = false;				
+					Form520Service.signForm($scope,"Await Ethics");
 				}				
-				$scope.doEthicsRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 6;
-				}	
 
 				$scope.doDesigneeCertify = function($event) {
 					$event.stopPropagation();
-					$scope.formStatus = 9;
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.designeesignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Datevvvvv4
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableDesigneeForm = false;				
+					Form520Service.signForm($scope,"Completed");
 				}		
 
-				$scope.doDesigneeRevoke = function($event) {
-					$event.stopPropagation();
-					$scope.formStatus = 8;
-				}	
 
 				$scope.doEthicsCertify = function($event) {
 					$event.stopPropagation();
-					$scope.formStatus = 7;
+					if (					
+						$scope.email.toLowerCase() != $scope.formVars.ethicssignature.toLowerCase()
+						||
+						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Datevvvvv3
+					) {
+						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
+						return;
+					}					
+					$scope.enableEthicsForm = false;				
+					Form520Service.signForm($scope,"Completed");
 				}								
 				
 				$scope.doPDF = function($event) {
-					console.log("doPDF");
 					$event.stopPropagation();
+					gShowBusy();
 					gFetchPDF(gLibPath + "/520.pdf", function(pdffile) {
-						gFillPDF($scope.formVars, "myHHS520", pdffile);
+						gFillPDF($scope.formVars, $scope.spItem.get_item("Title"), pdffile);
 					});
 				}
 				
-				
-				$scope.doUploadAttaches = function ($event) {
-					$.each(uploader.queue, function(idx){
-						$scope.filesAttached.push(uploader.queue[idx].file);
-					});
-					uploader.clearQueue();
-					
-				}
+				gWaitReady($scope);
             }
         ]
     );

@@ -1,4 +1,3 @@
-
 angular.module(
         'ArchiveControllerModule',
         [
@@ -8,32 +7,48 @@ angular.module(
         'ArchiveController',
         [
             '$scope',
-            'MenuMainModel',
+			'$filter',
             'ArchiveService',
             'PageHeaderModel',
-            function ($scope, MenuMainModel, ArchiveService, PageHeaderModel) {
-                MenuMainModel.setCurrentMenuItemId(3);
+			'MenuMainModel',
+            function ($scope, $filter, ArchiveService, PageHeaderModel, MenuMainModel) {
+				MenuMainModel.setCurrentMenuItemId(3);
+                PageHeaderModel.setTitle("My Completed Forms");
+				$("#myArchiveTable").DataTable(gFormTableOption);			
+				$gScope = $scope;
 
-                ArchiveService.query(function (data) {
-                    PageHeaderModel.setTitle("My Archived Forms");
-                    PageHeaderModel.setParagraphs([gGetWelcomeMessage()]);
+				$scope.loadPage = function () {
+					PageHeaderModel.setParagraphs([gGetWelcomeMessage($scope.email)]);	
+					ArchiveService.getTableData($scope);
+				};
+				
+				$scope.showTable = function (data) {
+					$scope.data = data;
 					
-					$.each(data, function(i, item) {
-						var ele = [item.id, item.postId, item.name, item.email, gCutText(item.body, 80),
-							'<a href="javascript:void(0)" onclick="gMyArchiveTableAction(this)"  data-func="detail" data-table="myArchiveTable" data-id="' + item.id  + '">DETAIL</a> | ' +
-							'<a href="javascript:void(0)" onclick="gMyArchiveTableAction(this)"  data-func="pdf" data-table="myArchiveTable" data-id="' + item.id  + '">PDF</a>'
+					$("#myArchiveTable").dataTable().fnDestroy();
+					$("#myArchiveTable").hide();	
+					$("#myArchiveTable > tbody").html('');
+					
+					$.each(data, function(i, item) {						
+						var ele = [item.FormType, $filter('date')(Date.parse(item.Created),'MM/dd/yyyy'), 						
+						$filter('date')(Date.parse(item.Modified),'MM/dd/yyyy'), item.Status, item.ManagerEmail 							
 						];
-						$('<tr>').html("<td>" + ele.join("</td><td>") + "</td> ").appendTo('#myArchiveTable');
+						$('<tr>').html("<td>" + ele.join("</td><td>") + 
+						    '</td><td nowrap>' + 
+							gMyButton(0, i, 'VIEW PDF', 'g1ViewPDF') + ' ' +
+							gMyButton(0, i, 'CREATE LIKE THIS', 'g1CreateLike') +
+							"</td> ").appendTo('#myArchiveTable');
 					});
-					
 					$("#myArchiveTable").DataTable(gFormTableOption);
-					
-					$scope.showTable = true;
-                });
+					$("#myArchiveTable").show();	
+					try {$scope.apply()}catch (e){}
+                };
+				
+				gWaitReady($scope);		
             }
         ]
     );
-
-function gMyArchiveTableAction(ele) {
-	console.log($(ele).attr("data-func") + ":" + $(ele).attr("data-table") + ":" + $(ele).attr("data-id")); 
+	
+function g1CreateLike() {
+	alert("This function has not implemented yet.")
 }	

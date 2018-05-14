@@ -5,272 +5,141 @@ angular.module(
     )
     .factory( 'Form520Service', function ($http, $q, $filter) {
 		return {
-			putData: function(id) {
-				var promise = null;
-				console.log("I'm here");
-				promise = $http({
-					method: 'PUT',
-					url: 'https://jsonplaceholder.typicode.com/posts/' + id
-				}).success(function(response) {
-					console.log(response);
-					return response;
-				}).error(function(data, status, headers, config) {
-					console.log("[Form520Service], putData() error, with status: " + status);
-				});	
-				return promise;
+			signForm: function ($scope, status) {
+				gShowBusy();
+				var _comm = document.getElementById("communicator").contentWindow;
+				_comm.updateListItem2(
+					$scope.spItem,
+					{
+						"ManagerEmail": $scope.formVars._superemail,
+						"Status": status,
+						"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+					},
+					function() {
+						gHideBusy();
+						alert("Document successfully certified and submitted.");
+					}
+				);
 			},
-			sampleSerice: function (id) {
-				var defered = $q.defer();
-				gSampleService(id, defered);
-				return defered.promise;
+			saveFormData: function($scope) {
+				gShowBusy();
+				var _comm = document.getElementById("communicator").contentWindow;
+				if ($scope.new_form) {
+					var title = "Form 520 - " + $filter('date')(new Date(), 'yyyy-MM-dd');
+					_comm.createListItem(
+						"FormServiceRecords",
+						{
+							"Title": title,
+							"FormType": "Form-520",
+							"CreatedByEmail": $scope.email,
+							"Status": "Editing",
+							"ManagerEmail": $scope.formVars._superemail,
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function(item) {
+							$scope.spItem = item;
+							$scope.new_form = false;
+							gHideBusy();
+							alert("Data successfully saved.");
+						}
+					);
+				} else {
+					gShowBusy();
+					_comm.updateListItem2(
+						$scope.spItem,
+						{
+							"ManagerEmail": $scope.formVars._superemail,
+							"Status": "Editing",
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function() {
+							gHideBusy();
+							alert("Data successfully saved.");
+						}
+					);
+				}
 			},
 			initForm: function($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = angular.copy(gForm520);
+				$scope.formVars = {}; //angular.copy(gForm520);
+				$scope.new_form = true;				
 				$scope.formVars._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");		
+				
+				$scope.showEditingForm = true;
+				$scope.enableEditingForm = true;				
 			},
-			getForm4User: function ($scope, formId, formStatue) {
+			getForm4User: function ($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = angular.copy(gForm520);
-				$scope.formVars._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");		
-				$scope.formVars.signature = "";
-				$scope.formVars._Date = "";				
+				$gScope = $scope;
+				gShowBusy();
+				document.getElementById("communicator").contentWindow.getListItemByGuid1("FormServiceRecords", 
+						$scope.formId, function(item) {			
+						$gScope.$apply(function() {
+							$gScope.spItem = item;
+							$gScope.new_form = false;
+							var validated = false;
+							var status = item.get_item('Status');
+							if (status == 'Editing') {
+								if ($gScope.action == 'edit') {
+									$gScope.showEditingForm = true;
+									$gScope.enableEditingForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Supervisor') {
+								if ($gScope.action == 'manager') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.enableManagerForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Reviewer') {
+								if ($gScope.action == 'review') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showCommitteeForm = true;
+									$gScope.enableCommitteeForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Ethics') {
+								if ($gScope.action == 'ethics') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showEthicsForm = true;
+									$gScope.enableEthicsForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Designee') {
+								if ($gScope.action == 'designee') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showEthicsForm = true;
+									$gScope.showCommitteeForm = true;
+									$gScope.showDesigneeForm = true;
+									$gScope.enableDesigneeForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Completed') {
+								if ($gScope.action == 'view') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showEthicsForm = true;
+									$gScope.showCommitteeForm = true;
+									$gScope.showDesigneeForm = true;
+									validated = true;									
+								}
+							}
+							if (validated) {
+								$gScope.email = item.get_item('CreatedByEmail');
+								$gScope.formVars = JSON.parse(sjcl.decrypt(btoa($gScope.email), item.get_item('FormVars')));							
+							} else {
+								$scope.showPermissionError = true;
+							}
+							gHideBusy();
+						});
+
+				});
 			}
 		}
     });
+	
 
-var gForm520 = {
-	signature: "",
-	supersadditionreason:"",
-	supervisorsignature:"",
-	reviewersignature:"",
-	designeesignature:"",	
-	_initialreq: "",
-	_revreq: "",
-	_renewal: "",
-	_Datefiled: "",
-	_empname: "",
-	_agency: "",
-	_subcomp: "",
-	_titleofpos: "",
-	_grade: "",
-	_federal: "",
-	_pas: "",
-	_noncar: "",
-	_car: "",
-	_schc: "",
-	_comm: "",
-	_gs: "",
-	_title: "",
-	_other: "",
-	_othertext: "",
-	_public: "",
-	_confid: "",
-	_none: "",
-	_street: "",
-	_city: "",
-	_offstate: "",
-	_ZipCode: "",
-	_OfficeTelephoneNumber: "",
-	_OfficeFaxNumber: "",
-	_OfficeCellNumber: "",
-	_email: "",
-	_namesuper: "",
-	_titleofsuper: "",
-	_superTelephoneNumber: "",
-	_SuperFaxNumber: "",
-	_SuperCellNumber: "",
-	_superemail: "",
-	_Agencyuse: "",
-	_empnamevvvvv1: "",
-	_professional: "",
-	_teaching: "",
-	_board: "",
-	_expert: "",
-	_othervvvvv1: "",
-	_describe: "",
-	_selfemployed: "",
-	_self__employed: "",
-	_subjectmatter: "",
-	_text: "",
-	_explain: "",
-	_outsideentity: "",
-	_contactperson: "",
-	_titlevvvvv1: "",
-	_outsidestreet: "",
-	_cityvvvvv1: "",
-	_state: "",
-	_ZipCodevvvvv1: "",
-	_empnamevvvvv2: "",
-	_ContactTelephoneNumber: "",
-	_contacFaxNumber: "",
-	_ContactCellNumber: "",
-	_Email: "",
-	_location: "",
-	_travelyes: "",
-	_atownexp: "",
-	_inkind: "",
-	_estamt: "",
-	_travelno: "",
-	_describevvvvv1: "",
-	_periodcoveredfrom: "",
-	_periodcoveredto: "",
-	_hours: "",
-	_days: "",
-	_weeks: "",
-	_yesoutside: "",
-	_nooutside: "",
-	_estimatenumber: "",
-	_yescomp: "",
-	_nocomp: "",
-	_fee: "",
-	_honor: "",
-	_retainer: "",
-	_salary: "",
-	_advance: "",
-	_royalty: "",
-	_stock: "",
-	_stockopt: "",
-	_nontravel: "",
-	_othervvvvv2: "",
-	_otherspecify: "",
-	_nontravelspec: "",
-	_empnamevvvvv3: "",
-	_compamt: "",
-	_Payor: "",
-	_fundyes: "",
-	_fundno: "",
-	_fundsource: "",
-	_grantyes: "",
-	_grantno: "",
-	_granteecontractyes: "",
-	_empnamevvvvv4: "",
-	_additionalspace: "",
-	_empnamevvvvv5: "",
-	_position: "",
-	_nature: "",
-	_relation: "",
-	_effect: "",
-	_assignments: "",
-	_Date: "",
-	_empnamevvvvv6: "",
-	_superstatement: "",
-	_approve: "",
-	_disapprove: "",
-	_Datevvvvv1: "",
-	_empnamevvvvv7: "",
-	_namereviewer: "",
-	_titlereviewer: "",
-	_ReviewerTelephoneNumber: "",
-	_ReviewerFaxNumber: "",
-	_ReviewerCellNumber: "",
-	_revieweremail: "",
-	_organization: "",
-	_committee: "",
-	_concur: "",
-	_nonconcur: "",
-	_Datevvvvv2: "",
-	_comments: "",
-	_empnamevvvvv8: "",
-	_nameagencyethics: "",
-	_titleagencyethics: "",
-	_AgencyEthicsTelephoneNumber: "",
-	_AgencyEthicsFaxNumber: "",
-	_AgencyEthicsCellNumber: "",
-	_AgencyEthicsemail: "",
-	_organizationvvvvv1: "",
-	_requestapproved: "",
-	_conditions: "",
-	_requestdenied: "",
-	_othervvvvv3: "",
-	_Datevvvvv3: "",
-	_commentsvvvvv1: "",
-	_empnamevvvvv9: "",
-	_nameagencydesignee: "",
-	_titleagencydesignee: "",
-	_DesigneeTelephone: "",
-	_DesigneeFax: "",
-	_DesigneeCell: "",
-	_DesigneeEmail: "",
-	_organizationvvvvv2: "",
-	_approved: "",
-	_conditionsvvvvv1: "",
-	_denied: "",
-	_Datevvvvv4: "",
-	_specialconditions: "",
-	_commentsvvvvv2: "",
-	_empnamevvvvv10: "",
-	_empnamevvvvv11: "",
-	_empnamevvvvv12: "",
-	_empnamevvvvv13: "",
-	_empnamevvvvv14: "",
-	_addspace: "",
-	_empnamevvvvv15: "",
-	_addspacecont: "",
-	_sourcecurrenta: "",
-	_activitycurrent: "",
-	_currentamt: "",
-	_currentdate: "",
-	_sourcecurrentb: "",
-	_activitycurrentb: "",
-	_currentamtb: "",
-	_currentdateb: "",
-	_sourceonea: "",
-	_activitytwoa: "",
-	_amtonea: "",
-	_Dateonea: "",
-	_sourceoneb: "",
-	_activityoneb: "",
-	_amtoneb: "",
-	_Dateoneb: "",
-	_sourcetwoa: "",
-	_activitytwoavvvvv1: "",
-	_amttwoa: "",
-	_Datetwoa: "",
-	_sourcetwob: "",
-	_activitytwob: "",
-	_amttwob: "",
-	_Datetwob: "",
-	_sourcethreea: "",
-	_activitythreea: "",
-	_amtthreea: "",
-	_Datethreea: "",
-	_sourcethreeb: "",
-	_activitythreeb: "",
-	_amtthreeb: "",
-	_Datethreeb: "",
-	_sourcefoura: "",
-	_activityfoua: "",
-	_amtfoura: "",
-	_Datefoura: "",
-	_sourcefourb: "",
-	_activityfourb: "",
-	_amtfourb: "",
-	_Datefourb: "",
-	_sourcefivea: "",
-	_activityfivea: "",
-	_amtfivea: "",
-	_Datefivea: "",
-	_sourcefiveb: "",
-	_activityfiveb: "",
-	_amtfiveb: "",
-	_Datefiveb: "",
-	_sourcesixa: "",
-	_activitysixa: "",
-	_amtsixa: "",
-	_Datesixa: "",
-	_sourcesixb: "",
-	_activitysixb: "",
-	_amtsixb: "",
-	_Datesixb: "",
-	_attachone: "",
-	_attachtwo: "",
-	_attachfour: "",
-	_attachthree: "",
-	_attachfive: "",
-	_attachsix: "",
-	_attachseven: "",
-	_attacheight: "",
-	_attachnine: "",
-	_attachten: ""
-};

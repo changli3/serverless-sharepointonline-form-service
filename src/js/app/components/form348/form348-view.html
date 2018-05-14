@@ -1,8 +1,6 @@
-<!-- home-main-view -->
-
-<div class="container" ng-show="formStatus >= 0">
+<div class="container" ng-show="showEditingForm">
     <form id="myformVars0" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 0">
+        <fieldset ng-disabled="!enableEditingForm">		
             <div class="col-md-12">
 			Use this form to request, approve, and report acceptance of payments as provided in HHS Travel Manual Section 7. Submit request to recommending official
 as soon as possible, but not later than 15 days before scheduled departure. Requests submitted less than 15 days before schedule departure may not be
@@ -200,7 +198,7 @@ of the traveler's Senior Travel Official or Deputy Senior Travel Official.</i></
 			<div class="col-md-12">
 				I certify that the above amounts are correct and I did not receive (1) any cash for my retention from the sponsoring organization (unless
 	permitted by 42 U.S.C. 3506 or 5 U.S.C. 7342); or (2) any honoraria.
-				<p> <br/> Please type in your email address and date then click on the "Certify Document"</p>
+				<p> <br/> Please type in your email address and date then click on the "Certify and Submit"</p>
 
 					<div class="controls col-md-5">
 						<label class="control-label" for="signature">Signature</label>
@@ -212,53 +210,23 @@ of the traveler's Senior Travel Official or Deputy Senior Travel Official.</i></
 					</div>
 
 			</div>
-		
+	 
+        <div class="col-md-12" ng-show="enableEditingForm">
+		    <my-line/>
+            <div class="pull-right col-md-7">
+                <button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+                <button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>		
+                <button class="btn btn-success" ng-click="doCertify($event)">Certify and Submit</button>
+            </div>
+        </div>
+
          </fieldset> 
-		 
-        <div class="col-md-12" ng-show="formStatus == 0">
-		    <my-line/>
-            <div class="pull-right col-md-3">
-                <button class="btn btn-success" ng-click="doCertify($event)">Certify Document</button>
-            </div>
-        </div>
-
-        
-        <div ng-show="formStatus == 1">
-		    <my-line/>
-            <h4> Digital Sign</h4>
-            <div class="col-md-12">
-                <div class="col-md-12">
-                    <p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
-                </div>
-            </div>
-
-            <my-line/>
-            <div class="col-md-12">
-                <div class="pull-right col-md-7">
-                    <button class="btn btn-success" ng-click="doRevoke($event)">Revoke Certification</button>
-                    <button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
-                </div>
-                <div class="pull-right col-md-7" style="margin-top:30px">
-                    <input type="file" class="btn btn-success" name="file" ngModel (change)="doUpload($event)">
-                </div>
-            </div>
-        </div>
-        <div ng-show="formStatus >= 1">
-		    <my-line/>
-            <h4> Digital Signed Document</h4>
-			 <div class="col-md-12">
-                <div class="pull-right col-md-7">
-					<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
-				</div>
-			</div>
-		</div>
     </form>
 </div>
 
-<!-- supervisor form 520 -->
-<div class="container" ng-show="formStatus >= 2">
-    <form id="myformVars2" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 2">
+<div class="container" ng-show="showEthicsForm">
+    <form id="myformVars6" class="form-horizontal">
+        <fieldset ng-disabled="!enableEthicsForm">
             <my-line/>
             <h3>BACKGROUND INFORMATION (Ethics Checklist) ON REQUEST FOR APPROVAL TO ACCEPT PAYMENT OF TRAVEL EXPENSES FROM A NON FEDERAL SOURCE </h3>
 
@@ -380,13 +348,13 @@ PROVIDING JUSTIFICATION AND REASONS WHY THIS TRIP SHOULD BE AUTHORIZED.</b>
 				I HEREBY CERTIFY THAT THE ACCEPTANCE OF THIS REQUEST, SUBJECT TO ANY LIMITATIONS STATED BELOW, IS IN ACCORDANCE WITH THE
 				POLICIES CONTAINED IN SECTION 7 OF THE HHS TRAVEL MANUAL. THEREFORE, I RECOMMEND APPROVAL OF THIS REQUEST AS BEING IN
 				THE BEST INTEREST OF THE GOVERNMENT.
-				<p> Please type in your email address and date then click on the "Certify Document"</p>
+				<p> Please type in your email address and date then click on the "Certify and Submit"</p>
 
-				<fieldset ng-disabled="formStatus > 2">
+
 					
 					<div class="controls col-md-4">
-						<label class="control-label" for="designeesignature">Supervisor Signature</label>
-						<input id="designeesignature" class="form-control" ng-model="formVars.designeesignature" placeholder="Enter your email here..." type="email">
+						<label class="control-label" for="ethicssignature">Ethics Official Signature</label>
+						<input id="ethicssignature" class="form-control" ng-model="formVars.ethicssignature" placeholder="Enter your email here..." type="email">
 					</div>
 					<div class="controls col-md-4">
 						<label class="control-label" for="_recofftitle">Title</label>
@@ -396,51 +364,20 @@ PROVIDING JUSTIFICATION AND REASONS WHY THIS TRIP SHOULD BE AUTHORIZED.</b>
 						<label class="control-label" for="_daterecommend">Signature Date</label>
 						<input id="_daterecommend" class="form-control" ng-model="formVars._daterecommend">
 					</div>					
-				</fieldset>
-			</div>
-	  </fieldset>
-			<my-line/>
-			<div class="col-md-12" ng-show="formStatus == 2">
-				<div class="pull-right col-md-3">
-					<button class="btn btn-success" ng-click="doSupervisorCertify($event)">Certify Document</button>
-				</div>
 			</div>
 
 			<my-line/>
-			<div ng-show="formStatus == 3">
-				<h4> Digital Sign</h4>
-				<div class="col-md-12">
-					<div class="col-md-12">
-						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
-					</div>
-				</div>
-
-				<my-line/>
-				<div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn btn-success" ng-click="doSupervisorRevoke($event)">Revoke Certification</button>
-						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
-					</div>
-					<div class="pull-right col-md-7" style="margin-top:30px">
-						<input type="file" class="btn btn-success" name="file" ngModel (change)="doSupervisorUpload($event)">
-					</div>
+			<div class="col-md-12" ng-show="enableEthicsForm">
+				<div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>	
+					<button class="btn btn-success" ng-click="doEthicsCertify($event)">Certify  and Submit</button>
 				</div>
 			</div>
-			
-			<div ng-show="formStatus >= 3">
-				<my-line/>
-				<h4> Ethics Official Digital Signed Document</h4>
-				 <div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
-					</div>
-				</div>
-			</div>			
-
-	    
+	  </fieldset>	    
     </form>
 </div>
 
-
-
-<!-- / home-main-view -->
+<div class="container" ng-show="showPermissionError">
+You do not have permission to perform this action. Please contact the system administrator.
+</div>

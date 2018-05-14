@@ -1,106 +1,112 @@
-
 angular.module(
         'Form348ServiceModule',
         []
     )
     .factory( 'Form348Service', function ($http, $q, $filter) {
 		return {
-			putData: function(id) {
-				var promise = null;
-				console.log("I'm here");
-				promise = $http({
-					method: 'PUT',
-					url: 'https://jsonplaceholder.typicode.com/posts/' + id
-				}).success(function(response) {
-					console.log(response);
-					return response;
-				}).error(function(data, status, headers, config) {
-					console.log("[Form348Service], putData() error, with status: " + status);
-				});	
-				return promise;
+			signForm: function ($scope, status) {
+				var _comm = document.getElementById("communicator").contentWindow;
+				gShowBusy();
+				_comm.updateListItem2(
+					$scope.spItem,
+					{
+						"Status": status,
+						"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+					},
+					function() {
+						gHideBusy();
+						alert("Document successfully certified and submitted.");
+					}
+				);
 			},
-			sampleSerice: function (id) {
-				var defered = $q.defer();
-				gSampleService(id, defered);
-				return defered.promise;
+			saveFormData: function($scope) {
+				gShowBusy();
+				var _comm = document.getElementById("communicator").contentWindow;
+				if ($scope.new_form) {
+					var title = "Form 348 - " + $filter('date')(new Date(), 'yyyy-MM-dd');
+					_comm.createListItem(
+						"FormServiceRecords",
+						{
+							"Title": title,
+							"FormType": "Form-348",
+							"CreatedByEmail": $scope.email,
+							"Status": "Editing",
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function(item) {
+							$scope.spItem = item;
+							$scope.new_form = false;
+							gHideBusy();
+							alert("Data successfully saved.");
+						}
+					);
+				} else {
+					gShowBusy();
+					_comm.updateListItem2(
+						$scope.spItem,
+						{
+							"Status": "Editing",
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function() {
+							gHideBusy();
+							alert("Data successfully saved.");
+						}
+					);
+				}
 			},
 			initForm: function($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = angular.copy(gForm348);
-				$scope.formVars._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");		
+				$scope.formVars = {}; //angular.copy(gForm348);
+				$scope.new_form = true;				
+				$scope.formVars._reqdate = $filter('date')(new Date(), "MM/dd/yyyy");		
+				
+				$scope.showEditingForm = true;
+				$scope.enableEditingForm = true;				
 			},
-			getForm4User: function ($scope, formId, formStatue) {
+			getForm4User: function ($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = angular.copy(gForm348);
-				$scope.formVars._Datefiled = $filter('date')(new Date(), "MM/dd/yyyy");		
-				$scope.formVars.signature = "";
-				$scope.formVars._Date = "";				
+				$gScope = $scope;
+				gShowBusy();
+				document.getElementById("communicator").contentWindow.getListItemByGuid1("FormServiceRecords", 
+						$scope.formId, function(item) {			
+						$gScope.$apply(function() {
+							$gScope.spItem = item;
+							$gScope.new_form = false;
+							var validated = false;
+							var status = item.get_item('Status');
+							if (status == 'Editing') {
+								if ($gScope.action == 'edit') {
+									$gScope.showEditingForm = true;
+									$gScope.enableEditingForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Ethics') {
+								if ($gScope.action == 'ethics') {
+									$gScope.showEditingForm = true;
+									$gScope.showEthicsForm = true;
+									$gScope.enableEthicsForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Completed') {
+								if ($gScope.action == 'view') {
+									$gScope.showEditingForm = true;
+									$gScope.showEthicsForm = true;
+									validated = true;									
+								}
+							}
+							if (validated) {
+								$gScope.email = item.get_item('CreatedByEmail');
+								$gScope.formVars = JSON.parse(sjcl.decrypt(btoa($gScope.email), item.get_item('FormVars')));							
+							} else {
+								$scope.showPermissionError = true;
+							}
+							gHideBusy();
+						});
+
+				});
 			}
 		}
     });
+	
 
-var gForm348 = {
-	signature: "",
-	designeesignature:"",	
-   _reqdate:"",
-   _payscale:"",
-   _nameadd:"",
-   _OPDIV:"",
-   _purpose:"",
-   _travel:"",
-   _subsistence:"",
-   _USC31:"",
-   _USC42:"",
-   _USC5:"",
-   _InKind:"",
-   _inkindA:"",
-   _Cash:"",
-   _cashamount:"",
-   _DirReimb:"",
-   _reimburse:"",
-   _appno:"",
-   _travelvalue:"",
-   _lodgingvalue:"",
-   _mealsvalue:"",
-   _othervalue:"",
-   _roundtrip:"",
-   _oneway:"",
-   _partamount:"",
-   _recommendation:"",
-   _authname:"",
-   _authtitle:"",
-   _authorizationdate:"",
-   _qualification:"",
-   _travesigdate:"",
-   _traveler:"",
-   _yescheck1:"",
-   _nocheck1:"",
-   _letterattach:"",
-   _noletterattach:"",
-   _yescheck3:"",
-   _nocheck3:"",
-   _yescheck4:"",
-   _nocheck4:"",
-   _yescheck5:"",
-   _nocheck5:"",
-   _yescheck6:"",
-   _nocheck6:"",
-   _ordernumb:"",
-   _meetgoals:"",
-   _HHSfunds:"",
-   _recofftitle:"",
-   _daterecommend:"",
-   _qualaccept:"",
-   _startdate1:"",
-   _enddate1:"",
-   _from1:"",
-   _desto1:"",
-   _startdate2:"",
-   _enddate2:"",
-   _from2:"",
-   _desto2:"",
-   _startdate3:"",
-   _enddate3:"",
-   _from3:"",
-   _desto3:""
-};

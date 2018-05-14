@@ -1,19 +1,27 @@
-var context;
+var ctx;
 var web;
 var user;
 
 function initCommunicator() {
 	//assume we have a client context called context.
-	context= new SP.ClientContext.get_current();
-	web = context.get_web();
+	ctx= new SP.ClientContext.get_current();
+	web = ctx.get_web();
 	user = web.get_currentUser(); //must load this to access info.
-	context.load(user);
-	context.executeQueryAsync(function(){
+	ctx.load(user);
+	ctx.executeQueryAsync(function(){
 	    console.log("User is: " + user.get_title()); //there is also id, email, so this is pretty useful.
 	}, function(err){
 		console.log(err);
 	});
-    parent.communicatorReady();
+    setTimeout("initParent()", 80);
+}
+
+function initParent() {
+	try {
+		parent.communicatorReady();
+	} catch (e) {
+		setTimeout("initParent()", 800);
+	}
 }
 
 window.getCurrentUser = function() {
@@ -75,36 +83,9 @@ window.getUserIdByEmail=function(email, callback) {
 }  
 
 
-window.ListManager = function(success, failed) {
-	
-	var getListItemById = function (listTitle, listItemId, fields, success, failed) {	
-		var targetList = web.get_lists().getByTitle(listTitle);
-		var targetListItem = targetList.getItemById(listItemId);
-        ctx.load(targetListItem, 'Include(' + fields.join(',') + ')');
-		ctx.executeQueryAsync (
-			function(){
-				if (!success) return;
-			    var listItemEnumerator = targetListItem.getEnumerator();
-				results = [];
-				while (listItemEnumerator.moveNext()) {
-					var item = listItemEnumerator.get_current();
-					var oitem = {};
-					oitem.id = item.get_id();
-					var l = fields.length;
-					for (var i=0; i<l; i++) {
-						var f = fields[i];
-						if (f == 'Id') continue;
-						oitem[f] = item.get_item(f);
-					}
-					results.push(otime);
-				}
-				success(results);
-			}, failed);
-	}
-	
-	var copyAttachments = function (listTitle1, listItemId1, listTitle2, listItemId2, success, failed) {	
+window.copyAttachments = function (listTitle1, listItemId1, listTitle2, listItemId2, success, failed) {	
 
-		this.ensureAttachmentFolder(listTitle2, listItemId2,
+		ensureAttachmentFolder(listTitle2, listItemId2,
 		  function(folder, folderUrl) {
 			var list = web.get_lists().getByTitle(listTitle1);
 			var src = web.getFileByServerRelativeUrl(String.format('{0}/Attachments/{1}', list.get_rootFolder().get_serverRelativeUrl(), listItemId1));
@@ -138,7 +119,7 @@ window.ListManager = function(success, failed) {
 		  
 	}
 
-	var getUserGroups = function(success, failed) {
+window.getUserGroups2 = function(success, failed) {
 		var currentUser = web.get_currentUser();
 		var allGroups = currentUser.get_groups();
 		ctx.load(allGroups);
@@ -158,7 +139,7 @@ window.ListManager = function(success, failed) {
 			failed		
 		);
 	}
-	var getAttachments = function (listTitle, listItemId, success, failed) {
+window.getAttachments = function (listTitle, listItemId, success, failed) {
 		var list = web.get_lists().getByTitle(listTitle);
 		var attachmentFolder = web.getFileByServerRelativeUrl(String.format('{0}/Attachments/{1}', list.get_rootFolder().get_serverRelativeUrl(), listItemId));
 
@@ -179,7 +160,7 @@ window.ListManager = function(success, failed) {
 
 	}
  		
-	var deleteListItem =  function (listTitle, itemId, success, failed) {
+window.deleteListItem =  function (listTitle, itemId, success, failed) {
 		var oList = web.get_lists().getByTitle(listTitle);
 		var oListItem = oList.getItemById(itemId);
 		oListItem.deleteObject();
@@ -188,8 +169,19 @@ window.ListManager = function(success, failed) {
 			failed
 		);
 	}
+
+window.updateListItem2 = function(oListItem, fields, success, failed) {
+		Object.keys(fields).forEach(function(key,index) {
+			oListItem.set_item(key, fields[key]);
+		});	
+		oListItem.update();
+		ctx.executeQueryAsync(
+			success, 
+			failed
+		);
+	}
 	
-	var updateListItem = function(listTitle, listItemId, fields, success, failed) {
+window.updateListItem = function(listTitle, listItemId, fields, success, failed) {
 		var oList = web.get_lists().getByTitle(listTitle);
 		var oListItem = oList.getItemById(listItemId);
 		Object.keys(fields).forEach(function(key,index) {
@@ -202,8 +194,8 @@ window.ListManager = function(success, failed) {
 		);
 	}
 		
-	var createListItem = function (listTitle, success, failed) {
-		var oList = w.get_lists().getByTitle(listTitle);				
+window.createListItem = function (listTitle, fields, success, failed) {
+		var oList = web.get_lists().getByTitle(listTitle);				
 		var itemCreateInfo = new SP.ListItemCreationInformation();
 		var oListItem = oList.addItem(itemCreateInfo);				
 		Object.keys(fields).forEach(function(key,index) {
@@ -219,7 +211,7 @@ window.ListManager = function(success, failed) {
 		);
 	}
 
-	var deleteAttachment = function(listTitle, listItemId, fileName, success, failed) {
+window.deleteAttachment = function(listTitle, listItemId, fileName, success, failed) {
 		var list = web.get_lists().getByTitle(listTitle);
 		var file = web.getFileByServerRelativeUrl(String.format('{0}/Attachments/{1}/{2}', list.get_rootFolder().get_serverRelativeUrl(), listItemId, fileName));
 		file.deleteObject();
@@ -229,25 +221,25 @@ window.ListManager = function(success, failed) {
 		);
 	}
 
-	var processUpload = function(fileInput, listTitle, itemId, success, error) {
+window.processUpload = function(fileInput, listTitle, itemId, success, error) {
 		var reader = new FileReader();
 		reader.onload = function (result) {
 			var fileContent = new Uint8Array(result.target.result);
-			this.performAttachmentUpload(listTitle, fileInput.name, itemId, fileContent, success, error);
+			performAttachmentUpload(listTitle, fileInput.name, itemId, fileContent, success, error);
 		};
 		reader.readAsArrayBuffer(fileInput);
 	}
 
-	var performAttachmentUpload = function(listTitle, fileName, itemId, fileContent, success, error) {
-		this.ensureAttachmentFolder(listTitle,itemId, 
+window.performAttachmentUpload = function(listTitle, fileName, itemId, fileContent, success, error) {
+		ensureAttachmentFolder(listTitle,itemId, 
 		   function(folder){
 			   var attachmentFolderUrl = folder.get_serverRelativeUrl();
-			   this.uploadFile(attachmentFolderUrl, fileName, fileContent, success, error);
+			   uploadFile(attachmentFolderUrl, fileName, fileContent, success, error);
 		   },
 		   error);
 	}
 
-	var ensureAttachmentFolder = function(listTitle,itemId, success,error)
+window.ensureAttachmentFolder = function(listTitle,itemId, success,error)
 	{
 		  var list = web.get_lists().getByTitle(listTitle);
 		  ctx.load(list,'RootFolder');
@@ -278,24 +270,62 @@ window.ListManager = function(success, failed) {
 			error);
 	}
 
-	var getListItemByMe = function (listTitle, fields, success, failed) {
+window.getListItemByMe = function (listTitle, fields, success, failed) {
 		var qt = "<Where><Eq><FieldRef Name='Author' LookupId='True'/><Value Type='Lookup'><UserID/></Value></Eq></Where>";
-		this.getListItemsByQuery(listTitle, qt, fields, success, failed);
-	}
-	
-	var getListItemByColValStat = function (listTitle, colName, colValue, status, fields, success, failed) {
-		var qt = "<Where><And><Eq><FieldRef Name='status'/><Value Type='Number'>" + status + "</Value></Eq>" +
-			"<Eq><FieldRef Name='" + colName + "'><Value Type='Text'>" + colValue + "</Value></Eq></And></Where>";
-		this.getListItemsByQuery(listTitle, qt, fields, success, failed);
-	}
-	
-	var getListItemsByQuery = function (listTitle, queryXML, fields, success, failed) {
-		var oList = web.get_lists().getByTitle(listTitle);
-		var camlQuery = new SP.CamlQuery();
-        camlQuery.set_viewXml("<View><Query>" + queryXML + "</Query><RowLimit>800</RowLimit></View>");
-		var oListItem = oList.getItems(camlQuery);
-		ctx.load(oListItem, 'Include(' + fields.join(',') + ')');
+		getListItemsByQuery(listTitle, qt, fields, success, failed);
+}
 
+window.getListItemByMeStatus = function (listTitle, status, fields, success, failed) {
+		var qt = "<Where><And><Eq><FieldRef Name='Author' LookupId='True'/><Value Type='Lookup'><UserID/></Value></Eq><BeginsWith><FieldRef Name='Status'/><Value Type='Text'>" + status + "</Value></BeginsWith></And></Where>";
+		getListItemsByQuery(listTitle, qt, fields, success, failed);
+}
+
+
+window.getListItemByStats = function (listTitle, status, fields, success, failed) {
+		var qt = "<Where><BeginsWith><FieldRef Name='Status'/><Value Type='Text'>" + status + "</Value></BeginsWith></Where>";
+		getListItemsByQuery(listTitle, qt, fields, success, failed);
+}	
+
+window.getListItemByColVal = function (listTitle, colName, colValue, fields, success, failed) {
+		var qt = "<Where>" +
+			"<Eq><FieldRef Name='" + colName + "'/><Value Type='Text'>" + colValue + "</Value></Eq></Where>";
+		getListItemsByQuery(listTitle, qt, fields, success, failed);
+}
+
+window.getListItemByColValStats = function (listTitle, colName, colValue, status, fields, success, failed) {
+		var qt = "<Where><And><Eq><FieldRef Name='Status'/><Value Type='Text'>" + status + "</Value></Eq>" +
+			"<Eq><FieldRef Name='" + colName + "'/><Value Type='Text'>" + colValue + "</Value></Eq></And></Where>";
+		getListItemsByQuery(listTitle, qt, fields, success, failed);
+}
+
+window.getListItemByGuid1 = function (listTitle, guid, success, failed) {
+	var qt = "<Where><And><Eq><FieldRef Name='UniqueId'/><Value Type='Lookup'>" + guid + "</Value></Eq><Eq><FieldRef Name='Author' LookupId='True'/><Value Type='Lookup'><UserID/></Value></Eq></And></Where>";
+	var oList = web.get_lists().getByTitle(listTitle);
+	var camlQuery = new SP.CamlQuery();
+	camlQuery.set_viewXml("<View><Query>" + qt + "</Query><RowLimit>800</RowLimit></View>");
+	var oListItem = oList.getItems(camlQuery);	
+	ctx.load(oListItem);
+	ctx.executeQueryAsync (
+		function(){
+			if (!success) return;
+			var listItemEnumerator = oListItem.getEnumerator();
+			while (listItemEnumerator.moveNext()) {
+				var item = listItemEnumerator.get_current();
+				success(item);
+				return;
+			}
+			success(null);			
+		},
+	failed);	
+}
+
+
+window.getListItems = function (listTitle, fields, success, failed) {
+		var oList = web.get_lists().getByTitle(listTitle);
+		var camlQuery = SP.CamlQuery.createAllItemsQuery();
+		var oListItem = oList.getItems(camlQuery);
+		ctx.load(oListItem);
+		
 		ctx.executeQueryAsync (
 			function(){
 				if (!success) return;
@@ -310,15 +340,50 @@ window.ListManager = function(success, failed) {
 						var f = fields[i];
 						if (f == 'Id') continue;
 						oitem[f] = item.get_item(f);
-					}
-					results.push(otime);
+						if (f=='UniqueId') {
+							oitem[f] = oitem[f].toString();
+						} 					}
+					results.push(oitem);
 				}
 				success(results);
 			},failed);
 	}
 	
-	return this;
+window.getListItemsByQuery = function (listTitle, queryXML, fields, success, failed) {
+		var oList = web.get_lists().getByTitle(listTitle);
+		var camlQuery = new SP.CamlQuery();
+        camlQuery.set_viewXml("<View><Query>" + queryXML + "</Query><RowLimit>800</RowLimit></View>");
+		var oListItem = oList.getItems(camlQuery);
+		if (fields)
+		    ctx.load(oListItem, 'Include(' + fields.join(',') + ')');
+		else 
+			ctx.load(oListItem);
+		
+		ctx.executeQueryAsync (
+			function(){
+				if (!success) return;
+			    var listItemEnumerator = oListItem.getEnumerator();
+				results = [];
+				while (listItemEnumerator.moveNext()) {
+					var item = listItemEnumerator.get_current();
+					var oitem = {};
+					oitem.id = item.get_id();
+					var l = fields.length;
+					for (var i=0; i<l; i++) {
+						var f = fields[i];
+						if (f == 'Id') continue;
+						oitem[f] = item.get_item(f);
+						if (f=='UniqueId') {
+							oitem[f] = oitem[f].toString();
+						} 					}
+					results.push(oitem);
+				}
+				success(results);
+			},failed);
+	}
+	
+
+function startCommunicate() {
+	SP.SOD.executeFunc('sp.js', 'SP.ClientContext', initCommunicator);
 }
-
-
-_spBodyOnLoadFunctionNames.push("initCommunicator");
+_spBodyOnLoadFunctionNames.push("startCommunicate");

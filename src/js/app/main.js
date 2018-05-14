@@ -50,25 +50,25 @@ angular.module(
 						controller: 'ArchiveController'
 					}
 				).when(
-					'/form520/:id/:status',
+					'/form520/:code/:id',
 					{
 						templateUrl: 'js/app/components/form520/form520-view.html',
 						controller: 'Form520Controller'
 					}
 				).when(
-					'/form521/:id/:status',
+					'/form521/:code/:id',
 					{
 						templateUrl: 'js/app/components/form521/form521-view.html',
 						controller: 'Form521Controller'
 					}
 				).when(
-					'/form348/:id/:status',
+					'/form348/:code/:id',
 					{
 						templateUrl: 'js/app/components/form348/form348-view.html',
 						controller: 'Form348Controller'
 					}
 				).when(
-					'/formwag/:id/:status',
+					'/formwag/:code/:id',
 					{
 						templateUrl: 'js/app/components/formwag/formwag-view.html',
 						controller: 'FormWAGController'
@@ -114,7 +114,7 @@ function gShowCreateNewFormDialog(btx) {
 			{
 				text : 	btx,
 				click : function() {
-							gRoute2($("#newFormSelection").val() + '/0/0');
+							gRoute2($("#newFormSelection").val() + '/edit/0');
 							$(this).dialog("close");
 						}
 			}
@@ -127,8 +127,8 @@ function gGetUserName() {
 	return "jason.cai@hhs.gov";
 }
 
-function gGetWelcomeMessage() {
-	return "Welcome - " + gGetUserName();
+function gGetWelcomeMessage(m) {
+	return "Welcome - " + (m ? m : gGetUserName());
 }
 
 
@@ -163,39 +163,122 @@ function gFillPDF(fmObj, pdfName, buf) {
 	} catch (e) {
 		console.log(e);
 	}
-
+	gHideBusy();
 }
 
-/** Sample service here **/
 
-gSampleService = function(id,defered) {
-	$.get('https://jsonplaceholder.typicode.com/comments',
-		function(data) {
-			console.log (id + ' here');
-			defered.resolve(data);
-		}
-	);
+function communicatorReady() {	
+   _communicatorFlag = true;
 }
 
 /** Talking points to communicator **/
-
-function waitForMe() {
-	return _communicatorFlag;
+function waitForCommunicator(defered, param) {
+    if(!_communicatorFlag) {		
+        setTimeout(waitForCommunicator.bind(null, defered, param), 1500); 
+		return;
+    } 
+	var toWait = true;
+	try {
+		if(document.getElementById("communicator").contentWindow.getListItemByMe) toWait = false;
+	} catch (e) {}	
+    if(toWait) {		
+        setTimeout(waitForCommunicator.bind(null, defered, param), 1500); 
+		return;
+    } 
+	defered(param);
+	$("#AngularApp").show();
 }
 
-function waitFor(condition, callback) {
-    if(!condition()) {
-        setTimeout(waitFor.bind(null, condition, callback), 500); 
-    } else {
-        callback();
-    }
+String.prototype.format = function () {
+	var args = [].slice.call(arguments);
+	return this.replace(/(\{\d+\})/g, function (a){
+		return args[+(a.substr(1,a.length-2))||0];
+	});
+};
+
+String.format = function() {
+	var s = arguments[0]
+	var args = [].slice.call(arguments, 1);
+	return s.replace(/(\{\d+\})/g, function (a){
+		return args[+(a.substr(1,a.length-2))||0];
+	});
+};
+
+
+var gTableFields = [
+"Id",
+"UniqueId",
+"Title",
+"Status",
+"StatusDueDate",
+"StatusStarted",
+"FormType",
+"ManagerEmail",
+"CreatedByEmail",
+"FormVars",
+"Created", 
+"Modified"
+];
+
+window.$gScope;	
+
+var gRoleFields = [
+"Id",
+"email",
+"role",
+"FormType"
+];
+
+var gWagFields = [
+"Id",
+"email",
+"Title",
+"SigType",
+"Status",
+"StartingDate",
+"EndingDate",
+"Signed",
+"SignedDate",
+"oFormCreatedByEmail",
+"oFormManagerEmail"
+];
+
+var gNotificationsFields = [
+	"Id",
+	"Title",
+	"FormType",
+	"NoteType",
+	"EmailTo",
+	"EmailCc"
+];
+
+function gWaitReady($scope) {
+	gShowBusy();
+	waitForCommunicator(_gWaitReady, $scope);
+
+}
+function _gWaitReady($scope) {
+	var _comm = document.getElementById("communicator").contentWindow;
+	$scope.user = _comm.getCurrentUser();
+	$scope.email = $scope.user.get_email();
+	if (!$scope.email || $scope.email=="") {
+		$scope.email = $scope.user.get_loginName();
+		$scope.email = $scope.email.substring($scope.email.lastIndexOf('|')+1);
+	}	
+	$scope.loadPage();	
+	gHideBusy();
 }
 
-function showApplication (){
-   $("#AngularApp").show();
+
+function gShowBusy() {	
+/*
+	$("#AngularApp").LoadingOverlay("show", {
+		background  : "rgba(150, 150, 150, 0.5)"
+	});
+*/	$.LoadingOverlay("show");
 }
 
-
-$(document).ready(function() {
-	waitFor(waitForMe, showApplication);
-});
+function gHideBusy() {
+//	$("#AngularApp").LoadingOverlay("hide", true);
+	$.LoadingOverlay("hide");
+}

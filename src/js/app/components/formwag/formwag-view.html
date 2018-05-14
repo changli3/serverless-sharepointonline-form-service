@@ -1,9 +1,6 @@
-<!-- home-main-view -->
-
-<!-- main form 520 -->
-<div class="container" ng-show="formStatus >= 0">
+<div class="container" ng-show="showEditingForm">
     <form id="myformVars0" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 0">
+        <fieldset ng-disabled="!enableEditingForm">		
 
             <h3> I. WAG INFORMATION</h3>
 
@@ -272,103 +269,142 @@ could be affected by the performance or non-performance of your official duties?
                     <textarea id="_ifyesthen" class="form-control" ng-model="formVars._ifyesthen"></textarea>
                 </div>
             </div>				
-		<my-line/>
-		<h4 style="margin-top:50px"> Upload Attachments (Up to 10 Files, 2G Mazimum Each)</h4>
-        <div class="col-md-12">	
-			
-			<table class="table" ng-show="filesAttached.length >0">
-			   <tr ng-repeat="item in filesAttached">
-				  <td>{{ item.name }} </td>
-				<td><button type="button" class="btn btn-danger btn-xs" ng-click="removeFile($index)">
-                                         Remove
-                                    </button>
-				</td>
-			   </tr>
-			 </table>  
-			<hr/>
-			 <div class="col-md-10" style="margin-bottom: 40px" ng-show="formStatus == 0">
-                    <input type="file" nv-file-select="" class="btn-success" uploader="uploader" multiple  /><br/>
 
-                    <table class="table" ng-show="uploader.queue.length >0">
-                        <thead>
-                            <tr>
-                                <th width="50%">Name</th>
-                                <th>Size</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in uploader.queue">
-                                <td><strong>{{ item.file.name }}</strong></td>
-                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024|number:2 }} KB</td>
-                                <td nowrap>
-                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                                         Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-			<div class="col-md-12" ng-show="formStatus == 0 && uploader.queue.length>0">
-            <div class="pull-right col-md-3">
-                <button class="btn btn-success" ng-click="doUploadAttaches($event)">Upload Documents</button>
-            </div>
-			</div>
-		</div>
 		<my-line/>
 		<h3> II. PEOPLE COVERED by this REQUEST (please include yourself here if you are planning to attend.)</h3>
-		<div class="col-md-10" style="margin-bottom: 40px" ng-show="formStatus == 0">
+		<div class="col-md-10" style="margin-bottom: 40px">
 			 <table class="table" >
-				<tr ng-show="eployeeToInvite.length >0">
-				<th>Name</th>
+				<tr>
+				<th>
+				Name
+				</th>
 				<th>
 				Email
 				</th>
 				<th>
-				Office
+				Office Phone
 				</th>
 				<th>
-				Manager's Email
+				Supervisor Name
+				</th>				
+				<th>
+				Supervisor Email
 				</th>
-				<th />
 				</tr>
-			   <tr ng-repeat="item in eployeeToInvite">
-				  <td>{{ item.name }} </td>
-				  <td>{{ item.email }} </td>
-				  <td>{{ item.office }} </td>
-				  <td>{{ item.managerEmail }} </td>
-				<td><button type="button" class="btn btn-danger btn-xs" ng-click="removeFile($index)">
-                                         Remove
-                                    </button>
-				</td>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName1"> </td>
+				  <td><input class="form-control" ng-model="formVars.email1"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone1"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName1"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail1"> </td>
 			   </tr>
-			   <tr><td colspan="4">
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName2"> </td>
+				  <td><input class="form-control" ng-model="formVars.email2"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone2"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName2"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail2"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName3"> </td>
+				  <td><input class="form-control" ng-model="formVars.email3"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone3"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName3"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail3"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName4"> </td>
+				  <td><input class="form-control" ng-model="formVars.email4"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone4"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName4"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail4"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName5"> </td>
+				  <td><input class="form-control" ng-model="formVars.email5"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone5"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName5"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail5"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName6"> </td>
+				  <td><input class="form-control" ng-model="formVars.email6"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone6"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName6"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail6"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName7"> </td>
+				  <td><input class="form-control" ng-model="formVars.email7"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone7"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName7"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail7"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName8"> </td>
+				  <td><input class="form-control" ng-model="formVars.email8"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone8"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName8"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail8"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName9"> </td>
+				  <td><input class="form-control" ng-model="formVars.email9"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone9"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName9"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail9"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName10"> </td>
+				  <td><input class="form-control" ng-model="formVars.email10"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone10"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName10"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail10"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName11"> </td>
+				  <td><input class="form-control" ng-model="formVars.email11"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone11"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName11"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail11"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName12"> </td>
+				  <td><input class="form-control" ng-model="formVars.email12"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone12"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName12"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail12"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName13"> </td>
+				  <td><input class="form-control" ng-model="formVars.email13"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone13"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName13"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail13"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName14"> </td>
+				  <td><input class="form-control" ng-model="formVars.email14"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone14"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName14"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail14"> </td>
+			   </tr>
+			   <tr>			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName15"> </td>
+				  <td><input class="form-control" ng-model="formVars.email15"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone15"> </td>
+				  <td><input class="form-control" ng-model="formVars._SupervisorsName15"> </td>
+				  <td><input class="form-control" ng-model="formVars.managerEmail15"> </td>
+			   </tr>
 
-					<div class="col-md-10">
-						<label class="control-label" for="inpEmail">Email</label>
-						<input id="inpEmail" class="form-control" ng-model="formVars.inpEmail">		
-						<label class="control-label" for="inpOffice">Office</label>
-						<input id="inpOffice" class="form-control" ng-model="formVars.inpOffice">		
-						<label class="control-label" for="inpMgtEmail">Manager's Email</label>
-						<input id="inpMgtEmail" class="form-control" ng-model="formVars.inpMgtEmail">	
-						<my-line/>
-						<div class="pull-right col-md-3">
-							<button class="btn btn-success" ng-click="doAddPerson($event)">Add Person</button>
-						</div>
-					</div>
-			   
-			   </td>
-			   </tr>
 			 </table>  
 		</div>
         <my-line/>
-        <div class="col-md-12" ng-show="formStatus == 0">
-            <div class="pull-right col-md-4">
+        <div class="col-md-12" ng-show="enableEditingForm">
+            <div class="pull-right col-md-6">
                 <button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
-                <button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
-				<button class="btn btn-success" ng-click="doSubmit($event)">Submit Form</button>
+                <button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>
+				<button class="btn btn-success" ng-click="doCertify($event)">Submit Form</button>
             </div>
         </div>		
 		</fieldset>
@@ -376,9 +412,9 @@ could be affected by the performance or non-performance of your official duties?
 </div>
 
 
-<div class="container" ng-show="formStatus >= 1">
-    <form id="myformVars1" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 1">
+<div class="container" ng-show="showEthicsForm">
+    <form id="myformVars6" class="form-horizontal">
+        <fieldset ng-disabled="!enableEthicsForm">
 
             <h3> III. ETHICS COORDINATOR REVIEW</h3>
 
@@ -396,32 +432,35 @@ requirements of 5 C.F.R. § 2635.204(g), I:
 							<input id="_CheckBox33" class="" ng-model="formVars._CheckBox33" type="checkbox">	
 						</div>	
                 </div>
-				
-				<div class="controls col-md-5">
+				<div class="controls col-md-4">
 					<label class="control-label" for="_EthicsSig">ETHICS COORDINATOR SIGNATURE</label>
-                    <input id="_EthicsSig" class="form-control" ng-model="formVars._EthicsSig" placeholder="Please enter your email address here"/>
+                    <input id="_EthicsSig" class="form-control" ng-model="formVars._EthicsSig" placeholder="Please enter your name here"/>
+                </div>				
+				<div class="controls col-md-4">
+					<label class="control-label" for="ethicssignature">ETHICS COORDINATOR CERTIFY</label>
+                    <input id="ethicssignature" class="form-control" ng-model="formVars.ethicssignature" placeholder="Please enter your email address here"/>
                 </div>
-				<div class="controls col-md-5">
+				<div class="controls col-md-4">
 					<label class="control-label" for="_EthicsDate">SIGNATURE DATE</label>
                     <input id="_EthicsDate" class="form-control" ng-model="formVars._EthicsDate" placeholder="MM/dd/yyyy"/>
                 </div>
 			</div>
 			
-			
 			<my-line/>
-			<div class="col-md-12" ng-show="formStatus == 1">
-				<div class="pull-right col-md-4">
-					<button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
-					<button class="btn btn-success" ng-click="doETHICSSubmit($event)">Submit Recommendation</button>
+			<div class="col-md-12" ng-show="enableEthicsForm">
+				<div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>	
+					<button class="btn btn-success" ng-click="doEthicsCertify($event)">Certify  and Submit</button>
 				</div>
 			</div>	
 		</fieldset>
 	</form>
 </div>
 
-<div class="container" ng-show="formStatus >= 2">
-    <form id="myformVars1" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 2">
+<div class="container" ng-show="showDesigneeForm">
+    <form id="myformVars8" class="form-horizontal">
+        <fieldset ng-disabled="!enableDesigneeForm">
 
             <h3> IV. DESIGNEE REVIEW</h3>
 
@@ -444,12 +483,15 @@ this constitutes my determination, as required by 5 C.F.R. § 2635.204(g), that 
 						<textarea id="_Condition" class="form-control" ng-model="formVars._Condition"></textarea>	
 						</div>
                 </div>
-				
-				<div class="controls col-md-5">
-					<label class="control-label" for="_DeputySig">ETHICS COORDINATOR SIGNATURE</label>
-                    <input id="_DeputySig" class="form-control" ng-model="formVars._DeputySig" placeholder="Please enter your email address here"/>
+				<div class="controls col-md-4">
+					<label class="control-label" for="_DeputySig">DESIGNEE SIGNATURE</label>
+                    <input id="_DeputySig" class="form-control" ng-model="formVars._DeputySig" placeholder="Please enter your name here"/>
+                </div>				
+				<div class="controls col-md-4">
+					<label class="control-label" for="designeesignature">DESIGNEE CERTIFY</label>
+                    <input id="designeesignature" class="form-control" ng-model="formVars.designeesignature" placeholder="Please enter your email address here"/>
                 </div>
-				<div class="controls col-md-5">
+				<div class="controls col-md-4">
 					<label class="control-label" for="_DeputyDate">SIGNATURE DATE</label>
                     <input id="_DeputyDate" class="form-control" ng-model="formVars._DeputyDate" placeholder="MM/dd/yyyy"/>
                 </div>
@@ -457,12 +499,209 @@ this constitutes my determination, as required by 5 C.F.R. § 2635.204(g), that 
 			
 			
 			<my-line/>
-			<div class="col-md-12" ng-show="formStatus == 2">
-				<div class="pull-right col-md-4">
-					<button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
-					<button class="btn btn-success" ng-click="doDEPUTYSubmit($event)">Submit Decision</button>
+			<div class="col-md-12" ng-show="enableDesigneeForm">
+	            <div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>	
+					<button class="btn btn-success" ng-click="doDesigneeCertify($event)">Certify and Submit</button>
 				</div>
 			</div>	
 		</fieldset>
 	</form>
+</div>
+
+<div class="container" ng-show="showEmployeeForm">
+    <form id="myformVars8" class="form-horizontal">
+        <fieldset ng-disabled="!enableEmployeeForm">
+
+            <h3>V. EMPLOYEE SIGNATURE</h3>
+
+            <div class="controls col-md-12">
+				<div class="controls col-md-4">
+					<label class="control-label" for="employeesign">EMPLOYEE SIGNATURE</label>
+                    <input id="employeesign" class="form-control" ng-model="formVars.employeesign" placeholder="Please enter your name here"/>
+                </div>				
+				<div class="controls col-md-4">
+					<label class="control-label" for="employeesignature">EMPLOYEE CERTIFY</label>
+                    <input id="employeesignature" class="form-control" ng-model="formVars.employeesignature" placeholder="Please enter your email address here"/>
+                </div>
+				<div class="controls col-md-4">
+					<label class="control-label" for="employeesignDate">SIGNATURE DATE</label>
+                    <input id="employeesignDate" class="form-control" ng-model="formVars.employeesignDate" placeholder="MM/dd/yyyy"/>
+                </div>
+			</div>
+			
+			<my-line/>
+			<div class="col-md-12" ng-show="enableEmployeeForm">
+	            <div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>	
+					<button class="btn btn-success" ng-click="doEmployeeCertify($event)">Certify and Submit</button>
+				</div>
+			</div>	
+		</fieldset>
+	</form>
+</div>
+
+<div class="container" ng-show="showManagerForm">
+    <form id="myformVars8" class="form-horizontal">
+        <fieldset ng-disabled="!enableManagerForm">
+
+            <h3>VI. SUPERVISOR APPROVAL</h3>
+			
+			Following employee need your approval for attech this WAG event:
+			<table class="table" >
+				<tr>
+				<th>
+				Name
+				</th>
+				<th>
+				Email
+				</th>
+				<th>
+				Office Phone
+				</th>
+				<th>
+				Date Signed
+				</th>
+				</tr>
+			   <tr ng-show="email==formVars.managerEmail1">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName1"> </td>
+				  <td><input class="form-control" ng-model="formVars.email1"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone1"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature1"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail2">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName2"> </td>
+				  <td><input class="form-control" ng-model="formVars.email2"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone2"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature2"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail3">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName3"> </td>
+				  <td><input class="form-control" ng-model="formVars.email3"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone3"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature3"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail4">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName4"> </td>
+				  <td><input class="form-control" ng-model="formVars.email4"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone4"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature4"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail5">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName5"> </td>
+				  <td><input class="form-control" ng-model="formVars.email5"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone5"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature5"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail6">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName6"> </td>
+				  <td><input class="form-control" ng-model="formVars.email6"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone6"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature6"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail7">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName7"> </td>
+				  <td><input class="form-control" ng-model="formVars.email7"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone7"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature7"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail8">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName8"> </td>
+				  <td><input class="form-control" ng-model="formVars.email8"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone8"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature8"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail9">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName9"> </td>
+				  <td><input class="form-control" ng-model="formVars.email9"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone9"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature9"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail10">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName10"> </td>
+				  <td><input class="form-control" ng-model="formVars.email10"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone10"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature10"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail11">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName11"> </td>
+				  <td><input class="form-control" ng-model="formVars.email11"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone11"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature11"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail12">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName12"> </td>
+				  <td><input class="form-control" ng-model="formVars.email12"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone12"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature12"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail13">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName13"> </td>
+				  <td><input class="form-control" ng-model="formVars.email13"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone13"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature13"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail14">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName14"> </td>
+				  <td><input class="form-control" ng-model="formVars.email14"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone14"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature14"> </td>
+			   </tr>
+			   <tr ng-show="email==formVars.managerEmail15">			  
+				  <td><input class="form-control" ng-model="formVars._EmployeesName15"> </td>
+				  <td><input class="form-control" ng-model="formVars.email15"> </td>
+				  <td><input class="form-control" ng-model="formVars._Telephone15"> </td>
+				  
+				  <td><input class="form-control" ng-model="formVars._EmployeesSignature15"> </td>
+			   </tr>
+
+			 </table>  
+
+            <div class="controls col-md-12">
+				<div class="controls col-md-4">
+					<label class="control-label" for="managersign">SUPERVISOR SIGNATURE</label>
+                    <input id="managersign" class="form-control" ng-model="formVars.managersign" placeholder="Please enter your name here"/>
+                </div>				
+				<div class="controls col-md-4">
+					<label class="control-label" for="managersignature">SUPERVISOR CERTIFY</label>
+                    <input id="managersignature" class="form-control" ng-model="formVars.managersignature" placeholder="Please enter your email address here"/>
+                </div>
+				<div class="controls col-md-4">
+					<label class="control-label" for="managersignDate">SIGNATURE DATE</label>
+                    <input id="managersignDate" class="form-control" ng-model="formVars.managersignDate" placeholder="MM/dd/yyyy"/>
+                </div>
+			</div>
+			
+			<my-line/>
+			<div class="col-md-12" ng-show="enableManagerForm">
+	            <div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>	
+					<button class="btn btn-success" ng-click="doManagerCertify($event)">Certify and Submit</button>
+				</div>
+			</div>	
+		</fieldset>
+	</form>
+</div>
+
+<div class="container" ng-show="showMSignatureForm">
+</div>
+<div class="container" ng-show="showPermissionError">
+You do not have permission to perform this action. Please contact the system administrator.
 </div>

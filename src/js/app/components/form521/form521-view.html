@@ -1,14 +1,12 @@
-<!-- home-main-view -->
 
-<!-- main form 520 -->
-<div class="container" ng-show="formStatus >= 0">
+<div class="container" ng-show="showEditingForm">
     <form id="myformVars0" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 0">
+        <fieldset ng-disabled="!enableEditingForm">
             <div class="col-md-12">
 			    <div class="col-md-10">
                 <div class="col-md-4">
-                    <label class="control-label" for="calendarYear">CALENDAR YEAR REPORTING PERIOD </label>
-                    <input id="calendarYear" class="form-control" ng-model="formVars.calendarYear" placeholder="yyyy">
+                    <label class="control-label" for="calendarYear">CALENDAR YEAR</label>
+                    <input id="calendarYear" class="form-control" ng-model="formVars.calendarYear" ng-change="updateCY()" placeholder="yyyy">
                 </div>
                 <div class="col-md-4">
                     <label class="control-label" for="_Dateextension">EXTENSION DATE</label>
@@ -515,20 +513,10 @@ furnished on the corresponding HHS Form 520? <br/>
                 </div>
             </div>
 
-
-        </fieldset>
-        <my-line/>
-        <div class="col-md-12" ng-show="formStatus == 0">
-            <div class="pull-right col-md-4">
-                <button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
-                <button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>
-            </div>
-        </div>
 		<my-line/>
-        <h4 style="margin-top:50px"> Certify</h4>
+        <h4 style="margin-top:50px">Certify Document</h4>
         <div class="col-md-12">
-            <fieldset ng-disabled="formStatus > 0">
-                <p> Please type in your email address and date then click on the "Certify Document"</p>
+                <p> Please type in your email address and date then click on the "Certify and Submit"</p>
                 <div class="controls col-md-5">
                     <label class="control-label" for="signature">Signature</label>
                     <input id="signature" class="form-control" ng-model="formVars.signature" placeholder="Enter your email here..." type="email">
@@ -537,54 +525,24 @@ furnished on the corresponding HHS Form 520? <br/>
                     <label class="control-label" for="Datelast1">Signature Date</label>
                     <input id="Datelast1" class="form-control" ng-model="formVars._Datelast1">
                 </div>
-            </fieldset>
         </div>
 		
        
-        <div class="col-md-12" ng-show="formStatus == 0">
+        <div class="col-md-12" ng-show="enableEditingForm">
 		    <my-line/>
-            <div class="pull-right col-md-3">
-                <button class="btn btn-success" ng-click="doCertify($event)">Certify Document</button>
+            <div class="pull-right col-md-7">
+                <button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+                <button class="btn btn-success" ng-click="doPDF($event)">Preview PDF</button>			
+                <button class="btn btn-success" ng-click="doCertify($event)">Certify and Submit</button>
             </div>
         </div>
-
-        
-        <div ng-show="formStatus == 1">
-		    <my-line/>
-            <h4> Digital Sign</h4>
-            <div class="col-md-12">
-                <div class="col-md-12">
-                    <p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
-                </div>
-            </div>
-
-            <my-line/>
-            <div class="col-md-12">
-                <div class="pull-right col-md-7">
-                    <button class="btn btn-success" ng-click="doRevoke($event)">Revoke Certification</button>
-                    <button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
-                </div>
-                <div class="pull-right col-md-7" style="margin-top:30px">
-                    <input type="file" class="btn btn-success" name="file" ngModel (change)="doUpload($event)">
-                </div>
-            </div>
-        </div>
-        <div ng-show="formStatus >= 1">
-		    <my-line/>
-            <h4> Digital Signed Document</h4>
-			 <div class="col-md-12">
-                <div class="pull-right col-md-7">
-					<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
-				</div>
-			</div>
-		</div>
+	  </fieldset>
     </form>
 </div>
 
-<!-- supervisor form 520 -->
-<div class="container" ng-show="formStatus >= 2">
+<div class="container" ng-show="showManagerForm">
     <form id="myformVars2" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 2">
+        <fieldset ng-disabled="!enableManagerForm">
             <my-line/>
 
             <h3>   IV. SUPERVISOR REVIEW</h3>
@@ -630,10 +588,9 @@ box below.)
 			</div>
 
 			<my-line/>
-			<h4 style="margin-top:50px"> Supervisor Certify</h4>
+			<h4 style="margin-top:50px">Supervisor Certify</h4>
 			<div class="col-md-12">
-				<fieldset ng-disabled="formStatus > 2">
-					<p> Please type in your email address and date then click on the "Certify Document"</p>
+					<p> Please type in your email address and date then click on the "Certify and Submit"</p>
 					<div class="controls col-md-5">
 						<label class="control-label" for="supervisorsignature">Supervisor Signature</label>
 						<input id="supervisorsignature" class="form-control" ng-model="formVars.supervisorsignature" placeholder="Email your email here..." type="email">
@@ -642,55 +599,24 @@ box below.)
 						<label class="control-label" for="Datesiglast">Signature Date</label>
 						<input id="Datesiglast" class="form-control" ng-model="formVars._Datesiglast">
 					</div>
-				</fieldset>
-			</div>
-	  </fieldset>
-			<my-line/>
-			<div class="col-md-12" ng-show="formStatus == 2">
-				<div class="pull-right col-md-3">
-					<button class="btn btn-success" ng-click="doSupervisorCertify($event)">Certify Document</button>
-				</div>
 			</div>
 
 			<my-line/>
-			<div ng-show="formStatus == 3">
-				<h4> Digital Sign</h4>
-				<div class="col-md-12">
-					<div class="col-md-12">
-						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
-					</div>
-				</div>
-
-				<my-line/>
-				<div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn btn-success" ng-click="doSupervisorRevoke($event)">Revoke Certification</button>
-						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
-					</div>
-					<div class="pull-right col-md-7" style="margin-top:30px">
-						<input type="file" class="btn btn-success" name="file" ngModel (change)="doSupervisorUpload($event)">
-					</div>
+			<div class="col-md-12" ng-show="enableManagerForm">
+				<div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>		
+					<button class="btn btn-success" ng-click="doSupervisorCertify($event)">Certify and Submit</button>
 				</div>
 			</div>
-			
-			<div ng-show="formStatus >= 3">
-				<my-line/>
-				<h4> Supervisor Digital Signed Document</h4>
-				 <div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
-					</div>
-				</div>
-			</div>			
-
-	    
+	  </fieldset>	    
     </form>
 </div>
 
-<!-- reviewer form 520 -->
-<div class="container" ng-show="formStatus >= 4">
+
+<div class="container" ng-show="showCommitteeForm">
     <form id="myformVars4" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 4">
+        <fieldset ng-disabled="!enableCommitteeForm">
             <my-line/>
 
             <h3>IV. MANAGEMENT / COMMITTEE / OTHER INTERMEDIATE REVIEW</h3>		
@@ -765,10 +691,9 @@ date the form in the space provided.
 				</div>
 			</div>
 			<my-line/>
-			<h4 style="margin-top:50px"> Reviewer Certify</h4>
+			<h4 style="margin-top:50px">Reviewer Certify</h4>
 			<div class="col-md-12">
-				<fieldset ng-disabled="formStatus > 4">
-					<p> Please type in your email address and date then click on the "Certify Document"</p>
+					<p> Please type in your email address and date then click on the "Certify and Submit"</p>
 					<div class="controls col-md-5">
 						<label class="control-label" for="supervisorsignature">Reviewer Signature</label>
 						<input id="reviewersignature" class="form-control" ng-model="formVars.reviewersignature" placeholder="Enter your email here..." type="email">
@@ -777,58 +702,26 @@ date the form in the space provided.
 						<label class="control-label" for="Dateofsig">Signature Date</label>
 						<input id="Dateofsig" class="form-control" ng-model="formVars._Dateofsig">
 					</div>
-				</fieldset>
 			</div>
 			
+
+			<my-line/>
+			<div class="col-md-12" ng-show="enableCommitteeForm">
+				<div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>	
+					<button class="btn btn-success" ng-click="doReviewerCertify($event)">Certify and Submit</button>
+				</div>
+			</div>
+
 		</fieldset>
-			<my-line/>
-			<div class="col-md-12" ng-show="formStatus == 4">
-				<div class="pull-right col-md-3">
-					<button class="btn btn-success" ng-click="doReviewerCertify($event)">Certify Document</button>
-				</div>
-			</div>
-			<my-line/>
-			
-			<div ng-show="formStatus == 5">
-				<h4> Digital Sign</h4>
-				<div class="col-md-12">
-					<div class="col-md-12">
-						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
-					</div>
-				</div>
-
-				<my-line/>
-				<div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn btn-success" ng-click="doReviewerRevoke($event)">Revoke Certification</button>
-						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
-					</div>
-					<div class="pull-right col-md-7" style="margin-top:30px">
-						<input type="file" class="btn btn-success" name="file" ngModel (change)="doReviewerUpload($event)">
-					</div>
-				</div>
-			</div>
-			
-			<div ng-show="formStatus >= 5">
-				<my-line/>
-				<h4> Reviewer Digital Signed Document</h4>
-				 <div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
-					</div>
-				</div>
-			</div>			
-
-
     </form>
 </div>
 
-<!-- ethic form 520 -->
-<div class="container" ng-show="formStatus >= 6">
+<div class="container" ng-show="showEthicsForm">
     <form id="myformVars6" class="form-horizontal">
-        <fieldset ng-disabled="formStatus > 6">
+        <fieldset ng-disabled="!enableEthicsForm">
             <my-line/>
-
             <h3> VI. AGENCY ETHICS OFFICIAL REVIEW</h3>		
 			
             <div class="controls col-md-12">
@@ -897,62 +790,30 @@ necessary to ensure compliance with applicable ethics laws. Sign and date the fo
 			<my-line/>
 			<h4 style="margin-top:50px"> Ethics Official Certify</h4>
 			<div class="col-md-12">
-				<fieldset ng-disabled="formStatus > 6">
-					<p> Please type in your email address and date then click on the "Certify Document"</p>
+					<p> Please type in your email address and date then click on the "Certify and Submit"</p>
 					<div class="controls col-md-5">
-						<label class="control-label" for="supervisorsignature">Ethics Official Signature</label>
-						<input id="reviewersignature" class="form-control" ng-model="formVars.reviewersignature" placeholder="Enter your email here..." type="email">
+						<label class="control-label" for="ethicssignature">Ethics Official Signature</label>
+						<input id="ethicssignature" class="form-control" ng-model="formVars.ethicssignature" placeholder="Enter your email here..." type="email">
 					</div>
 					<div class="controls col-md-5">
 						<label class="control-label" for="_Dateethicssig">Signature Date</label>
 						<input id="_Dateethicssig" class="form-control" ng-model="formVars._Dateethicssig">
 					</div>
-				</fieldset>
+
 			</div>
 			
+
+			<my-line/>
+			<div class="col-md-12" ng-show="enableEthicsForm">
+				<div class="pull-right col-md-7">
+					<button class="btn btn-success" ng-click="doSave($event)">Save Form</button>
+					<button class="btn btn-success" ng-click="doPDF($event)">View PDF</button>
+					<button class="btn btn-success" ng-click="doEthicsCertify($event)">Certify and Submit</button>
+				</div>
+			</div>
 		</fieldset>
-			<my-line/>
-			<div class="col-md-12" ng-show="formStatus == 6">
-				<div class="pull-right col-md-3">
-					<button class="btn btn-success" ng-click="doEthicsCertify($event)">Certify Document</button>
-				</div>
-			</div>
-			<my-line/>
-			
-			<div ng-show="formStatus == 7">
-				<h4> Digital Sign</h4>
-				<div class="col-md-12">
-					<div class="col-md-12">
-						<p> Please download the PDF file and digital sign it with your PIV card. Then upload it back to the system to finish submitting this application.</p>
-					</div>
-				</div>
-
-				<my-line/>
-				<div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn btn-success" ng-click="doEthicsRevoke($event)">Revoke Certification</button>
-						<button class="btn btn-success" ng-click="doPDF($event)">Download PDF</button>
-					</div>
-					<div class="pull-right col-md-7" style="margin-top:30px">
-						<input type="file" class="btn btn-success" name="file" ngModel (change)="doEthicsUpload($event)">
-					</div>
-				</div>
-			</div>
-			
-			<div ng-show="formStatus >= 7">
-				<my-line/>
-				<h4> Ethics Official Digital Signed Document</h4>
-				 <div class="col-md-12">
-					<div class="pull-right col-md-7">
-						<button class="btn" ng-click="doPDF($event)">View Signed PDF</button>
-					</div>
-				</div>
-			</div>			
-
-
     </form>
 </div>
-
-
-
-<!-- / home-main-view -->
+<div class="container" ng-show="showPermissionError">
+You do not have permission to perform this action. Please contact the system administrator.
+</div>

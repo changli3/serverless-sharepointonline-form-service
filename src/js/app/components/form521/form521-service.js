@@ -3,229 +3,133 @@ angular.module(
         'Form521ServiceModule',
         []
     )
-    .factory( 'Form521Service', function ($http, $q, $filter) {
+	.factory( 'Form521Service', function ($http, $q, $filter) {
 		return {
-			putData: function(id) {
-				var promise = null;
-				console.log("I'm here");
-				promise = $http({
-					method: 'PUT',
-					url: 'https://jsonplaceholder.typicode.com/posts/' + id
-				}).success(function(response) {
-					console.log(response);
-					return response;
-				}).error(function(data, status, headers, config) {
-					console.log("[Form521Service], putData() error, with status: " + status);
-				});	
-				return promise;
+			signForm: function ($scope, status) {
+				gShowBusy();
+				var _comm = document.getElementById("communicator").contentWindow;
+				_comm.updateListItem2(
+					$scope.spItem,
+					{
+						"ManagerEmail": $scope.formVars._email2,
+						"Status": status,
+						"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+					},
+					function() {
+						gHideBusy();
+						alert("Document successfully certified and submitted.");
+					}
+				);
 			},
-			sampleSerice: function (id) {
-				var defered = $q.defer();
-				gSampleService(id, defered);
-				return defered.promise;
+			saveFormData: function($scope) {
+				gShowBusy();
+				var _comm = document.getElementById("communicator").contentWindow;
+				if ($scope.new_form) {
+					var title = "Form 521 - " + $filter('date')(new Date(), 'yyyy-MM-dd');
+					_comm.createListItem(
+						"FormServiceRecords",
+						{
+							"Title": title,
+							"FormType": "Form-521",
+							"CreatedByEmail": $scope.email,
+							"Status": "Editing",
+							"ManagerEmail": $scope.formVars._email2,
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function(item) {
+							$scope.spItem = item;
+							$scope.new_form = false;
+							gHideBusy();
+							alert("Data successfully saved.");
+						}
+					);
+				} else {
+					_comm.updateListItem2(
+						$scope.spItem,
+						{
+							"ManagerEmail": $scope.formVars._email2,
+							"Status": "Editing",
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function() {
+							gHideBusy();
+							alert("Data successfully saved.");
+						}
+					);
+				}
 			},
 			initForm: function($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = angular.copy(gForm521);
+				$scope.formVars = {}; //angular.copy(gForm521);
+				$scope.new_form = true;				
+				$scope.formVars._Datereportfiled = $filter('date')(new Date(), "MM/dd/yyyy");		
+				
+				$scope.showEditingForm = true;
+				$scope.enableEditingForm = true;				
 			},
-			getForm4User: function ($scope, formId, formStatue) {
+			getForm4User: function ($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = angular.copy(gForm521);
-				$scope.formVars.signature = "";
-				$scope.formVars._Date = "";				
+				$gScope = $scope;
+				gShowBusy();
+				document.getElementById("communicator").contentWindow.getListItemByGuid1("FormServiceRecords", 
+						$scope.formId, function(item) {			
+						$gScope.$apply(function() {
+							$gScope.spItem = item;
+							$gScope.new_form = false;
+							var validated = false;
+							var status = item.get_item('Status');
+							if (status == 'Editing') {
+								if ($gScope.action == 'edit') {
+									$gScope.showEditingForm = true;
+									$gScope.enableEditingForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Supervisor') {
+								if ($gScope.action == 'manager') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.enableManagerForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Reviewer') {
+								if ($gScope.action == 'review') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showCommitteeForm = true;
+									$gScope.enableCommitteeForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Await Ethics') {
+								if ($gScope.action == 'ethics') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showEthicsForm = true;
+									$gScope.enableEthicsForm = true;
+									validated = true;
+								}		
+							} else if (status == 'Completed') {
+								if ($gScope.action == 'view') {
+									$gScope.showEditingForm = true;
+									$gScope.showManagerForm = true;
+									$gScope.showEthicsForm = true;
+									$gScope.showCommitteeForm = true;
+									validated = true;									
+								}
+							}
+							if (validated) {
+								$gScope.email = item.get_item('CreatedByEmail');
+								$gScope.formVars = JSON.parse(sjcl.decrypt(btoa($gScope.email), item.get_item('FormVars')));							
+							} else {
+								$scope.showPermissionError = true;
+							}
+							
+							gHideBusy();
+						});
+
+				});
 			}
 		}
     });
 
-var gForm521 = {
-	signature: "",
-	supersadditionreason:"",
-	supervisorsignature:"",
-	reviewersignature:"",
-	designeesignature:"",	
-	
-   _FirstDigit:"",
-   _SecondDigit:"",
-   _Dateextension:"",
-   _Datereportfiled:"",
-   _employeesname:"",
-   _agency:"",
-   _Subcomponent:"",
-   _titleofposition:"",
-   _gradestep:"",
-   _fedsalary:"",
-   _pas:"",
-   _non:"",
-   _career:"",
-   _schedule:"",
-   _commissioned:"",
-   _gs:"",
-   _title:"",
-   _other:"",
-   _public:"",
-   _confidential:"",
-   _none:"",
-   _street:"",
-   _city:"",
-   _state:"",
-   _ZipCode:"",
-   _TelephoneNumber:"",
-   _FaxTelephoneNumber:"",
-   _CellTelephoneNumber:"",
-   _email:"",
-   _immediatesuper:"",
-   _titlesupervisor:"",
-   _TelephoneNumber2:"",
-   _FaxTelephoneNumber2:"",
-   _CellTelephoneNumber2:"",
-   _email2:"",
-   _agencyuseonly:"",
-   _employeesnamevvvvv1:"",
-   _employeesnamevvvvv2:"",
-   _Datelast1:"",
-   _employeesnamevvvvv3:"",
-   _Datesiglast:"",
-   _comments3:"",
-   _employeesnamevvvvv4:"",
-   _NameofReviewer:"",
-   _TitleofReviewer:"",
-   _TelephoneNumber3:"",
-   _FaxTelephoneNumber2vvvvv1:"",
-   _CellTelephoneNumber2vvvvv1:"",
-   _email2vvvvv1:"",
-   _Organization:"",
-   _committee1:"",
-   _Concur:"",
-   _Nonconcur:"",
-   _Dateofsig:"",
-   _comments7:"",
-   _employeesnamevvvvv5:"",
-   _Nameofagencyethics:"",
-   _Titleofagencyethics:"",
-   _TelephoneNumber30:"",
-   _FaxTelephoneNumber20:"",
-   _CellTelephoneNumber20:"",
-   _email20:"",
-   _Organization6:"",
-   _Concur2:"",
-   _Nonconcur2:"",
-   _Dateethicssig:"",
-   _comments6page:"",
-   _employeesnamevvvvv6:"",
-   _employeesnamevvvvv7:"",
-   _employeesnamevvvvv8:"",
-   _employeesnamevvvvv9:"",
-   _addcomments:"",
-   _personororg1:"",
-   _DateApproval1:"",
-   _activityperformed1:"",
-   _personororg2:"",
-   _DateApproval2:"",
-   _activityperformed2:"",
-   _personororg3:"",
-   _DateApproval3:"",
-   _activityperformed3:"",
-   _personororg4:"",
-   _DateApproval4:"",
-   _activityperformed4:"",
-   _personororg5:"",
-   _DateApproval5:"",
-   _activityperformed5:"",
-   _servicedates1:"",
-   _hoursspent1:"",
-   _leaveused1:"",
-   _EndingDate1:"",
-   _servicedates2:"",
-   _hoursspent2:"",
-   _leaveused2:"",
-   _EndingDate2:"",
-   _servicedates3:"",
-   _hoursspent3:"",
-   _leaveused3:"",
-   _EndingDate3:"",
-   _servicedates4:"",
-   _hoursspent4:"",
-   _leaveused4:"",
-   _EndingDate4:"",
-   _servicedates5:"",
-   _hoursspent5:"",
-   _leaveused5:"",
-   _EndingDate5:"",
-   _incomereimbursement1:"",
-   _date__spaid1:"",
-   _incomereimbursement2:"",
-   _date__spaid2:"",
-   _incomereimbursement3:"",
-   _date__spaid3:"",
-   _incomereimbursement4:"",
-   _date__spaid4:"",
-   _incomereimbursement5:"",
-   _date__spaid5:"",
-   _incomereimbursement12:"",
-   _date__spaid12:"",
-   _incomereimbursement22:"",
-   _date__spaid22:"",
-   _incomereimbursement32:"",
-   _date__spaid32:"",
-   _incomereimbursement42:"",
-   _date__spaid42:"",
-   _incomereimbursement52:"",
-   _date__spaid52:"",
-   _explanation1:"",
-   _explanation2:"",
-   _Explanation3:"",
-   _Explanation4:"",
-   _Explanation5:"",
-   _noaction:"",
-   _correctiveaction:"",
-   _outsideactivity1:"",
-   _outsideactivity2:"",
-   _outsideactivity3:"",
-   _outsideactivity4:"",
-   _outsideactivity5:"",
-   _BeginningDate1:"",
-   _yes1:"",
-   _no1:"",
-   _BeginningDate2:"",
-   _yes2:"",
-   _no2:"",
-   _BeginningDate3:"",
-   _yes3:"",
-   _no3:"",
-   _BeginningDate4:"",
-   _yes4:"",
-   _no4:"",
-   _BeginningDate5:"",
-   _yes5:"",
-   _no5:"",
-   _payA:"",
-   _amountpaid1:"",
-   _payB:"",
-   _amountpaid2:"",
-   _payC:"",
-   _amountpaid3:"",
-   _payD:"",
-   _amountpaid4:"",
-   _payE:"",
-   _amountpaid5:"",
-   _nopayA:"",
-   _amountpaid12:"",
-   _nopayB:"",
-   _amountpaid22:"",
-   _nopayC:"",
-   _amountpaid32:"",
-   _nopayD:"",
-   _amountpaid42:"",
-   _nopayE:"",
-   _amountpaid52:"",
-   _yes5a:"",
-   _no5a:"",
-   _yes5ab:"",
-   _no5ab:"",
-   _yes5abc:"",
-   _no5abc:"",
-   _yes5abcd:"",
-   _no5abcd:"",
-   _yes5abcde:"",
-   _no5abcde:"",
-};
+
+
