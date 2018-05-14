@@ -331,11 +331,13 @@ angular.module(
 							$gScope.new_form = false;
 							var validated = false;
 							var status = item.get_item('Status');
+							var createdbyemail = item.get_item('CreatedByEmail');
+							var supervisoremail = item.get_item('ManagerEmail');
 							if (status == 'Editing') {
 								if ($gScope.action == 'edit') {
 									$gScope.showEditingForm = true;
 									$gScope.enableEditingForm = true;
-									validated = true;
+									validated = createdbyemail.toLowerCase() == $gScope.email.toLowerCase();
 								}		
 							} else if (status == 'Await Supervisor') {
 								if ($gScope.action == 'manager') {
@@ -345,7 +347,18 @@ angular.module(
 									$gScope.showDesigneeForm = true;
 									$gScope.showManagerForm = true;									
 									$gScope.enableManagerForm = true;
-									validated = true;
+									for (var i=1; i<16; i++) {
+										var m = $gScope.formVars["email" + i];
+										var s = $gScope.formVars["managerEmail" + i];
+										if (!m || !s) continue;
+										m = m.toLowerCase();
+										s = s.toLowerCase();
+										if (s == $gScope.email.toLowerCase()) {
+											validated = true;
+											break;
+										}
+									}	
+
 								}		
 							} else if (status == 'Await Designee') {
 								if ($gScope.action == 'designee') {
@@ -367,7 +380,18 @@ angular.module(
 									$gScope.showEthicsForm = true;
 									$gScope.showDesigneeForm = true;
 									$gScope.enableEthicsForm = true;
-									validated = true;
+									validated = false;
+									for (var i=1; i<16; i++) {
+										var m = $gScope.formVars["email" + i];
+										var s = $gScope.formVars["managerEmail" + i];
+										if (!m || !s) continue;
+										m = m.toLowerCase();
+										s = s.toLowerCase();
+										if (m == $gScope.email.toLowerCase()) {
+											validated = true;
+											break;
+										}
+									}									
 								}		
 							} else if (status == 'Completed') {
 								if ($gScope.action == 'view') {
@@ -375,7 +399,20 @@ angular.module(
 									$gScope.showEthicsForm = true;
 									$gScope.showDesigneeForm = true;
 									$gScope.showSignatureForm = true;
-									validated = true;									
+									for (var i=1; i<16; i++) {
+										var m = $gScope.formVars["email" + i];
+										var s = $gScope.formVars["managerEmail" + i];
+										if (!m || !s) continue;
+										m = m.toLowerCase();
+										s = s.toLowerCase();
+										if (										
+											m == $gScope.email.toLowerCase() ||
+											s == $gScope.email.toLowerCase()	
+										) {
+											validated = true;
+											break;
+										}
+									}								
 								}
 							}
 							if (validated) {

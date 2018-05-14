@@ -87,18 +87,20 @@ angular.module(
 							$gScope.new_form = false;
 							var validated = false;
 							var status = item.get_item('Status');
+							var createdbyemail = item.get_item('CreatedByEmail');
+							var supervisoremail = item.get_item('ManagerEmail');							
 							if (status == 'Editing') {
 								if ($gScope.action == 'edit') {
 									$gScope.showEditingForm = true;
 									$gScope.enableEditingForm = true;
-									validated = true;
+									validated = createdbyemail.toLowerCase() == $gScope.email.toLowerCase();
 								}		
 							} else if (status == 'Await Supervisor') {
 								if ($gScope.action == 'manager') {
 									$gScope.showEditingForm = true;
 									$gScope.showManagerForm = true;
 									$gScope.enableManagerForm = true;
-									validated = true;
+									validated = supervisoremail.toLowerCase() == $gScope.email.toLowerCase();
 								}		
 							} else if (status == 'Await Reviewer') {
 								if ($gScope.action == 'review') {
@@ -122,7 +124,8 @@ angular.module(
 									$gScope.showManagerForm = true;
 									$gScope.showEthicsForm = true;
 									$gScope.showCommitteeForm = true;
-									validated = true;									
+									validated = tcreatedbyemail.toLowerCase() == $gScope.email.toLowerCase() || 
+												supervisoremail.toLowerCase() == $gScope.email.toLowerCase();								
 								}
 							}
 							if (validated) {

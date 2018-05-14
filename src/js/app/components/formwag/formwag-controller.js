@@ -131,11 +131,7 @@ angular.module(
 						return;
 					}					
 					$scope.enableManagerForm = false;				
-					//
-					//
-					// TODO
-					// save signature to WAGSignatureList
-					// check to see if all supervisor signed, if so update FormWAGService.signForm($scope,"Completed");
+
 					FormWAGService.signSupervisorForm($scope,"Await Employee");
 				}				
 		

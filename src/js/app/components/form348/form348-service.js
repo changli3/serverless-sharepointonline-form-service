@@ -84,24 +84,27 @@ angular.module(
 							$gScope.new_form = false;
 							var validated = false;
 							var status = item.get_item('Status');
+							var createdbyemail = item.get_item('CreatedByEmail');
+							var supervisoremail = item.get_item('ManagerEmail');								
 							if (status == 'Editing') {
 								if ($gScope.action == 'edit') {
 									$gScope.showEditingForm = true;
 									$gScope.enableEditingForm = true;
-									validated = true;
+									validated = createdbyemail.toLowerCase() == $gScope.email.toLowerCase();
 								}		
 							} else if (status == 'Await Ethics') {
 								if ($gScope.action == 'ethics') {
 									$gScope.showEditingForm = true;
 									$gScope.showEthicsForm = true;
 									$gScope.enableEthicsForm = true;
-									validated = true;
+									validated = supervisoremail.toLowerCase() == $gScope.email.toLowerCase();
 								}		
 							} else if (status == 'Completed') {
 								if ($gScope.action == 'view') {
 									$gScope.showEditingForm = true;
 									$gScope.showEthicsForm = true;
-									validated = true;									
+									validated = tcreatedbyemail.toLowerCase() == $gScope.email.toLowerCase() || 
+												supervisoremail.toLowerCase() == $gScope.email.toLowerCase();					
 								}
 							}
 							if (validated) {
