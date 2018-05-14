@@ -231,6 +231,7 @@ var gRoleFields = [
 
 var gWagFields = [
 "Id",
+"UniqueId",
 "email",
 "Title",
 "SigType",
@@ -248,8 +249,7 @@ var gNotificationsFields = [
 	"Title",
 	"FormType",
 	"NoteType",
-	"EmailTo",
-	"EmailCc"
+	"EmailTo"
 ];
 
 function gWaitReady($scope) {
@@ -269,6 +269,49 @@ function _gWaitReady($scope) {
 	gHideBusy();
 }
 
+function gNotify(message, callback) {
+	if (
+		message.EmailTo == 'Ethics' ||
+		message.EmailTo == 'Reviewer' ||
+		message.EmailTo == 'Designee'
+		) {
+		document.getElementById("communicator").contentWindow.getListItems (
+			"FormApprovers", gRoleFields,
+			function (roles) {
+				var tos = [];
+				for (var i=0; i< roles.length; i++) {
+					if (roles[i].role == message.EmailTo && (roles[i].FormType == 'All' || roles[i].FormType == message.FormType)) {
+						tos.push(roles[i].email);
+					}
+				}
+				if (tos.length > 0) {
+					message.EmailTo = tos.join(';');
+					document.getElementById("communicator").contentWindow.createListItem(
+					"Notifications",
+					message,
+					function() {
+						if (callback) callback();
+					});
+				} else {
+					if (callback) callback();
+				}
+				
+			}
+		);
+	}
+	else if (message.EmailTo.indexOf('@')>0) {
+		document.getElementById("communicator").contentWindow.createListItem(
+		"Notifications",
+		message,
+		function() {
+			if (callback) callback();
+		});
+	} else {
+		console.log ("Error - wrong email address.")
+		if (callback) callback();
+	}	
+	
+}
 
 function gShowBusy() {	
 /*

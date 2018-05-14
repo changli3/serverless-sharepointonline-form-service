@@ -75,14 +75,26 @@ angular.module(
 					) {
 						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
 						return;
-					}					
+					}
+					var employeeEmails = [];
+					var supervisorEmails = [];					
 					$scope.enableDesigneeForm = false;	
-					//
-					//
-					// TODO
-					// add all employees and supervisors to WAGSignatureList
-					//
-					FormWAGService.signForm($scope,"Await Employee");
+					for (var i=1; i<16; i++) {
+						var m = $scope.formVars["email" + i];
+						var s = $scope.formVars["managerEmail" + i];
+						if (!m || !s) continue;
+						m = m.toLowerCase();
+						s = s.toLowerCase();
+						if (employeeEmails.indexOf(m) > -1) continue;
+						employeeEmails.push([m,s]);
+						if (supervisorEmails.indexOf(s) > -1) continue;
+						supervisorEmails.push(s);
+					}
+					if (employeeEmails.length == 0) {
+						alert("No attendee is found or they are worngly entered.");
+						return;
+					}
+					FormWAGService.signDesigneeForm($scope,"Await Employee", employeeEmails, employeeEmails);
 				}		
 				
 				$scope.doEmployeeCertify = function($event) {
@@ -95,18 +107,14 @@ angular.module(
 						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
 						return;
 					}					
-					
+
 					for (var i=1; i<16; i++) {
-						if (!$scope.formVars["email" + i]) continue;
-						if ($scope.formVars["email" + i].toLowerCase() != $scope.email.toLowerCase()) continue;
-						$scope.formVars["_EmployeesSignature" + i] = $scope.formVars.employeesignDate;
-						
+						var m = $scope.formVars["email" + i];
+						var s = $scope.formVars["managerEmail" + i];
+						if (!m || !s) continue;
+						if (m != $scope.email.toLowerCase()) continue;						
 						$scope.enableEmployeeForm = false;				
-						//
-						//
-						// TODO
-						// save signature to WAGSignatureList
-						// check to see if all signed, if so update FormWAGService.signForm($scope,"Await Suppervisor");
+						FormWAGService.signEmployeeForm($scope,"Await Employee", m, s);
 						return;
 					}
 					alert ("Please check your email spelling, we do not find you in the WAG form.");
@@ -128,27 +136,11 @@ angular.module(
 					// TODO
 					// save signature to WAGSignatureList
 					// check to see if all supervisor signed, if so update FormWAGService.signForm($scope,"Completed");
+					FormWAGService.signSupervisorForm($scope,"Await Employee");
 				}				
-
-				$scope.doReviewerCertify = function($event) {
-					$event.stopPropagation();
-					if (					
-						$scope.email.toLowerCase() != $scope.formVars.reviewersignature.toLowerCase()
-						||
-						$filter('date')(new Date(), 'MM/dd/yyyy') != $scope.formVars._Datevvvvv2
-					) {
-						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
-						return;
-					}					
-					$scope.enableCommitteeForm = false;				
-					FormWAGService.signForm($scope,"Await Ethics");
-				}				
+		
 
 
-
-
-						
-				
 				$scope.doPDF = function($event) {
 					$event.stopPropagation();
 					gShowBusy();

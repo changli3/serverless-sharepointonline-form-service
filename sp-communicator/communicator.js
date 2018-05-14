@@ -292,6 +292,27 @@ window.getListItemByColVal = function (listTitle, colName, colValue, fields, suc
 		getListItemsByQuery(listTitle, qt, fields, success, failed);
 }
 
+window.getListItemByColVals = function (listTitle, columns, fields, success, failed) {
+		var qs = [];
+		Object.keys(columns).forEach(function(key,index) {
+			var val = columns[key];
+			qs.push ("<Eq><FieldRef Name='" + key + "'/><Value Type='Text'>" + val + "</Value></Eq>")
+		});
+		var qt = ["<Where>"];
+		
+		for (var i=0; i<qs.length -1; i++) {
+			qt.push("<And>");
+		}
+		
+		for (var i=0; i<qs.length; i++) {
+			qt.push(qs[i]);
+			if (i>0) qt.push("</And>");
+		}
+		qt.push("</Where>");
+		getListItemsByQuery(listTitle, qt.join(""), fields, success, failed);
+}
+
+
 window.getListItemByColValStats = function (listTitle, colName, colValue, status, fields, success, failed) {
 		var qt = "<Where><And><Eq><FieldRef Name='Status'/><Value Type='Text'>" + status + "</Value></Eq>" +
 			"<Eq><FieldRef Name='" + colName + "'/><Value Type='Text'>" + colValue + "</Value></Eq></And></Where>";

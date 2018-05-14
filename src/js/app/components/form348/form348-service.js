@@ -14,9 +14,18 @@ angular.module(
 						"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
 					},
 					function() {
-						gHideBusy();
-						alert("Document successfully certified and submitted.");
-					}
+						gNotify(
+							{
+								Title : "Form-521 notification for: " + status,
+								FormType : "Form-521",
+								NoteType: status,
+								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.email : status.substring(6) )
+							},
+							function () {
+								gHideBusy();
+								alert("Document successfully certified and submitted.");							
+							});
+					}	
 				);
 			},
 			saveFormData: function($scope) {
