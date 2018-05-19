@@ -20,7 +20,7 @@ angular.module(
 						var isReviewer = false;
 						
 						for (var i=0; i< roles.length; i++) {
-							if (roles.email != $scope.email) continue;
+							if (roles[i].email != $scope.email) continue;
 							if (roles[i].role == 'Designee')  isDesignee = gSetRoleType(isDesignee, roles[i].FormType);
 							else if (roles[i].role == 'Ethics')  isEthics = gSetRoleType(isEthics, roles[i].FormType);
 							else if (roles[i].role == 'Reviewer')  isReviewer = gSetRoleType(isReviewer, roles[i].FormType);

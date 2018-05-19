@@ -267,7 +267,7 @@ angular.module(
 								Title : "Form-WAG notification for: " + status,
 								FormType : "Form-WAG",
 								NoteType: status,
-								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.email : status.substring(6) )
+								EmailTo: (status == 'Completed' ?  $scope.email : status.substring(6) )
 							},
 							function () {
 								gHideBusy();

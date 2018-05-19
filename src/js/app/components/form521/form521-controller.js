@@ -115,7 +115,9 @@ angular.module(
 					$event.stopPropagation();
 					gShowBusy();
 					gFetchPDF(gLibPath + "/521.pdf", function(pdffile) {
-						gFillPDF($scope.formVars, $scope.spItem.get_item("Title"), pdffile);
+						var title = "MyNewForm";
+						if ($scope.spItem) title = $scope.spItem.get_item("Title");
+						gFillPDF($scope.formVars, title , pdffile);
 					});
 				}
 				

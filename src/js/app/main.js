@@ -269,36 +269,7 @@ function _gWaitReady($scope) {
 	gHideBusy();
 }
 
-function sendEmail(to, body, subject) {
-	var siteurl = _spPageContextInfo.webServerRelativeUrl;
-	var urlTemplate = siteurl + "/_api/SP.Utilities.Utility.SendEmail";
-	parent.$.ajax({
-	   contentType: 'application/json',
-	   url: urlTemplate,
-	   type: "POST",
-	   data: JSON.stringify({
-	       'properties': {
-	           '__metadata': { 'type': 'SP.Utilities.EmailProperties' },
-	           'From': "no-reply@sharepointonline.com",
-	           'To': { 'results': [to] },
-	           'Body': body,
-	           'Subject': subject
-	       }
-	   }
-	 ),
-	   headers: {
-	       "Accept": "application/json;odata=verbose",
-	       "content-type": "application/json;odata=verbose",
-	       "X-RequestDigest": document.getElementById("__REQUESTDIGEST").value
-	   },
-	   success: function (data) {
-	      console.log("Email done - " + to.join(';'));
-	   },
-	   error: function (err) {
-	       console.log("Error sending email - " + err.responseText);
-	   }
-	});
-}	
+
 
 
 function gNotify(message, callback) {
@@ -321,14 +292,14 @@ function gNotify(message, callback) {
 					}
 				}
 				if (tos.length > 0) {
-					sendEmail(tos, body, subject);
+					document.getElementById("communicator").contentWindow.sendEmail(tos, body, subject);
 				}
 				if (callback) callback();
 			}
 		);
 	}
 	else if (message.EmailTo.indexOf('@')>0) {
-		sendEmail([message.EmailTo], body, subject);
+		document.getElementById("communicator").contentWindow.sendEmail([message.EmailTo], body, subject);
 		if (callback) callback();
 	} else {
 		console.log ("Error - wrong email address.")
