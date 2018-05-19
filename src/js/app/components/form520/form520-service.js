@@ -18,8 +18,8 @@ angular.module(
 					function() {
 						gNotify(
 							{
-								Title : "Form-521 notification for: " + status,
-								FormType : "Form-521",
+								Title : "Form-520 notification for: " + status,
+								FormType : "Form-520",
 								NoteType: status,
 								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.email : status.substring(6) )
 							},

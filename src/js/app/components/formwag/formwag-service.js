@@ -13,7 +13,7 @@ angular.module(
 							Title : "Form WAG - Attendee Signature Required",
 							FormType : "Form-WAG",
 							NoteType: status,
-							EmailTo: empmails.join(';')
+							EmailTo: empmails
 						},
 						function () {
 							gHideBusy();
@@ -132,10 +132,10 @@ angular.module(
 										function() {
 											gNotify(
 											{
-												Title : "Form-WAG notification for supersivor approval required",
+												Title : "Form-WAG - Supersivor Approval Required",
 												FormType : "Form-WAG",
 												NoteType: "Await Supervisor",
-												EmailTo: supervisorEmails.join(';')
+												EmailTo: supervisorEmails
 											},
 											function () {
 												gHideBusy();
@@ -225,7 +225,7 @@ angular.module(
 												Title : "Form-WAG notification for completion ",
 												FormType : "Form-WAG",
 												NoteType: "Completed",
-												EmailTo: employeeEmails.join(';')
+												EmailTo: employeeEmails
 											},
 											function () {
 												gHideBusy();
@@ -264,8 +264,8 @@ angular.module(
 					function() {
 						gNotify(
 							{
-								Title : "Form-521 notification for: " + status,
-								FormType : "Form-521",
+								Title : "Form-WAG notification for: " + status,
+								FormType : "Form-WAG",
 								NoteType: status,
 								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.email : status.substring(6) )
 							},

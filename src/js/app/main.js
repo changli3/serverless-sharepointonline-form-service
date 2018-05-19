@@ -269,7 +269,76 @@ function _gWaitReady($scope) {
 	gHideBusy();
 }
 
+function sendEmail(to, body, subject) {
+	var siteurl = _spPageContextInfo.webServerRelativeUrl;
+	var urlTemplate = siteurl + "/_api/SP.Utilities.Utility.SendEmail";
+	parent.$.ajax({
+	   contentType: 'application/json',
+	   url: urlTemplate,
+	   type: "POST",
+	   data: JSON.stringify({
+	       'properties': {
+	           '__metadata': { 'type': 'SP.Utilities.EmailProperties' },
+	           'From': "no-reply@sharepointonline.com",
+	           'To': { 'results': [to] },
+	           'Body': body,
+	           'Subject': subject
+	       }
+	   }
+	 ),
+	   headers: {
+	       "Accept": "application/json;odata=verbose",
+	       "content-type": "application/json;odata=verbose",
+	       "X-RequestDigest": document.getElementById("__REQUESTDIGEST").value
+	   },
+	   success: function (data) {
+	      console.log("Email done - " + to.join(';'));
+	   },
+	   error: function (err) {
+	       console.log("Error sending email - " + err.responseText);
+	   }
+	});
+}	
+
+
 function gNotify(message, callback) {
+	var body = $("#NotificationMessage").html();
+	body = body.replace("{Status}", message.Status);
+	var subject = message.Title;
+	
+	if (
+		message.EmailTo == 'Ethics' ||
+		message.EmailTo == 'Reviewer' ||
+		message.EmailTo == 'Designee'
+		) {
+		document.getElementById("communicator").contentWindow.getListItems (
+			"FormApprovers", gRoleFields,
+			function (roles) {
+				var tos = [];
+				for (var i=0; i< roles.length; i++) {
+					if (roles[i].role == message.EmailTo && (roles[i].FormType == 'All' || roles[i].FormType == message.FormType)) {
+						tos.push(roles[i].email);
+					}
+				}
+				if (tos.length > 0) {
+					sendEmail(tos, body, subject);
+				}
+				if (callback) callback();
+			}
+		);
+	}
+	else if (message.EmailTo.indexOf('@')>0) {
+		sendEmail([message.EmailTo], body, subject);
+		if (callback) callback();
+	} else {
+		console.log ("Error - wrong email address.")
+		if (callback) callback();
+	}	
+	
+}
+
+
+function gSPNotify(message, callback) {
 	if (
 		message.EmailTo == 'Ethics' ||
 		message.EmailTo == 'Reviewer' ||
