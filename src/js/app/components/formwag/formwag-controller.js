@@ -46,11 +46,28 @@ angular.module(
 				}
 
 				$scope.doCertify = function($event) {
-					$event.stopPropagation();				
+					$event.stopPropagation();
+					var employeeEmails = [];
+					var supervisorEmails = [];					
+					$scope.enableDesigneeForm = false;	
+					for (var i=1; i<16; i++) {
+						var m = $scope.formVars["email" + i];
+						var s = $scope.formVars["managerEmail" + i];
+						if (!m || !s) continue;
+						m = m.toLowerCase();
+						s = s.toLowerCase();
+						if (employeeEmails.indexOf(m) > -1) continue;
+						employeeEmails.push([m,s]);
+						if (supervisorEmails.indexOf(s) > -1) continue;
+						supervisorEmails.push(s);
+					}
+					if (employeeEmails.length == 0) {
+						alert("No attendee is found or they are worngly entered.");
+						return;
+					}					
 					$scope.enableEditingForm = false;		
-					FormWAGService.signForm($scope, "Await Ethics");
-					
-				}				
+					FormWAGService.signFormAndInitEmpAndSup($scope, "Await Collecting Signature", employeeEmails, employeeEmails);					
+				}
 
 				$scope.doEthicsCertify = function($event) {
 					$event.stopPropagation();
@@ -76,25 +93,8 @@ angular.module(
 						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
 						return;
 					}
-					var employeeEmails = [];
-					var supervisorEmails = [];					
-					$scope.enableDesigneeForm = false;	
-					for (var i=1; i<16; i++) {
-						var m = $scope.formVars["email" + i];
-						var s = $scope.formVars["managerEmail" + i];
-						if (!m || !s) continue;
-						m = m.toLowerCase();
-						s = s.toLowerCase();
-						if (employeeEmails.indexOf(m) > -1) continue;
-						employeeEmails.push([m,s]);
-						if (supervisorEmails.indexOf(s) > -1) continue;
-						supervisorEmails.push(s);
-					}
-					if (employeeEmails.length == 0) {
-						alert("No attendee is found or they are worngly entered.");
-						return;
-					}
-					FormWAGService.signDesigneeForm($scope,"Await Employee", employeeEmails, employeeEmails);
+
+					FormWAGService.signForm($scope,"Completed");
 				}		
 				
 				$scope.doEmployeeCertify = function($event) {
@@ -113,8 +113,9 @@ angular.module(
 						var s = $scope.formVars["managerEmail" + i];
 						if (!m || !s) continue;
 						if (m != $scope.email.toLowerCase()) continue;						
-						$scope.enableEmployeeForm = false;				
-						FormWAGService.signEmployeeForm($scope,"Await Employee", m, s);
+									
+						$scope.enableEmployeeForm = false;	
+						FormWAGService.signEmployeeForm($scope);
 						return;
 					}
 					alert ("Please check your email spelling, we do not find you in the WAG form.");
@@ -130,9 +131,17 @@ angular.module(
 						alert ("Please check your email spelling and the date should today's date in mm/dd/yyyy format.");
 						return;
 					}					
-					$scope.enableManagerForm = false;				
+					for (var i=1; i<16; i++) {
+						var m = $scope.formVars["email" + i];
+						var s = $scope.formVars["managerEmail" + i];
+						if (!m || !s) continue;
+						if (s != $scope.email.toLowerCase()) continue;															
+						$scope.enableManagerForm = false;				
+						FormWAGService.signSupervisorForm($scope,"Await Ethics");
+						return;
+					}
 
-					FormWAGService.signSupervisorForm($scope,"Await Employee");
+					alert ("Please check your email spelling, we do not find you in the WAG form.");
 				}				
 		
 

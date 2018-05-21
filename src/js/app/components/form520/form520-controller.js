@@ -70,7 +70,7 @@ angular.module(
 						return;
 					}					
 					$scope.enableManagerForm = false;				
-					Form520Service.signForm($scope,"Await Ethics");
+					Form520Service.signForm($scope,"Await Reviewer");
 				}				
 
 				$scope.doReviewerCertify = function($event) {

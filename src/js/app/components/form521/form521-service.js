@@ -21,7 +21,7 @@ angular.module(
 								Title : "Form-521 notification for: " + status,
 								FormType : "Form-521",
 								NoteType: status,
-								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.email : status.substring(6) )
+								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.spItem.get_item("CreatedByEmail") : status.substring(6) )
 							},
 							function () {
 								gHideBusy();

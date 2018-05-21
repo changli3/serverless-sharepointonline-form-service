@@ -5,9 +5,16 @@ angular.module(
     )
 	.factory( 'FormWAGService', function ($http, $q, $filter) {
 		return {
-			signDesigneeFormLoop2: function (status, empmails, supermails, loopIndex) {
+			signFormAndInitEmpAndSupLoop2: function (status, empmails, supermails, loopIndex) {
 				var title = "Form WAG - Supervisor Signature Required";
 				if (loopIndex >= supermails.length) {
+					gNotify(
+						{
+							Title : "Form WAG - Supervisor Signature Required",
+							FormType : "Form-WAG",
+							NoteType: status,
+							EmailTo: supermails
+						});					
 					gNotify(
 						{
 							Title : "Form WAG - Attendee Signature Required",
@@ -34,14 +41,14 @@ angular.module(
 						"oFormCreatedByEmail": $gScope.email
 					},
 					function() {
-						this.signDesigneeFormLoop2(status, empmails, supermails, loopIndex+1);
+						this.signFormAndInitEmpAndSupLoop2(status, empmails, supermails, loopIndex+1);
 					}
 				);
 			},			
-			signDesigneeFormLoop1: function (status, empmails, supermails, loopIndex) {
+			signFormAndInitEmpAndSupLoop1: function (status, empmails, supermails, loopIndex) {
 				var title = "Form WAG - Attendee Signature Required";
 				if (loopIndex >= empmails.length) {
-					this.signDesigneeFormLoop2(status, empmails, supermails, 0);
+					this.signFormAndInitEmpAndSupLoop2(status, empmails, supermails, 0);
 					return;
 				}
 				var _comm = document.getElementById("communicator").contentWindow;
@@ -58,14 +65,14 @@ angular.module(
 						"oFormManagerEmail": empmails[loopIndex][1]
 					},
 					function() {
-						this.signDesigneeFormLoop1(status, empmails, supermails, loopIndex+1);
+						this.signFormAndInitEmpAndSupLoop1(status, empmails, supermails, loopIndex+1);
 					}
 				);
 			},
-			signDesigneeForm: function ($scope, status, empmails, supermails) {
+			signFormAndInitEmpAndSup: function ($scope, status, empmails, supermails) {
 				gShowBusy();
 				$gScope = $scope;
-				this.signDesigneeFormLoop1(status, empmails, supermails, 0);	
+				this.signFormAndInitEmpAndSupLoop1(status, empmails, supermails, 0);	
 			},
 			signEmployeeForm: function ($scope, status, empmail, supermail) {
 				gShowBusy();
@@ -74,8 +81,7 @@ angular.module(
 				_comm.getListItemByColVals(
 					"WagSignatures", 
 					{
-						Title: $scope.spItem.get_item("UniqueId").toString(),
-						SigType: 'Employee'
+						Title: $scope.spItem.get_item("UniqueId").toString()
 					}, gWagFields,
 					function(items) {
 						var allSigned = true;
@@ -91,7 +97,6 @@ angular.module(
 							return;
 						}
 						if (allSigned) {
-							// 1st update WagSignatures to reflect
 							_comm.updateListItem(
 								"WagSignatures", 
 								me.id, 
@@ -100,49 +105,49 @@ angular.module(
 									"SignedDate": $scope.formVars.employeesignDate
 								},
 								function() {
-									// 2nd update the FormServiceRecords to fill in all employee signatures and set status to Await Supervisor
-									
-									// 3rd update WagSignatures to put supervisor records into started
-									
-									// 4th send out notification to supermail
-
-									var supervisorEmails = [];
+									var employeeEmails = [];
 									for (var i=1; i<16; i++) {
 										var m = $gScope.formVars["email" + i];
 										var s = $gScope.formVars["managerEmail" + i];
 										if (!m || !s) continue;
 										m = m.toLowerCase();
 										s = s.toLowerCase();
-										if (s.indexOf(s)<0) supervisorEmails.push(s);
-										
+										employeeEmails.push(m);
+										var emps = false;
+										var sups = false;
 										for (var j=0; j<items.length; j++) {
 											item = items[j];
-											if (item.email.toLowerCase() == m) {
-												$gScope.formVars["_EmployeesSignature" + i] = item.SignedDate;
-												break;
+											if (item.email.toLowerCase() == s) {
+												$gScope.formVars["_SupervisorsSignature" + i] = item.SignedDate;
+												sups = true;
 											}
+											else if (item.email.toLowerCase() == m) {
+												$gScope.formVars["_EmployeesSignature" + i] = item.SignedDate;
+												emps = false;
+											}
+											if (emps && sups) break;
 										}										
 									}
 									_comm.updateListItem2(
 										$gScope.spItem,
 										{
-											"Status": "Await Supervisor",
+											"Status": "Await Ethics",
 											"FormVars": sjcl.encrypt(btoa($gScope.email), JSON.stringify($gScope.formVars))
 										},
 										function() {
 											gNotify(
 											{
-												Title : "Form-WAG - Supersivor Approval Required",
+												Title : "Form-WAG notification for Ethics ",
 												FormType : "Form-WAG",
-												NoteType: "Await Supervisor",
-												EmailTo: supervisorEmails
+												NoteType: "Await Ethics",
+												EmailTo: "Ethics"
 											},
 											function () {
 												gHideBusy();
 												alert("Document successfully certified and submitted.");							
 											});
 										}
-									);									
+									);								
 								}
 							)							
 						} else {
@@ -169,8 +174,7 @@ angular.module(
 				_comm.getListItemByColVals(
 					"WagSignatures", 
 					{
-						Title: $scope.spItem.get_item("UniqueId").toString(),
-						SigType: 'Supervisor'
+						Title: $scope.spItem.get_item("UniqueId").toString()
 					}, gWagFields,
 					function(items) {
 						var allSigned = true;
@@ -187,7 +191,6 @@ angular.module(
 							return;
 						}
 						if (allSigned) {
-							// 1st update WagSignatures to reflect me signed
 							_comm.updateListItem(
 								"WagSignatures", 
 								me.id, 
@@ -196,7 +199,6 @@ angular.module(
 									"SignedDate": $gScope.formVars.managersignDate
 								},
 								function() {
-									// 2nd update the FormServiceRecords to fill in all employee signatures and set status to Completed
 									var employeeEmails = [];
 									for (var i=1; i<16; i++) {
 										var m = $gScope.formVars["email" + i];
@@ -205,27 +207,34 @@ angular.module(
 										m = m.toLowerCase();
 										s = s.toLowerCase();
 										employeeEmails.push(m);
+										var emps = false;
+										var sups = false;
 										for (var j=0; j<items.length; j++) {
 											item = items[j];
 											if (item.email.toLowerCase() == s) {
 												$gScope.formVars["_SupervisorsSignature" + i] = item.SignedDate;
-												break;
+												sups = true;
 											}
+											else if (item.email.toLowerCase() == m) {
+												$gScope.formVars["_EmployeesSignature" + i] = item.SignedDate;
+												emps = false;
+											}
+											if (emps && sups) break;
 										}										
 									}
 									_comm.updateListItem2(
 										$gScope.spItem,
 										{
-											"Status": "Completed",
+											"Status": "Await Ethics",
 											"FormVars": sjcl.encrypt(btoa($gScope.email), JSON.stringify($gScope.formVars))
 										},
 										function() {
 											gNotify(
 											{
-												Title : "Form-WAG notification for completion ",
+												Title : "Form-WAG notification for Ethics ",
 												FormType : "Form-WAG",
-												NoteType: "Completed",
-												EmailTo: employeeEmails
+												NoteType: "Await Ethics",
+												EmailTo: "Ethics"
 											},
 											function () {
 												gHideBusy();
@@ -267,7 +276,7 @@ angular.module(
 								Title : "Form-WAG notification for: " + status,
 								FormType : "Form-WAG",
 								NoteType: status,
-								EmailTo: (status == 'Completed' ?  $scope.email : status.substring(6) )
+								EmailTo: (status == 'Completed' ?  $scope.spItem.get_item("CreatedByEmail") : status.substring(6) )
 							},
 							function () {
 								gHideBusy();
