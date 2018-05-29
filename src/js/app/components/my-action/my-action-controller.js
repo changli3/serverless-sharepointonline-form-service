@@ -42,7 +42,7 @@ angular.module(
 					});
 					$("#myActionTable").DataTable(gFormTableOption);
 					$("#myActionTable").show();	
-					try {$scope.apply()}catch (e){}
+					try {$scope.$apply()}catch (e){}
                 };
 				
 				gWaitReady($scope);		

@@ -62,7 +62,7 @@ function gSetRoleType(a, tp) {
 }
 
 function gGetEntitle2(s, m1, m2) {
-	if (s=='Await Supervisor' && m1 == m2) return true;
+	return (s=='Await Supervisor' && m1.toLowerCase()== m2.toLowerCase());
 	
 }
 

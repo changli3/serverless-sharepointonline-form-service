@@ -8,32 +8,67 @@ angular.module(
 			signForm: function ($scope, status) {
 				gShowBusy();
 				var _comm = document.getElementById("communicator").contentWindow;
-				_comm.updateListItem2(
-					$scope.spItem,
-					{
-						"ManagerEmail": $scope.formVars._email2,
-						"Status": status,
-						"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
-					},
-					function() {
-						gNotify(
-							{
-								Title : "Form-521 notification for: " + status,
-								FormType : "Form-521",
-								NoteType: status,
-								EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.spItem.get_item("CreatedByEmail") : status.substring(6) )
-							},
-							function () {
-								gHideBusy();
-								alert("Document successfully certified and submitted.");							
-							});
-					}
-				);
+				if (!$scope.spItem) {
+					var title = "Form 521 - " + $filter('date')(new Date(), 'yyyy-MM-dd');
+					_comm.createListItem(
+						"FormServiceRecords",
+						{
+							"Title": title,
+							"FormType": "Form-521",
+							"CreatedByEmail": $scope.email,
+							"StatusStarted": $filter('date')(new Date(), 'yyyy-MM-dd'),
+							"StatusDueDate": $filter('date')(new Date(Date.now() + 5 * 24 * 3600 * 1000), 'yyyy-MM-dd'),				
+							"Status": status,
+							"ManagerEmail": $scope.formVars._email2,
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function(item) {
+							gNotify(
+								{
+									Title : "Form-521 notification for: " + status,
+									FormType : "Form-521",
+									NoteType: status,
+									EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.spItem.get_item("CreatedByEmail") : status.substring(6) )
+								},
+								function () {
+									gHideBusy();
+									alert("Document successfully certified and submitted.");							
+								});
+						},
+						function(a,b) {
+							console.log(b);
+						}
+					);
+				} else {
+					_comm.updateListItem2(
+						$scope.spItem,
+						{
+							"ManagerEmail": $scope.formVars._email2,
+							"Status": status,
+							"StatusStarted": $filter('date')(new Date(), 'yyyy-MM-dd'),
+							"StatusDueDate": $filter('date')(new Date(Date.now() + 5 * 24 * 3600 * 1000), 'yyyy-MM-dd'),
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function() {
+							gNotify(
+								{
+									Title : "Form-521 notification for: " + status,
+									FormType : "Form-521",
+									NoteType: status,
+									EmailTo: status == 'Await Supervisor' ? $scope.formVars._email2 : (status == 'Completed' ?  $scope.spItem.get_item("CreatedByEmail") : status.substring(6) )
+								},
+								function () {
+									gHideBusy();
+									alert("Document successfully certified and submitted.");							
+								});
+						}
+					)
+				}
 			},
 			saveFormData: function($scope) {
 				gShowBusy();
 				var _comm = document.getElementById("communicator").contentWindow;
-				if ($scope.new_form) {
+				if (!$scope.spItem) {
 					var title = "Form 521 - " + $filter('date')(new Date(), 'yyyy-MM-dd');
 					_comm.createListItem(
 						"FormServiceRecords",
@@ -46,8 +81,7 @@ angular.module(
 							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
 						},
 						function(item) {
-							$scope.spItem = item;
-							$scope.new_form = false;
+							$gScope.spItem = item;
 							gHideBusy();
 							alert("Data successfully saved.");
 						}
@@ -69,8 +103,7 @@ angular.module(
 			},
 			initForm: function($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = {}; //angular.copy(gForm521);
-				$scope.new_form = true;				
+				$scope.formVars = {}; //angular.copy(gForm521);			
 				$scope.formVars._Datereportfiled = $filter('date')(new Date(), "MM/dd/yyyy");		
 				
 				$scope.showEditingForm = true;
@@ -84,7 +117,6 @@ angular.module(
 						$scope.formId, function(item) {			
 						$gScope.$apply(function() {
 							$gScope.spItem = item;
-							$gScope.new_form = false;
 							var validated = false;
 							var status = item.get_item('Status');
 							var createdbyemail = item.get_item('CreatedByEmail');

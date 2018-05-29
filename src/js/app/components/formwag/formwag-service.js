@@ -59,8 +59,8 @@ angular.module(
 						"email": empmails[loopIndex][0],
 						"SigType": 'Employee',
 						"Status": 'Started',
-						"StartingDate": new Date(),
-						"EndingDate": new Date(Date.now() + 5 * 24 * 3600 * 1000),
+						"StartingDate": $filter('date')(new Date(), 'yyyy-MM-dd'),
+						"EndingDate": $filter('date')(new Date(Date.now() + 5 * 24 * 3600 * 1000), 'yyyy-MM-dd'),
 						"oFormCreatedByEmail": $gScope.email,
 						"oFormManagerEmail": empmails[loopIndex][1]
 					},
@@ -264,10 +264,40 @@ angular.module(
 			signForm: function ($scope, status) {
 				gShowBusy();
 				var _comm = document.getElementById("communicator").contentWindow;
+				if (!$scope.spItem) {
+					var title = "Form WAG - " + $filter('date')(new Date(), 'yyyy-MM-dd');
+					_comm.createListItem(
+						"FormServiceRecords",
+						{
+							"Title": title,
+							"FormType": "Form-WAG",
+							"CreatedByEmail": $scope.email,
+							"Status": status,
+							"StatusStarted": $filter('date')(new Date(), 'yyyy-MM-dd'),
+							"StatusDueDate": $filter('date')(new Date(Date.now() + 5 * 24 * 3600 * 1000), 'yyyy-MM-dd'),	
+							"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
+						},
+						function(item) {
+							gNotify(
+							{
+								Title : "Form-WAG notification for: " + status,
+								FormType : "Form-WAG",
+								NoteType: status,
+								EmailTo: (status == 'Completed' ?  $scope.spItem.get_item("CreatedByEmail") : status.substring(6) )
+							},
+							function () {
+								gHideBusy();
+								alert("Document successfully certified and submitted.");							
+							});
+						}
+					);
+				} else {				
 				_comm.updateListItem2(
 					$scope.spItem,
 					{
 						"Status": status,
+						"StatusStarted": $filter('date')(new Date(), 'yyyy-MM-dd'),
+						"StatusDueDate": $filter('date')(new Date(Date.now() + 5 * 24 * 3600 * 1000), 'yyyy-MM-dd'),						
 						"FormVars": sjcl.encrypt(btoa($scope.email), JSON.stringify($scope.formVars))
 					},
 					function() {
@@ -283,12 +313,12 @@ angular.module(
 								alert("Document successfully certified and submitted.");							
 							});
 					}
-				);
+				)}
 			},
 			saveFormData: function($scope) {
 				gShowBusy();
 				var _comm = document.getElementById("communicator").contentWindow;
-				if ($scope.new_form) {
+				if (!$scope.spItem) {
 					var title = "Form WAG - " + $filter('date')(new Date(), 'yyyy-MM-dd');
 					_comm.createListItem(
 						"FormServiceRecords",
@@ -301,7 +331,6 @@ angular.module(
 						},
 						function(item) {
 							$scope.spItem = item;
-							$scope.new_form = false;
 							gHideBusy();
 							alert("Data successfully saved.");
 						}
@@ -322,8 +351,7 @@ angular.module(
 			},
 			initForm: function($scope) {
 				$scope.filesAttached = [];
-				$scope.formVars = {}; //angular.copy(gFormWAG);
-				$scope.new_form = true;				
+				$scope.formVars = {}; //angular.copy(gFormWAG);			
 				$scope.formVars._RequestDate = $filter('date')(new Date(), "MM/dd/yyyy");		
 				
 				$scope.showEditingForm = true;
@@ -337,7 +365,6 @@ angular.module(
 						$scope.formId, function(item) {			
 						$gScope.$apply(function() {
 							$gScope.spItem = item;
-							$gScope.new_form = false;
 							var validated = false;
 							var status = item.get_item('Status');
 							var createdbyemail = item.get_item('CreatedByEmail');

@@ -42,7 +42,7 @@ angular.module(
 					});
 					$("#myInProgessTable").DataTable(gFormTableOption);
 					$("#myInProgessTable").show();	
-					try {$scope.apply()}catch (e){}
+					try {$scope.$apply()}catch (e){}
                 };
 				
 				gWaitReady($scope);		
@@ -82,7 +82,7 @@ function g1Delete(ele) {
 	var item = $gScope.data[id];
 	document.getElementById("communicator").contentWindow.deleteListItem("FormServiceRecords", item.id, 
 		function() {
-			$gScope.loadTable();
+			$gScope.loadPage();
 		}
 	);
 }

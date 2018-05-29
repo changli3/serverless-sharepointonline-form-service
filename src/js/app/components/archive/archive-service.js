@@ -3,10 +3,14 @@ angular.module(
         []
     )
     .factory( 'ArchiveService', function ($http, $q, $filter) {
+		
 		return {
 			getTableData: function($scope) {
-				document.getElementById("communicator").contentWindow.getListItemByMeStatus (
-				"FormServiceRecords", 'Completed', gTableFields, $scope.showTable);				
+				var _comm = document.getElementById("communicator").contentWindow;
+				if (!_comm.gIsOWner) _comm.getListItemByMeStatus ("FormServiceRecords", 'Completed', gTableFields, $scope.showTable);	
+				else {
+					_comm.getListItemByStats ("FormServiceRecords", 'Completed', gTableFields, $scope.showTable);
+				}
 			},
 		}
     });

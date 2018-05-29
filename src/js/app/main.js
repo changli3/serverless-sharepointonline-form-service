@@ -216,6 +216,7 @@ var gTableFields = [
 "ManagerEmail",
 "CreatedByEmail",
 "FormVars",
+"Sent2Salesforce",
 "Created", 
 "Modified"
 ];
@@ -274,7 +275,7 @@ function _gWaitReady($scope) {
 
 function gNotify(message, callback) {
 	var body = $("#NotificationMessage").html();
-	body = body.replace("{Status}", message.Status);
+	body = body.replace("{Status}", message.NoteType);
 	var subject = message.Title;
 	
 	if (

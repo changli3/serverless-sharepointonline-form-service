@@ -9,6 +9,7 @@ function initCommunicator() {
 	user = web.get_currentUser(); //must load this to access info.
 	ctx.load(user);
 	ctx.executeQueryAsync(function(){
+		getUserGroups2();		
 	    console.log("User is: " + user.get_title()); //there is also id, email, so this is pretty useful.
 	}, function(err){
 		console.log(err);
@@ -118,25 +119,25 @@ window.copyAttachments = function (listTitle1, listItemId1, listTitle2, listItem
 		 }, failed); 
 		  
 	}
-
-window.getUserGroups2 = function(success, failed) {
+	
+var gUserGroups;
+var gIsOWner = false;
+window.getUserGroups2 = function() {
 		var currentUser = web.get_currentUser();
 		var allGroups = currentUser.get_groups();
 		ctx.load(allGroups);
 		ctx.executeQueryAsync(
 			function (sender, args)
 			{
-				if (!success) return;
 				var grpsEnumerator = allGroups.getEnumerator();
-				var groups = [];
+				gUserGroups = [];
 				while(grpsEnumerator.moveNext())
 				{
 					var group = grpsEnumerator.get_current();
-					groups.push(group.get_title());
+					if (group == "Record Manage Center Staff") gIsOWner = true;
+					gUserGroups.push(group.get_title());
 				}
-				success(groups);
-			},
-			failed		
+			}
 		);
 	}
 window.getAttachments = function (listTitle, listItemId, success, failed) {
